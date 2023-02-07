@@ -1,0 +1,29 @@
+﻿@model EquipmentMonitoringSystem.PresentationLayer.Models.StationEditModel
+@{
+    ViewData["Title"] = "Изменить станцию";
+}
+
+<div class="container">
+    <main role="main" class="pb-3">
+        <div class="column">
+            <h4 class="display-4">Изменить станцию</h4>
+
+            <div class="col-8 mb-4">
+                <form asp-controller="Station" asp-action="Edit" method="POST">
+                    <input type="hidden" asp-for="Id" value="@Model.Id" />
+                    <div class="form-group mb-3">
+                        <label asp-for="Name">Наименование</label>
+                        <input asp-for="Name" class="form-control">
+                        <span asp-validation-for="Name" class="text-danger"></span>
+                    </div>
+
+                    <div class="validation" asp-validation-summary="ModelOnly"></div>
+
+                    <button type="submit" class="btn btn-success">Изменить</button>
+                </form>
+            </div>
+
+            <a asp-action="Index">Вернуться назад</a>
+        </div>
+    </main>
+</div>

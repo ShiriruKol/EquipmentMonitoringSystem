@@ -1,0 +1,41 @@
+﻿@model EquipmentMonitoringSystem.PresentationLayer.Models.GroupEditViewModel
+@{
+    ViewData["Title"] = "Добавить станцию";
+}
+<div class="container">
+    <main role="main" class="pb-3">
+        <div class="column">
+            <h4 class="display-4">Добавить группу</h4>
+
+            <div class="col-8 mb-4">
+
+                <form asp-controller="Group" asp-action="Add" method="post">
+                    <div class="form-group mb-3">
+                        <label asp-for="Name">Наименование</label>
+                        <input asp-for="Name" class="form-control">
+                        <span asp-validation-for="Name" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label asp-for="Description">Описание</label>
+                        <input asp-for="Description" class="form-control">
+                        <span asp-validation-for="Description" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group mb-2">
+                        <label asp-for="StationId" class="form-label">Станция</label>
+                        <select id="SelectedTypeId" asp-for="StationId" asp-items="Model.Stations" class="form-select"></select>
+                        <span asp-validation-for="StationId" class="text-danger"></span>
+                    </div>
+
+                    <div class="validation" asp-validation-summary="ModelOnly"></div>
+
+                    <button type="submit" class="btn btn-success">Добавить</button>
+                </form>
+
+            </div>
+
+            <a asp-action="Index">Вернуться назад</a>
+        </div>
+    </main>
+</div>

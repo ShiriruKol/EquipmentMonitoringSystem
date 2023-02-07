@@ -1,0 +1,115 @@
+﻿@model EquipmentMonitoringSystem.PresentationLayer.Models.EquipmentEditViewModel
+@{
+    ViewData["Title"] = "Добавить оборудование";
+}
+
+<div class="container">
+    <main role="main" class="pb-3">
+        <div class="column">
+            <h4 class="display-4">Добавить оборудование</h4>
+
+            <div class="col-8 mb-4">
+                <form asp-controller="Equipment" asp-action="Add" method="post">
+                    <div class="form-group mb-2">
+                        <label asp-for="Name">Наименование</label>
+                        <input asp-for="Name" class="form-control">
+                        <span asp-validation-for="Name" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group mb-2">
+                        <label asp-for="Type">Тип</label>
+                        <input asp-for="Type" class="form-control">
+                        <span asp-validation-for="Type" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group mb-2">
+                        <label asp-for="GroupId" class="form-label">Группа</label>
+                        <select id="SelectedTypeId" asp-for="GroupId" asp-items="Model.Groups" class="form-select"></select>
+                        <span asp-validation-for="GroupId" class="text-danger"></span>
+                    </div>
+
+                    <div class="col-8 mb-4 form-group mb-2">
+                        <label asp-for="FactoryNumber">Заводской номер</label>
+                        <input asp-for="FactoryNumber" class="form-control">
+                        <span asp-validation-for="FactoryNumber" class="text-danger"></span>
+                    </div>
+
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th scope="col">Январь</th>
+                                <th scope="col">Февраль</th>
+                                <th scope="col">Март</th>
+                                <th scope="col">Апрель</th>
+                                <th scope="col">Май</th>
+                                <th scope="col">Июнь</th>
+                                <th scope="col">Июль</th>
+                                <th scope="col">Август</th>
+                                <th scope="col">Сентябрь</th>
+                                <th scope="col">Октябрь</th>
+                                <th scope="col">Ноябрь</th>
+                                <th scope="col">Декабрь</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                @for (var i = 0; i < 12; i++)
+                                {
+                                    <td>
+                                        <select id="Id" asp-for="MauthTO[i]" class="form-select">
+                                            <option disabled>Выберите вид ТО</option>
+                                            <option value="0">Нет</option>
+                                            <option value="1">ТО-1</option>
+                                            <option value="2">ТО-2</option>
+                                            <option value="3">ТО-3</option>
+                                            <option value="4">ТО-6</option>
+                                            <option value="5">ТО-12</option>
+                                        </select>
+                                    </td>
+                                }
+
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th scope="col">Т0-1</th>
+                                <th scope="col">ТО-2</th>
+                                <th scope="col">ТО-3</th>
+                                <th scope="col">ТО-6</th>
+                                <th scope="col">ТО-12</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <input asp-for="ListTO[0]" class="form-control">
+                                </td>
+                                <td>
+                                    <input asp-for="ListTO[1]" class="form-control">
+                                </td>
+                                <td>
+                                    <input asp-for="ListTO[2]" class="form-control">
+                                </td>
+                                <td>
+                                    <input asp-for="ListTO[3]" class="form-control">
+                                </td>
+                                <td>
+                                    <input asp-for="ListTO[4]" class="form-control">
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <div class="validation" asp-validation-summary="ModelOnly"></div>
+
+                    <button type="submit" class="btn btn-success">Добавить</button>
+                </form>
+            </div>
+
+            <a asp-action="Index">Вернуться назад</a>
+        </div>
+    </main>
+</div>

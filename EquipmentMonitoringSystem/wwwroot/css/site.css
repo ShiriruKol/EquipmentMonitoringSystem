@@ -1,0 +1,99 @@
+html {
+    font-size: 14px;
+}
+
+@media (min-width: 768px) {
+    html {
+        font-size: 16px;
+    }
+}
+
+html {
+    position: relative;
+    min-height: 100%;
+}
+
+body {
+    margin-bottom: 60px;
+    scroll-behavior: auto;
+}
+
+header {
+    position: relative;
+    z-index: 2;
+}
+
+footer {
+    position: relative;
+    z-index: 2;
+    background-color: white;
+}
+
+.specdiv {
+    position: relative;
+    z-index: 2;
+    /*margin-left: 10%;
+    margin-right: 10%;*/
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.BG {
+    width: 100vw;
+    height: 100vw;
+    overflow: hidden;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 0;
+}
+
+    .BG img {
+        width: 100%;
+    }
+
+.action-area {
+    display: flex;
+    flex-direction: row;
+}
+
+.action-icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 6px;
+    margin-left: 4px;
+    margin-right: 4px;
+    cursor: pointer;
+}
+
+
+
+.tb {
+    border-collapse: collapse;
+    width: 300px;
+}
+
+    .tb th, .tb td {
+        padding: 5px;
+        border: solid 1px #777;
+        text-align: center;
+        vertical-align: middle;
+        white-space: nowrap; /* Запрещаем перенос слов */
+    }
+
+    .tb th {
+        background-color: lightblue;
+    }
+
+#footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+}

@@ -1,0 +1,57 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - EquipmentMonitoringSystem</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/EquipmentMonitoringSystem.styles.css" asp-append-version="true" />
+    <script src="https://kit.fontawesome.com/397fb4371f.js" crossorigin="anonymous"></script>
+    <link rel="shortcut icon" href="~/Icon.png" type="image/png">
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark box-shadow  bg-dark border-bottom mb-3">
+            <div class="container-fluid" bis_skin_checked="1">
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">
+                    <img class="me-2 mb-2" width="40" height="40" src="~/Icon.png" />
+                    <span class="fs-4">PulseRig</span>
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" wfd-invisible="true">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarCollapse" bis_skin_checked="1">
+                    <ul class="navbar-nav me-auto mb-2 mb-md-0">
+                        <li class="nav-item">
+                            <a class="nav-link" asp-area="" asp-controller="Station" asp-action="Index">Станции</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-area="" asp-controller="Group" asp-action="Index">Группы</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link " asp-area="" asp-controller="Equipment" asp-action="Index">Оборудования</a>
+                        </li>
+                    </ul>
+                    <a class="me-3 nav-link p-2" asp-controller="" asp-action=""><i class="fa-sharp fa-solid fa-bell"></i></a>
+                </div>
+            </div>
+        </nav>
+    </header>
+    @*<div class="container">
+    <main role="main" class="pb-3">
+
+    </main>
+    </div>*@
+    @RenderBody()
+    <footer class="border-top footer text-muted">
+        <div class="container">
+            &copy; 2023 - PulseRig - <a asp-area="" asp-controller="Home" asp-action="Privacy">Конфиденциальность</a>
+        </div>
+    </footer>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

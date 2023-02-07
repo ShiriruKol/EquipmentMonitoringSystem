@@ -1,0 +1,115 @@
+﻿@model EquipmentMonitoringSystem.PresentationLayer.Models.StationViewModel
+@{
+    ViewData["Title"] = @Model.Station.Name;
+}
+
+
+<div style="width: 960px; display: block; margin-left: 2%; margin-right: auto;">
+    <h4 class="my-2">Станция - "@Model.Station.Name"</h4>
+    <hr class="mb-4" />
+
+
+    @if (Model.Groups.Any())
+    {
+        int month = DateTime.Now.Month, nummonth = 0;
+        <div class="mb-2">
+            <b>Список групп станции и их оборудования</b>
+            @foreach (var (item, index) in Model.Groups.OrderByDescending(item => item.Group.Id).Select((item, index) => (item, index)))
+            {
+                <h3>@item.Group.Name</h3>
+                <table class="tb">
+                    <thead>
+                        <tr>
+                            <th rowspan="2">Наименование</th>
+                            <th rowspan="2">Тип</th>
+                            <th rowspan="2">Заводской номер</th>
+                            <th colspan="5">Тип ТО/Норма времени</th>
+                            <th colspan="12">Месяцы</th>
+                            <th rowspan="2">Статус</th>
+                        </tr>
+                        <tr>
+                            <th>T0-1</th>
+                            <th>T0-2</th>
+                            <th>ТО-3</th>
+                            <th>ТО-6</th>
+                            <th>ТО-12</th>
+                            <th>январь</th>
+                            <th>февраль</th>
+                            <th>март</th>
+                            <th>апрель</th>
+                            <th>май</th>
+                            <th>июнь</th>
+                            <th>июль</th>
+                            <th>август</th>
+                            <th>сентрябрь</th>
+                            <th>октябрь</th>
+                            <th>ноябрь</th>
+                            <th>декабрь</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @{
+                            List<string> TOkinds = new List<string>() { "Нет", "ТО-1", "ТО-2", "ТО-3", "ТО-6", "ТО-12" };
+                        }
+                        @foreach (var equip in item.Group.Equipments)
+                        {
+                            <tr>
+                                <td>@equip.Name</td>
+                                <td>@equip.Type</td>
+                                <td>@equip.FactoryNumber</td>
+
+                                @foreach (var to in equip.arrayRepair)
+                                {
+                                    @if (to.ToString() == "0")
+                                    {
+                                        <td>~</td>
+                                    }
+                                    else
+                                    {
+                                        <td>@to.ToString()</td>
+                                    }
+                                }
+
+                                @foreach (var to in equip.arrayMouthRepair)
+                                {
+                                    if (nummonth == 12) nummonth = 0;
+                                    @if (nummonth + 1 == month)
+                                    {
+                                        @if (to.ToString() == "0")
+                                        {
+                                            <td class="bg-warning">~</td>
+                                        }
+                                        else
+                                        {
+                                            <td class="bg-warning">@TOkinds[to].ToString()</td>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        @if (to.ToString() == "0")
+                                        {
+                                            <td>~</td>
+                                        }
+                                        else
+                                        {
+                                            <td>@TOkinds[to].ToString()</td>
+                                        }
+                                    }
+                                    nummonth++;
+                                }
+
+                                <td>
+                                    <a class="btn btn-success" href="/Equipment/Edit/@equip.Id" title="Нажмите, чтобы перeйти к оборудованию">
+                                        Оборудование не нуждается в ремонте
+                                    </a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
+        </div>
+    }
+
+    <a asp-action="Index" class="mt-4">Вернуться назад</a>
+</div>
