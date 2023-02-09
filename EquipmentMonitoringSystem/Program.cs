@@ -4,11 +4,23 @@ using EquipmentMonitoringSystem.BuissnesLayer;
 using EquipmentMonitoringSystem.DataLayer;
 using EquipmentMonitoringSystem.PresentationLayer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
+using EquipmentMonitoringSystem.Areas.Identity.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+builder.Services.AddDbContext<AuthDbContext>(
+    o => o.UseNpgsql(builder.Configuration.GetConnectionString("AuthDbContextConnection"), 
+    npgsqlOptionsAction: sqlOptions =>
+    {
+        sqlOptions.EnableRetryOnFailure(
+            maxRetryCount: 10,
+            maxRetryDelay: TimeSpan.FromSeconds(5),
+            errorCodesToAdd: null);
+    })); ;
 
 builder.Services.AddDbContext<EFDBContext>(
     o => o.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"),
@@ -19,6 +31,9 @@ builder.Services.AddDbContext<EFDBContext>(
             maxRetryDelay: TimeSpan.FromSeconds(5),
             errorCodesToAdd: null);
     }));
+
+builder.Services.AddDefaultIdentity<AppUser>(options => options.SignIn.RequireConfirmedAccount = true)
+    .AddEntityFrameworkStores<AuthDbContext>();
 
 builder.Services.AddTransient<IStationRepository, EFStationRepository>();
 builder.Services.AddTransient<IGroupRepository, EFGroupRepository>();
@@ -41,6 +56,7 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
+app.UseAuthentication();;
 
 app.UseAuthorization();
 
@@ -54,5 +70,8 @@ using (var scope = app.Services.CreateScope())
     var context = service.GetRequiredService<EFDBContext>();
     SampleData.InitData(context);
 }
+
+
+app.MapRazorPages();
 
 app.Run();
