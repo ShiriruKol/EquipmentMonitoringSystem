@@ -20,7 +20,8 @@ builder.Services.AddDbContext<AuthDbContext>(
             maxRetryCount: 10,
             maxRetryDelay: TimeSpan.FromSeconds(5),
             errorCodesToAdd: null);
-    })); ;
+    }));
+
 
 builder.Services.AddDbContext<EFDBContext>(
     o => o.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"),
@@ -32,7 +33,8 @@ builder.Services.AddDbContext<EFDBContext>(
             errorCodesToAdd: null);
     }));
 
-builder.Services.AddDefaultIdentity<AppUser>(options => options.SignIn.RequireConfirmedAccount = true)
+builder.Services.AddDefaultIdentity<IdentityUser>().AddDefaultTokenProviders()
+    .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<AuthDbContext>();
 
 builder.Services.AddTransient<IStationRepository, EFStationRepository>();

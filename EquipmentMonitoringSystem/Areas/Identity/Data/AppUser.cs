@@ -9,5 +9,7 @@ namespace EquipmentMonitoringSystem.Areas.Identity.Data;
 // Add profile data for application users by adding properties to the AppUser class
 public class AppUser : IdentityUser
 {
+    public string Firstname { get; set; }
+    public string Lastname { get; set; }
 }
 

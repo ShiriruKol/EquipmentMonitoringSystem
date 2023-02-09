@@ -7,6 +7,7 @@ using EquipmentMonitoringSystem.PresentationLayer.Models;
 
 namespace EquipmentMonitoringSystem.Controllers
 {
+    [Authorize]
     public class EquipmentController : Controller
     {
         private readonly DataManager _datamanager;

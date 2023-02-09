@@ -7,6 +7,7 @@ using System.Data;
 
 namespace EquipmentMonitoringSystem.Controllers
 {
+    [Authorize]
     public class StationController : Controller
     {
         private readonly DataManager _datamanager;

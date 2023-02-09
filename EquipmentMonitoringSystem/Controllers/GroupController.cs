@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace EquipmentMonitoringSystem.Controllers
 {
+    [Authorize]
     public class GroupController : Controller
     {
         private readonly DataManager _datamanager;
