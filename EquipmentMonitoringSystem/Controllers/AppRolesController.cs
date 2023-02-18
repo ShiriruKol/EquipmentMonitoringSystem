@@ -1,17 +1,18 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
+using EquipmentMonitoringSystem.Areas.Identity.Data;
 
 namespace EquipmentMonitoringSystem.Controllers
 {
-    [Authorize(Roles = "Admin")]
+    /*[Authorize(Roles = "Admin")]*/
     public class AppRolesController : Controller
     {
         private readonly RoleManager<IdentityRole> _roleManager;
 
-        public AppRolesController(RoleManager<IdentityRole> roleManager)
+       public AppRolesController(RoleManager<IdentityRole> roleManager)
         {
-            _roleManager= roleManager;
+            _roleManager = roleManager;
         }
 
         public IActionResult Index()
@@ -36,5 +37,6 @@ namespace EquipmentMonitoringSystem.Controllers
             }
             return RedirectToAction("Index");
         }
+
     }
 }

@@ -9,6 +9,12 @@
     <link rel="stylesheet" href="~/EquipmentMonitoringSystem.styles.css" asp-append-version="true" />
     <script src="https://kit.fontawesome.com/397fb4371f.js" crossorigin="anonymous"></script>
     <link rel="shortcut icon" href="~/Icon.png" type="image/png">
+    <link rel="stylesheet" href="~/css/Slider.css" asp-append-version="true" />
+    <!--Слайдер-->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/bxslider/4.2.12/jquery.bxslider.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/bxslider/4.2.12/jquery.bxslider.min.js"></script>
+    
 </head>
 <body>
     <header>
@@ -42,18 +48,19 @@
             </div>
         </nav>
     </header>
-    @*<div class="container">
+    <div class="container">
     <main role="main" class="pb-3">
-
+        @RenderBody()
     </main>
-    </div>*@
-    @RenderBody()
+    </div>
+    
     <footer class="border-top footer text-muted">
         <div class="container">
             &copy; 2023 - PulseRig - <a asp-area="" asp-controller="Home" asp-action="Privacy">Конфиденциальность</a>
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/js/Slider.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)

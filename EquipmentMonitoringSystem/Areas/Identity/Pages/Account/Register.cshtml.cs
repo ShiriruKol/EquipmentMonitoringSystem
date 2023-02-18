@@ -76,12 +76,9 @@ namespace EquipmentMonitoringSystem.Areas.Identity.Pages.Account
         /// </summary>
         public class InputModel
         {
-            [Required]
-            [Display(Name = "Имя")]
-            public string FirtsName { get; set; }
+            [Display(Name = "ФИО")]
+            public string UserName { get; set; }
 
-            [Required]
-            [Display(Name = "Фамилия")]
             public string LastName { get; set; }
             /// <summary>
             ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
@@ -146,8 +143,7 @@ namespace EquipmentMonitoringSystem.Areas.Identity.Pages.Account
                 await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
                 await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
 
-                user.Firstname = Input.FirtsName;
-                user.Lastname = Input.LastName;
+                user.UserName = Input.UserName;
 
                 var result = await _userManager.CreateAsync(user, Input.Password);
 
@@ -189,11 +185,11 @@ namespace EquipmentMonitoringSystem.Areas.Identity.Pages.Account
             return Page();
         }
 
-        private AppUser CreateUser()
+        private IdentityUser CreateUser()
         {
             try
             {
-                return Activator.CreateInstance<AppUser>();
+                return Activator.CreateInstance<IdentityUser>();
             }
             catch
             {

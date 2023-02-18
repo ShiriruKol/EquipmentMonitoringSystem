@@ -17,5 +17,4 @@ public class AuthDbContext : IdentityDbContext<IdentityUser>
         base.OnModelCreating(builder);
        
     }
-    DbSet<AppUser> appUsers { get; set; }
 }
