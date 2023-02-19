@@ -5,7 +5,7 @@ using EquipmentMonitoringSystem.Areas.Identity.Data;
 
 namespace EquipmentMonitoringSystem.Controllers
 {
-    /*[Authorize(Roles = "Admin")]*/
+    [Authorize(Roles = "Admin")]
     public class AppRolesController : Controller
     {
         private readonly RoleManager<IdentityRole> _roleManager;

@@ -6,6 +6,7 @@ using EquipmentMonitoringSystem.PresentationLayer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 using EquipmentMonitoringSystem.Areas.Identity.Data;
+using Microsoft.Extensions.Hosting;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -73,6 +74,22 @@ using (var scope = app.Services.CreateScope())
     SampleData.InitData(context);
 }
 
+
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+    try
+    {
+        var userManager = services.GetRequiredService<UserManager<IdentityUser>>();
+        var rolesManager = services.GetRequiredService<RoleManager<IdentityRole>>();
+        await UserInitializer.InitializeAsync(userManager, rolesManager);
+    }
+    catch (Exception ex)
+    {
+        var logger = services.GetRequiredService<ILogger<Program>>();
+        logger.LogError(ex, "An error occurred while seeding the database.");
+    }
+}
 
 app.MapRazorPages();
 
