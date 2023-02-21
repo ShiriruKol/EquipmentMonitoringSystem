@@ -73,7 +73,11 @@ footer {
     cursor: pointer;
 }
 
-
+.responsive {
+    width: 100%;
+    max-width: 200px;
+    height: auto;
+}
 
 .tb {
     border-collapse: collapse;

@@ -1,0 +1,29 @@
+﻿@model EquipmentMonitoringSystem.PresentationLayer.Models.EquipmentViewModel
+@{
+    ViewData["Title"] = @Model.Equipment.Name;
+}
+
+
+<div style="width: 960px; display: block; margin-left: 2%; margin-right: auto;">
+    <h4 class="my-2">Оборудование - "@Model.Equipment.Name"</h4>
+    <hr class="mb-4" />
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+              <th scope="col">Название</th>
+              <th scope="col">Заводской номер</th>
+              <th scope="col">Тип</th>
+              <th scope="col">Группа</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>@Model.Equipment.Name</td>
+                <td>@Model.Equipment.FactoryNumber</td>
+                <td>@Model.Equipment.Type</td>
+                <td>@Model.GroupName</td>
+            </tr>
+        </tbody>
+    </table>
+    <a asp-action="Index" class="mt-4">Вернуться назад</a>
+</div>

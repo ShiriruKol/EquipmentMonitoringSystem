@@ -6,15 +6,11 @@
 }
 
 <h1>Список Пользователей</h1>
-<p>
-    <a asp-action="CreateUser">Создать пользователя</a>
-</p>
 
 <table class="table">
     <thead>
         <tr>
             <th>@Html.DisplayNameFor(model=>model.Id)</th>
-            <th>@Html.DisplayNameFor(model=>model.UserName)</th>
             <th>@Html.DisplayNameFor(model=>model.Email)</th>
             <th></th>
         </tr>
@@ -24,9 +20,9 @@
         {
             <tr>
                 <td>@Html.DisplayFor(modelItem => item.Id)</td>
-                <td>@Html.DisplayFor(modelItem => item.UserName)</td>
                 <td>@Html.DisplayFor(modelItem => item.Email)</td>
             </tr>
         }
     </tbody>
 </table>
+<a class="btn btn-success" asp-controller="User" asp-action="Add">Добавить нового пользователя</a>
