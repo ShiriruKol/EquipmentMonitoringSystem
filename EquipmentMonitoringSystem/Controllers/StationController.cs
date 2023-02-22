@@ -3,7 +3,8 @@ using EquipmentMonitoringSystem.PresentationLayer.Models;
 using EquipmentMonitoringSystem.PresentationLayer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Data;
+using EquipmentMonitoringSystem.DataLayer.Entityes;
+using OfficeOpenXml;
 
 namespace EquipmentMonitoringSystem.Controllers
 {
@@ -82,6 +83,55 @@ namespace EquipmentMonitoringSystem.Controllers
         {
             _servicesmanager.Stations.DeleteStation(id);
             return RedirectToAction("Index");
+        }
+
+        public IActionResult ImportExcel()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult ImportExcel(IFormFile uploadedFile)
+        {
+            if (ModelState.IsValid)
+            {
+                if(uploadedFile.Length > 0)
+                {
+                    var stream = uploadedFile.OpenReadStream();
+                    List<Station> stations = new List<Station>();
+                    try
+                    {
+                        using (var package = new ExcelPackage(stream))
+                        {
+                            var worksheet = package.Workbook.Worksheets.First();//package.Workbook.Worksheets[0];
+                            var rowCount = worksheet.Dimension.Rows;
+
+                            for (var row = 2; row <= rowCount; row++)
+                            {
+                                try
+                                {
+
+                                    var NameGroup = worksheet.Cells[row, 1].Value?.ToString();
+                                    var NameEmpl = worksheet.Cells[row, 2].Value?.ToString();
+
+                                }
+                                catch (Exception ex)
+                                {
+                                    Console.WriteLine("Something went wrong");
+                                }
+                            }
+                        }
+
+                        return View();
+
+                    }
+                    catch (Exception e)
+                    {
+                        return View();
+                    }
+                }
+            }
+            return View();
         }
     }
 }
