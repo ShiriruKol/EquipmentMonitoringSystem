@@ -103,21 +103,31 @@ namespace EquipmentMonitoringSystem.Controllers
                     {
                         using (var package = new ExcelPackage(stream))
                         {
-                            var worksheet = package.Workbook.Worksheets.First();//package.Workbook.Worksheets[0];
-                            var rowCount = worksheet.Dimension.Rows;
-
-                            for (var row = 2; row <= rowCount; row++)
+                            // Проходим все листы
+                            for (int i = 0; i < package.Workbook.Worksheets.Count; i++)
                             {
-                                try
-                                {
+                                var worksheet = package.Workbook.Worksheets[i];//Берем текущий лист
+                                var rowCount = worksheet.Dimension.Rows;
 
-                                    var NameGroup = worksheet.Cells[row, 1].Value?.ToString();
-                                    var NameEmpl = worksheet.Cells[row, 2].Value?.ToString();
-
-                                }
-                                catch (Exception ex)
+                                for (var row = 229; row <= rowCount - 6; row++)
                                 {
-                                    Console.WriteLine("Something went wrong");
+                                    try
+                                    {
+                                        //Проверяем группа или оборудование
+                                        if(worksheet.Cells[row, 2].Value?.ToString() == "1")
+                                        {
+                                            var GroupName = worksheet.Cells[row, 1].Value?.ToString();
+                                        }
+                                        else if (worksheet.Cells[row, 2].Value?.ToString() != null)
+                                        {
+                                            var NameEmpls = worksheet.Cells[row, 5].Value?.ToString();
+                                        }
+
+                                    }
+                                    catch (Exception ex)
+                                    {
+                                        Console.WriteLine("Something went wrong");
+                                    }
                                 }
                             }
                         }
