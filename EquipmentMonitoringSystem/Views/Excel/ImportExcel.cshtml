@@ -1,0 +1,10 @@
+﻿@{
+    ViewData["Title"] = "Импорт из Excel";
+}
+
+<div>
+    <form asp-action="ImportExcel" asp-controller="Excel" method="post" enctype="multipart/form-data">
+        <input class="form-control" type="file" name="uploadedFile" /><br>
+        <input class = "btn btn-success" type="submit" value="Загрузить" />
+    </form>
+</div>

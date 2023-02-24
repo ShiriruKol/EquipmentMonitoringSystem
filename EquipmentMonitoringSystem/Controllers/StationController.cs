@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using EquipmentMonitoringSystem.DataLayer.Entityes;
 using OfficeOpenXml;
 
+
 namespace EquipmentMonitoringSystem.Controllers
 {
     [Authorize]
@@ -85,63 +86,5 @@ namespace EquipmentMonitoringSystem.Controllers
             return RedirectToAction("Index");
         }
 
-        public IActionResult ImportExcel()
-        {
-            return View();
-        }
-
-        [HttpPost]
-        public IActionResult ImportExcel(IFormFile uploadedFile)
-        {
-            if (ModelState.IsValid)
-            {
-                if(uploadedFile.Length > 0)
-                {
-                    var stream = uploadedFile.OpenReadStream();
-                    List<Station> stations = new List<Station>();
-                    try
-                    {
-                        using (var package = new ExcelPackage(stream))
-                        {
-                            // Проходим все листы
-                            for (int i = 0; i < package.Workbook.Worksheets.Count; i++)
-                            {
-                                var worksheet = package.Workbook.Worksheets[i];//Берем текущий лист
-                                var rowCount = worksheet.Dimension.Rows;
-
-                                for (var row = 229; row <= rowCount - 6; row++)
-                                {
-                                    try
-                                    {
-                                        //Проверяем группа или оборудование
-                                        if(worksheet.Cells[row, 2].Value?.ToString() == "1")
-                                        {
-                                            var GroupName = worksheet.Cells[row, 1].Value?.ToString();
-                                        }
-                                        else if (worksheet.Cells[row, 2].Value?.ToString() != null)
-                                        {
-                                            var NameEmpls = worksheet.Cells[row, 5].Value?.ToString();
-                                        }
-
-                                    }
-                                    catch (Exception ex)
-                                    {
-                                        Console.WriteLine("Something went wrong");
-                                    }
-                                }
-                            }
-                        }
-
-                        return View();
-
-                    }
-                    catch (Exception e)
-                    {
-                        return View();
-                    }
-                }
-            }
-            return View();
-        }
     }
 }
