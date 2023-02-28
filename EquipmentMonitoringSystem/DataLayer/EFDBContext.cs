@@ -40,14 +40,24 @@ namespace EquipmentMonitoringSystem.DataLayer
                 entity.Property(x => x.Name);
                 entity.Property(x => x.Type);
                 entity.Property(x => x.FactoryNumber);
-                entity.Property(x => x.arrayRepair);
-                entity.Property(x => x.arrayMouthRepair);
+                entity.HasMany(x => x.Maintenances).WithOne(e => e.Equipment).HasForeignKey(e => e.EquipmentId);
                 entity.HasOne(x => x.Group).WithMany(x => x.Equipments).HasForeignKey(x => x.GroupId);
+            });
+
+            modelBuilder.Entity<Maintenance>(entity =>
+            {
+                entity.HasKey(x => x.Id);
+                entity.Property(x => x.Name);
+                entity.Property(x => x.Status);
+                entity.Property(x => x.NumberHours);
+                entity.Property(x => x.DateMaintenance);
+                entity.HasOne(x => x.Equipment).WithMany(x => x.Maintenances).HasForeignKey(x => x.EquipmentId);
             });
         }
 
         public DbSet<Equipment> Equipments { get; set; }
         public DbSet<Group> Groups { get; set; }
         public DbSet<Station> Stations { get; set; }
+        public DbSet<Maintenance> Maintenances { get; set; }
     }
 }

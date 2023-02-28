@@ -43,9 +43,7 @@ namespace EquipmentMonitoringSystem.PresentationLayer.Services
                 Id = _dbModel.Id = _dbModel.Id,
                 Name = _dbModel.Name,
                 FactoryNumber = _dbModel.FactoryNumber,
-                Type = _dbModel.Type,
-                ListTO = _dbModel.arrayRepair.ToList(),
-                MauthTO = _dbModel.arrayMouthRepair.ToList(),
+                Type = _dbModel.Type
             };
             return _editModel;
         }
@@ -65,8 +63,6 @@ namespace EquipmentMonitoringSystem.PresentationLayer.Services
             equipment.FactoryNumber = editModel.FactoryNumber;
             equipment.Type = editModel.Type;
             equipment.GroupId = editModel.GroupId;
-            equipment.arrayMouthRepair = editModel.MauthTO.ToArray();
-            equipment.arrayRepair = editModel.ListTO.ToArray();
             _dataManager.Equipments.SaveEquipment(equipment);
             return EquipmentDBModelToView(equipment.Id);
         }

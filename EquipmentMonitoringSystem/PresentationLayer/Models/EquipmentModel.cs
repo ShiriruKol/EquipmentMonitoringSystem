@@ -22,11 +22,7 @@ namespace EquipmentMonitoringSystem.PresentationLayer.Models
 
         [Required(ErrorMessage = "Заводской номер является обязательным полем!")]
         public string FactoryNumber { get; set; } = string.Empty;
-
-        public List<int> MauthTO { get; set; } = new List<int>() { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
-
-        public List<double> ListTO { get; set; } = new List<double>() { 0, 0, 0, 0, 0 };
-
+        public List<MaintenanceEditModel> Maintenances { get; set; } = new List<MaintenanceEditModel>(6);
         public int GroupId { get; set; } = 0;
         public List<SelectListItem> Groups { get; set; } = new();
 

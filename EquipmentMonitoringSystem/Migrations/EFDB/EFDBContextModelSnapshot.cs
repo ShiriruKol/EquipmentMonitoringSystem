@@ -45,14 +45,6 @@ namespace EquipmentMonitoringSystem.Migrations.EFDB
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<int[]>("arrayMouthRepair")
-                        .IsRequired()
-                        .HasColumnType("integer[]");
-
-                    b.Property<double[]>("arrayRepair")
-                        .IsRequired()
-                        .HasColumnType("double precision[]");
-
                     b.HasKey("Id");
 
                     b.HasIndex("GroupId");
@@ -84,6 +76,37 @@ namespace EquipmentMonitoringSystem.Migrations.EFDB
                     b.HasIndex("StationId");
 
                     b.ToTable("Groups");
+                });
+
+            modelBuilder.Entity("EquipmentMonitoringSystem.DataLayer.Entityes.Maintenance", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<DateOnly>("DateMaintenance")
+                        .HasColumnType("date");
+
+                    b.Property<int>("EquipmentId")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<double>("NumberHours")
+                        .HasColumnType("double precision");
+
+                    b.Property<bool>("Status")
+                        .HasColumnType("boolean");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("EquipmentId");
+
+                    b.ToTable("Maintenances");
                 });
 
             modelBuilder.Entity("EquipmentMonitoringSystem.DataLayer.Entityes.Station", b =>
@@ -123,6 +146,22 @@ namespace EquipmentMonitoringSystem.Migrations.EFDB
                         .IsRequired();
 
                     b.Navigation("Station");
+                });
+
+            modelBuilder.Entity("EquipmentMonitoringSystem.DataLayer.Entityes.Maintenance", b =>
+                {
+                    b.HasOne("EquipmentMonitoringSystem.DataLayer.Entityes.Equipment", "Equipment")
+                        .WithMany("Maintenances")
+                        .HasForeignKey("EquipmentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Equipment");
+                });
+
+            modelBuilder.Entity("EquipmentMonitoringSystem.DataLayer.Entityes.Equipment", b =>
+                {
+                    b.Navigation("Maintenances");
                 });
 
             modelBuilder.Entity("EquipmentMonitoringSystem.DataLayer.Entityes.Group", b =>

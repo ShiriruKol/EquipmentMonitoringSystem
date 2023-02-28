@@ -6,7 +6,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace EquipmentMonitoringSystem.Migrations.EFDB
 {
-    public partial class InitialData : Migration
+    public partial class Initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -53,9 +53,7 @@ namespace EquipmentMonitoringSystem.Migrations.EFDB
                     Name = table.Column<string>(type: "text", nullable: false),
                     Type = table.Column<string>(type: "text", nullable: false),
                     FactoryNumber = table.Column<string>(type: "text", nullable: false),
-                    GroupId = table.Column<int>(type: "integer", nullable: false),
-                    arrayMouthRepair = table.Column<int[]>(type: "integer[]", nullable: false),
-                    arrayRepair = table.Column<double[]>(type: "double precision[]", nullable: false)
+                    GroupId = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -64,6 +62,29 @@ namespace EquipmentMonitoringSystem.Migrations.EFDB
                         name: "FK_Equipments_Groups_GroupId",
                         column: x => x.GroupId,
                         principalTable: "Groups",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Maintenances",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Name = table.Column<string>(type: "text", nullable: false),
+                    NumberHours = table.Column<double>(type: "double precision", nullable: false),
+                    Status = table.Column<bool>(type: "boolean", nullable: false),
+                    DateMaintenance = table.Column<DateOnly>(type: "date", nullable: false),
+                    EquipmentId = table.Column<int>(type: "integer", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Maintenances", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Maintenances_Equipments_EquipmentId",
+                        column: x => x.EquipmentId,
+                        principalTable: "Equipments",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -77,10 +98,18 @@ namespace EquipmentMonitoringSystem.Migrations.EFDB
                 name: "IX_Groups_StationId",
                 table: "Groups",
                 column: "StationId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Maintenances_EquipmentId",
+                table: "Maintenances",
+                column: "EquipmentId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "Maintenances");
+
             migrationBuilder.DropTable(
                 name: "Equipments");
 

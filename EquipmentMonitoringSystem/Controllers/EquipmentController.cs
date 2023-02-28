@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using EquipmentMonitoringSystem.PresentationLayer.Models;
+using EquipmentMonitoringSystem.DataLayer.Entityes;
 
 namespace EquipmentMonitoringSystem.Controllers
 {

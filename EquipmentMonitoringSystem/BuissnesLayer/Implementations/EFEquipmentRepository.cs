@@ -1,6 +1,7 @@
 ﻿using EquipmentMonitoringSystem.BuissnesLayer.Interfaces;
 using EquipmentMonitoringSystem.DataLayer.Entityes;
 using EquipmentMonitoringSystem.DataLayer;
+using Microsoft.EntityFrameworkCore;
 
 namespace EquipmentMonitoringSystem.BuissnesLayer.Implementations
 {
@@ -17,14 +18,20 @@ namespace EquipmentMonitoringSystem.BuissnesLayer.Implementations
             _context.SaveChanges();
         }
 
-        public IEnumerable<Equipment> GetAllEquipments()
+        public IEnumerable<Equipment> GetAllEquipments(bool includemain = false)
         {
-            return _context.Equipments.ToList();
+            if (includemain)
+                return _context.Set<Equipment>().Include(x => x.Maintenances).AsNoTracking().ToList();
+            else
+                return _context.Equipments.ToList();
         }
 
-        public Equipment GetEquipmentById(int eqid)
+        public Equipment GetEquipmentById(int eqid, bool includemain = false)
         {
-            return _context.Equipments.FirstOrDefault(x => x.Id == eqid)!;
+            if (includemain)
+                return _context.Set<Equipment>().Include(x => x.Maintenances).AsNoTracking().FirstOrDefault(x => x.Id == eqid)!;
+            else
+                return _context.Equipments.FirstOrDefault(x => x.Id == eqid)!;
         }
 
         public void SaveEquipment(Equipment equipment)
