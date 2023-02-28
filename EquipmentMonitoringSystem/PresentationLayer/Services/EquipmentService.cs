@@ -35,15 +35,32 @@ namespace EquipmentMonitoringSystem.PresentationLayer.Services
             return _model;
         }
 
-        public EquipmentEditViewModel GetEquipmentEditModel(int Id)
+        public EquipmentEditViewModel GetEquipmentEditModel(int Id, bool includeMain = false)
         {
-            var _dbModel = _dataManager.Equipments.GetEquipmentById(Id);
+            var _dbModel = _dataManager.Equipments.GetEquipmentById(Id, includeMain);
+
+            List<MaintenanceEditModel> listmain = new List<MaintenanceEditModel>();
+            foreach(var item in _dbModel.Maintenances)
+            {
+                MaintenanceEditModel maintenanceEditModel = new MaintenanceEditModel()
+                {
+                    Name = item.Name,
+                    NumberHours = item.NumberHours,
+                    DateMaintenance = item.DateMaintenance.ToString(),
+                    Status = item.Status,
+                    EquipmentId = item.EquipmentId,
+                    Id = item.Id
+                };
+                listmain.Add(maintenanceEditModel);
+            }
+
             var _editModel = new EquipmentEditViewModel()
             {
                 Id = _dbModel.Id = _dbModel.Id,
                 Name = _dbModel.Name,
                 FactoryNumber = _dbModel.FactoryNumber,
-                Type = _dbModel.Type
+                Type = _dbModel.Type,
+                Maintenances = listmain
             };
             return _editModel;
         }
@@ -62,8 +79,37 @@ namespace EquipmentMonitoringSystem.PresentationLayer.Services
             equipment.Name = editModel.Name;
             equipment.FactoryNumber = editModel.FactoryNumber;
             equipment.Type = editModel.Type;
+
+            List<Maintenance> arrm = new List<Maintenance>();
+            foreach(var item in editModel.Maintenances)
+            {
+                Maintenance maintenance = new Maintenance()
+                {
+                    Id = item.Id,
+                    EquipmentId = item.EquipmentId,
+                    Name = item.Name,
+                    NumberHours = item.NumberHours,
+                    DateMaintenance = DateOnly.Parse(item.DateMaintenance),
+                    Status = item.Status,
+                    Equipment = equipment
+                };
+                arrm.Add(maintenance);
+            }
+
+            equipment.Maintenances = arrm;
             equipment.GroupId = editModel.GroupId;
-            _dataManager.Equipments.SaveEquipment(equipment);
+            if (equipment.Maintenances[0].Id != null)
+            {
+                foreach (var item in equipment.Maintenances)
+                {
+                    _dataManager.Maintenances.SaveMaintenance(item);
+                }
+                equipment.Maintenances = null;
+            }
+            else
+            {
+                _dataManager.Equipments.SaveEquipment(equipment);
+            }
             return EquipmentDBModelToView(equipment.Id);
         }
 

@@ -34,35 +34,60 @@
                         <span asp-validation-for="FactoryNumber" class="text-danger"></span>
                     </div>
 
+                    <h2 class="h2">Виды тех.обслуживания</h2>
                     <div class="border-1 rounded">
-                        @for(int i = 0; i < Model.Maintenances.Count; i++){
-                            <div class="card" style="width: 18rem;">
+                        <div class="row">
+                        @for(int i = 0; i < 3; i++){
+                            
+                            <div class="card col-sm" style="width: 18rem;">
                                 <div class="card-header text-center">
-                                    <input asp-for="Maintenances[i].Name" class="form-control">
+                                    <input asp-for="Maintenances[i].Name" placeholder="Имя" class="form-control">
                                     <span asp-validation-for="Maintenances[i].Name" class="text-danger"></span>
                                 </div>
                                 <ul class="list-group list-group-flush">
                                     <li class="list-group-item">
-                                        <input asp-for="Maintenances[i].NumberHours" class="form-control">
+                                        <label asp-for="Maintenances[i].NumberHours">Кол-во часов</label>
+                                        <input asp-for="Maintenances[i].NumberHours" placeholder="Кол-во часов" class="form-control">
                                         <span asp-validation-for="Maintenances[i].NumberHours" class="text-danger"></span>
                                     </li>
                                     <li class="list-group-item">
-                                        <input asp-for="Maintenances[i].DateMaintenance" class="form-control" type="date" value="2023-02-23" />
+                                        <label asp-for="Maintenances[i].DateMaintenance">Дата проведения</label>
+                                        <input asp-for="Maintenances[i].DateMaintenance" placeholder="Дата проведения" class="form-control" type="date" />
                                         <span asp-validation-for="Maintenances[i].DateMaintenance" class="text-danger"></span>
                                     </li>
                                 </ul>
                             </div>
                         }
-                        <div class="card text-center" style="width: 18rem;">
-                            <a class="btn btn-success action-icon" href="" title="Нажмите, чтобы добавить ТО.">
-                                <i class="fa-sharp fa-solid fa-plus"></i>
-                            </a>
+                        </div>
+                        
+                        <div class="row">
+                            @for (int i = 3; i < 6; i++)
+                            {
+                                <div class="card col-sm" style="width: 18rem;">
+                                    <div class="card-header text-center">
+                                        <input asp-for="Maintenances[i].Name" placeholder="Имя" class="form-control">
+                                        <span asp-validation-for="Maintenances[i].Name" class="text-danger"></span>
+                                    </div>
+                                    <ul class="list-group list-group-flush">
+                                        <li class="list-group-item">
+                                            <label asp-for="Maintenances[i].NumberHours">Кол-во часов</label>
+                                            <input asp-for="Maintenances[i].NumberHours" placeholder="Кол-во часов" class="form-control">
+                                            <span asp-validation-for="Maintenances[i].NumberHours" class="text-danger"></span>
+                                        </li>
+                                        <li class="list-group-item">
+                                            <label asp-for="Maintenances[i].DateMaintenance">Дата проведения</label>
+                                            <input asp-for="Maintenances[i].DateMaintenance" placeholder="Дата проведения" class="form-control" type="date" />
+                                            <span asp-validation-for="Maintenances[i].DateMaintenance" class="text-danger"></span>
+                                        </li>
+                                    </ul>
+                                </div>
+                            }
                         </div>
                     </div>
 
                     <div class="validation" asp-validation-summary="ModelOnly"></div>
 
-                    <button type="submit" class="btn btn-success">Добавить</button>
+                    <button type="submit" class="btn btn-success mt-1">Добавить</button>
                 </form>
             </div>
 

@@ -33,6 +33,17 @@ namespace EquipmentMonitoringSystem.Controllers
             {
                 Groups = groupsList,
             };
+
+            for (int i = 0; i < 6; i++) {
+                var m = new MaintenanceEditModel()
+                {
+                    Name = "",
+                    NumberHours = 0,
+                    Status = false,
+                    DateMaintenance = ""
+                };
+                model.Maintenances.Add(m);
+            }
             return View(model);
         }
 
@@ -61,7 +72,7 @@ namespace EquipmentMonitoringSystem.Controllers
         [HttpGet]
         public IActionResult Edit(int id)
         {
-            var model = _servicesmanager.Equipments.GetEquipmentEditModel(id);
+            var model = _servicesmanager.Equipments.GetEquipmentEditModel(id, true);
             if (model == null)
                 return NotFound(nameof(model));
 
@@ -121,8 +132,6 @@ namespace EquipmentMonitoringSystem.Controllers
 
             return groups;
         }
-
-
 
     }
 }
