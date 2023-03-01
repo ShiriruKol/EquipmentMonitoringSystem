@@ -28,4 +28,14 @@ namespace EquipmentMonitoringSystem.PresentationLayer.Models
 
     }
 
+    public class EquipmentExcelModel
+    {
+        public int Id { get; set; }
+        public string Name { get; set; } = string.Empty;
+        public string Type { get; set; } = string.Empty;
+        public string FactoryNumber { get; set; } = string.Empty;
+        public List<MaintenanceEditModel> Maintenances { get; set; } = new List<MaintenanceEditModel>();
+        public int GroupId { get; set; } = 0;
+    }
+
 }

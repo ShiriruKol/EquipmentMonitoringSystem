@@ -16,4 +16,11 @@ namespace EquipmentMonitoringSystem.PresentationLayer.Models
         public string Name { get; set; } = string.Empty;
     }
 
+    public class StationExcelModel
+    {
+        public int Id { get; set; } 
+        public string Name { get; set; }
+        public List<GroupExcelModel> Groups { get; set; } = new List<GroupExcelModel>();
+    }
+
 }

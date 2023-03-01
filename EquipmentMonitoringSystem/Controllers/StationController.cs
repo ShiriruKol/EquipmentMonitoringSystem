@@ -3,8 +3,6 @@ using EquipmentMonitoringSystem.PresentationLayer.Models;
 using EquipmentMonitoringSystem.PresentationLayer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using EquipmentMonitoringSystem.DataLayer.Entityes;
-using OfficeOpenXml;
 
 
 namespace EquipmentMonitoringSystem.Controllers

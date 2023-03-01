@@ -20,4 +20,15 @@ namespace EquipmentMonitoringSystem.PresentationLayer.Models
         public int StationId { get; set; } = 0;
         public List<SelectListItem> Stations { get; set; } = new();
     }
+
+    public class GroupExcelModel
+    {
+        public int Id { get; set; }
+        [Required]
+        public string Name { get; set; }
+        [Required]
+        public string Description { get; set; }
+        public List<EquipmentExcelModel> Equipments { get; set; } = new List<EquipmentExcelModel>();
+        public int StationId { get; set; }
+    }
 }

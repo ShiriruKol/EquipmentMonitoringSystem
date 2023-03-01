@@ -42,11 +42,23 @@ namespace EquipmentMonitoringSystem.PresentationLayer.Services
             List<MaintenanceEditModel> listmain = new List<MaintenanceEditModel>();
             foreach(var item in _dbModel.Maintenances)
             {
+                string year = item.DateMaintenance.Year.ToString();
+                string month, day;
+                if(item.DateMaintenance.Month < 10)
+                    month = '0' + item.DateMaintenance.Month.ToString();
+                else
+                    month = item.DateMaintenance.Month.ToString();
+
+                if (item.DateMaintenance.Day < 10)
+                    day = '0' + item.DateMaintenance.Day.ToString();
+                else
+                    day = item.DateMaintenance.Day.ToString();
+
                 MaintenanceEditModel maintenanceEditModel = new MaintenanceEditModel()
                 {
                     Name = item.Name,
                     NumberHours = item.NumberHours,
-                    DateMaintenance = item.DateMaintenance.ToString(),
+                    DateMaintenance = year + '-' + month + '-' + day,
                     Status = item.Status,
                     EquipmentId = item.EquipmentId,
                     Id = item.Id

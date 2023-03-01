@@ -82,17 +82,6 @@ namespace EquipmentMonitoringSystem.Controllers
             return View(model);
         }
 
-        [HttpGet]
-        public IActionResult Info(int id)
-        {
-            if (id == 0)
-                return BadRequest();
-
-            var model = _servicesmanager.Equipments.EquipmentDBModelToView(id);
-
-            return View(model);
-        }
-
         [HttpPost]
         public IActionResult Edit(EquipmentEditViewModel model)
         {
@@ -115,6 +104,18 @@ namespace EquipmentMonitoringSystem.Controllers
             _servicesmanager.Equipments.SaveEquipmentEditModelToDb(model);
             return RedirectToAction("Index");
         }
+
+        [HttpGet]
+        public IActionResult Info(int id)
+        {
+            if (id == 0)
+                return BadRequest();
+
+            var model = _servicesmanager.Equipments.EquipmentDBModelToView(id);
+
+            return View(model);
+        }
+
         [HttpGet]
         public IActionResult Remove(int id)
         {
