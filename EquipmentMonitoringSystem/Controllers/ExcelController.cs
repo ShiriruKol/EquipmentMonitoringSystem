@@ -1,5 +1,4 @@
 ﻿using EquipmentMonitoringSystem.BuissnesLayer;
-using EquipmentMonitoringSystem.DataLayer.Entityes;
 using EquipmentMonitoringSystem.PresentationLayer;
 using EquipmentMonitoringSystem.PresentationLayer.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -90,12 +89,67 @@ namespace EquipmentMonitoringSystem.Controllers
                                                 if (NameEmpls != null)
                                                 {
                                                     List<string> Names = ParsStr(NameEmpls);
+													List<EquipmentExcelModel> eqs = new List<EquipmentExcelModel>();
                                                     foreach (var item in Names)
                                                     {
                                                         EquipmentExcelModel eq = new EquipmentExcelModel();
 														eq.Name = item;
-														group.Equipments.Add(eq);
+                                                        eqs.Add(eq);
                                                     }
+
+                                                    //Собираем все виды ТО оборудования
+                                                    List<MaintenanceEditModel> maintenances = new List<MaintenanceEditModel>();
+
+                                                    for (int j = 12; j <= 23; j++)
+                                                    {
+                                                        if (worksheet.Cells[row, j].Value?.ToString() != "")
+                                                        {
+															MaintenanceEditModel m = new MaintenanceEditModel();
+															m.Name = worksheet.Cells[row, j].Value?.ToString();
+															//Определяем месяц
+															if(j - 11 < 10)
+																m.DateMaintenance = DateTime.Now.Year.ToString() + "-0" + (j - 11).ToString() + "-01";
+															else
+                                                                m.DateMaintenance = DateTime.Now.Year.ToString() + "-" + (j - 11).ToString() + "-01";
+
+															maintenances.Add(m);
+                                                        }
+                                                    }
+
+													foreach (var mn in maintenances)
+													{
+														switch (mn.Name)
+														{
+															case "ТО  1":
+																mn.NumberHours = Convert.ToDouble(worksheet.Cells[row, 6].Value?.ToString());
+																break;
+															case "ТО  3":
+                                                                mn.NumberHours = Convert.ToDouble(worksheet.Cells[row, 7].Value?.ToString());
+                                                                break;
+                                                            case "ТО  4":
+                                                                mn.NumberHours = Convert.ToDouble(worksheet.Cells[row, 8].Value?.ToString());
+                                                                break;
+                                                            case "ТО  6":
+                                                                mn.NumberHours = Convert.ToDouble(worksheet.Cells[row, 9].Value?.ToString());
+                                                                break;
+                                                            case "ТО12":
+                                                                mn.NumberHours = Convert.ToDouble(worksheet.Cells[row, 10].Value?.ToString());
+                                                                break;
+                                                            case "ТО24":
+                                                                mn.NumberHours = Convert.ToDouble(worksheet.Cells[row, 11].Value?.ToString());
+                                                                break;
+                                                            default:
+																mn.NumberHours = 0;
+																break;
+														}
+													}
+
+													foreach (var eq in eqs)
+													{
+                                                        eq.Maintenances.AddRange(maintenances);
+                                                    }
+													group.Equipments.AddRange(eqs);
+														
                                                 }
 												row++;
                                             }
@@ -113,8 +167,7 @@ namespace EquipmentMonitoringSystem.Controllers
 								station = new StationExcelModel();
 							}
 						}
-						var o = 8;
-						return View();
+						return View(stations);
 
 					}
 					catch (Exception e)
