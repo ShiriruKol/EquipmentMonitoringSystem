@@ -11,6 +11,10 @@
 </div>
 
 @if (Model != null){
+    @*<form asp-action="LoadingToDb" asp asp-controller="Excel" method="post">
+        @
+        <input class="btn btn-success mt-1" type="submit" value="Загрузить в Базу Данных" />
+    </form>*@
     <h3>Список станций, их групп и оборудования</h3>
     @foreach (var station in Model)
     {
@@ -23,7 +27,7 @@
                     <tr>
                         <th rowspan="2">Наименование</th>
                         <th colspan="6">Тип ТО/Норма времени</th>
-                        @*<th colspan="12">Месяцы</th>*@
+                        <th colspan="12">Месяцы</th>
                     </tr>
                     <tr>
                         <th>T0-1</th>
@@ -32,7 +36,7 @@
                         <th>ТО-6</th>
                         <th>ТО-12</th>
                         <th>ТО-24</th>
-@*                        <th>январь</th>
+                        <th>январь</th>
                         <th>февраль</th>
                         <th>март</th>
                         <th>апрель</th>
@@ -43,7 +47,7 @@
                         <th>сентрябрь</th>
                         <th>октябрь</th>
                         <th>ноябрь</th>
-                        <th>декабрь</th>*@
+                        <th>декабрь</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -58,10 +62,11 @@
                             ("ТО12", 0),
                             ("ТО24", 0),
                         };
+
                         foreach(var to in eq.Maintenances)
                         {
-                            bool check = true;
-                            for (int i = 0; i < TO.Count && check == true; i++)
+                            bool check1 = true;
+                            for (int i = 0; i < TO.Count && check1 == true; i++)
                             {
                                 if(TO[i].Item1 == to.Name)
                                 {
@@ -69,10 +74,10 @@
                                     tmp.Item1 = TO[i].Item1;
                                     tmp.Item2 = Convert.ToInt32(to.NumberHours);
                                     TO[i] = tmp;
-                                    check = false;
+                                    check1 = false;
                                 }
                             }
-                            check = true;
+                            check1 = true;
 
                         }
                         <tr scope="row">
@@ -81,6 +86,34 @@
                             {
                                 <td>@TO[i].Item2</td>
                             }
+
+
+                        
+
+                            @{
+                                bool check = true;
+                                List<string> Mouth = new List<string>() { "", "", "", "", "", "", "", "", "", "", "", "" };
+                                foreach (var to in eq.Maintenances)
+                                {
+                                    for (int i = 1; i < 13 && check == true; i++)
+                                    {
+                                        string strnum = to.DateMaintenance.Substring(5, 2);
+                                        int num = Convert.ToInt32(strnum);
+                                        if(i == num)
+                                        {
+                                            Mouth[i - 1] = to.Name;
+                                            check = false;
+                                        }
+                                    }
+                                    check = true;
+                                }
+                            }
+
+                            @foreach (var item in Mouth)
+                            {
+                                <td>@item</td>
+                            }
+
                         </tr>
                     }
                 </tbody>

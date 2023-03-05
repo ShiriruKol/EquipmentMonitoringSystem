@@ -68,6 +68,55 @@ namespace EquipmentMonitoringSystem.PresentationLayer.Services
             return StationDBToViewModelById(_stationDbModel.Id);
         }
 
+        public void SaveStationExcelModelToDb(StationExcelModel stationExcelModel)
+        {
+            try
+            {
+                DataLayer.Entityes.Station _stationDbModel;
+                _stationDbModel = new DataLayer.Entityes.Station();
+                _stationDbModel.Name = stationExcelModel.Name;
+
+                List<Group> groups = new List<Group>();
+                foreach (var group in stationExcelModel.Groups)
+                {
+                    Group gr = new Group();
+                    gr.Name = group.Name;
+                    gr.Description = " ";
+                    List<Equipment> equipments = new List<Equipment>();
+                    foreach (var equipment in group.Equipments)
+                    {
+                        Equipment eq = new Equipment();
+                        eq.Name = equipment.Name;
+                        eq.FactoryNumber = " ";
+                        eq.Type = " ";
+
+                        List<Maintenance> maintenances = new List<Maintenance>();
+                        foreach (var maintenance in equipment.Maintenances)
+                        {
+                            Maintenance ma = new Maintenance();
+                            ma.Name = maintenance.Name;
+                            ma.Status = maintenance.Status;
+                            ma.DateMaintenance = DateOnly.Parse(maintenance.DateMaintenance);
+                            ma.NumberHours = maintenance.NumberHours;
+                            maintenances.Add(ma);
+                        }
+                        eq.Maintenances = maintenances;
+                        equipments.Add(eq);
+                    }
+                    gr.Equipments = equipments;
+                    groups.Add(gr);
+                }
+                _stationDbModel.Groups = groups;
+
+                _dataManager.Stations.SaveStation(_stationDbModel);
+            }
+            catch (Exception e)
+            {
+                throw;
+            }
+        }
+
+
         public void DeleteStation(int id)
         {
             Station _directoryDbModel;

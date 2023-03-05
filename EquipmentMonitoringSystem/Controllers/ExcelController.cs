@@ -64,26 +64,30 @@ namespace EquipmentMonitoringSystem.Controllers
 						using (var package = new ExcelPackage(stream))
 						{
 							// Проходим все листы
-							for (int i = 0; i < package.Workbook.Worksheets.Count; i++)
+							for (int i = 0; i < package.Workbook.Worksheets.Count - 1; i++)
 							{
 								StationExcelModel station = new StationExcelModel();
 								var worksheet = package.Workbook.Worksheets[i];//Берем текущий лист
 								station.Name = worksheet.Name;
 								var rowCount = worksheet.Dimension.Rows; //Берем количество строк
 
-								for (var row = 11; row <= rowCount - 6; row++)
+								for (var row = 11; row <= rowCount; row++)
 								{
+									if (row == 51)
+									{
+										int ut = 74;
+									}
 									try
 									{
 										//Проверяем группа или оборудование
-										if (worksheet.Cells[row, 2].Value?.ToString() == "1")
+										if (worksheet.Cells[row, 2].Value?.ToString() == "1" && worksheet.Cells[row, 1].Value?.ToString() != null)
 										{
 											GroupExcelModel group = new GroupExcelModel();
 											var groupname = worksheet.Cells[row, 1].Value?.ToString();
                                             group.Name = groupname;
 											row++;
 											//Пока не дошли до следующей группы, выполняем действия
-                                            while (worksheet.Cells[row, 2].Value?.ToString() != "1")
+                                            while (worksheet.Cells[row, 2].Value?.ToString() != "1" && worksheet.Cells[row, 1].Value?.ToString() != null)
 											{
 												var NameEmpls = worksheet.Cells[row, 5].Value?.ToString();
                                                 if (NameEmpls != null)
@@ -102,7 +106,7 @@ namespace EquipmentMonitoringSystem.Controllers
 
                                                     for (int j = 12; j <= 23; j++)
                                                     {
-                                                        if (worksheet.Cells[row, j].Value?.ToString() != "")
+                                                        if (worksheet.Cells[row, j].Value?.ToString() != "" && worksheet.Cells[row, j].Value?.ToString() != null)
                                                         {
 															MaintenanceEditModel m = new MaintenanceEditModel();
 															m.Name = worksheet.Cells[row, j].Value?.ToString();
@@ -121,22 +125,22 @@ namespace EquipmentMonitoringSystem.Controllers
 														switch (mn.Name)
 														{
 															case "ТО  1":
-																mn.NumberHours = Convert.ToDouble(worksheet.Cells[row, 6].Value?.ToString());
+																mn.NumberHours = worksheet.Cells[row, 6].Value?.ToString() != "" ? Convert.ToDouble(worksheet.Cells[row, 6].Value?.ToString()) : 0;
 																break;
 															case "ТО  3":
-                                                                mn.NumberHours = Convert.ToDouble(worksheet.Cells[row, 7].Value?.ToString());
+                                                                mn.NumberHours = worksheet.Cells[row, 7].Value?.ToString() != "" ? Convert.ToDouble(worksheet.Cells[row, 7].Value?.ToString()) : 0;
                                                                 break;
                                                             case "ТО  4":
-                                                                mn.NumberHours = Convert.ToDouble(worksheet.Cells[row, 8].Value?.ToString());
+                                                                mn.NumberHours = worksheet.Cells[row, 8].Value?.ToString() != "" ? Convert.ToDouble(worksheet.Cells[row, 8].Value?.ToString()) : 0;
                                                                 break;
                                                             case "ТО  6":
-                                                                mn.NumberHours = Convert.ToDouble(worksheet.Cells[row, 9].Value?.ToString());
+                                                                mn.NumberHours = worksheet.Cells[row, 9].Value?.ToString() != "" ? Convert.ToDouble(worksheet.Cells[row, 9].Value?.ToString()) : 0;
                                                                 break;
                                                             case "ТО12":
-                                                                mn.NumberHours = Convert.ToDouble(worksheet.Cells[row, 10].Value?.ToString());
+                                                                mn.NumberHours = worksheet.Cells[row, 10].Value?.ToString() != "" ? Convert.ToDouble(worksheet.Cells[row, 10].Value?.ToString()) : 0;
                                                                 break;
                                                             case "ТО24":
-                                                                mn.NumberHours = Convert.ToDouble(worksheet.Cells[row, 11].Value?.ToString());
+                                                                mn.NumberHours = worksheet.Cells[row, 11].Value?.ToString() != "" ? Convert.ToDouble(worksheet.Cells[row, 11].Value?.ToString()) : 0;
                                                                 break;
                                                             default:
 																mn.NumberHours = 0;
@@ -167,6 +171,10 @@ namespace EquipmentMonitoringSystem.Controllers
 								station = new StationExcelModel();
 							}
 						}
+						foreach (var station in stations)
+						{
+							_servicesmanager.Stations.SaveStationExcelModelToDb(station);
+						}
 						return View(stations);
 
 					}
@@ -174,10 +182,27 @@ namespace EquipmentMonitoringSystem.Controllers
 					{
 						return View();
 					}
-				}
-
-			}
+				} 
+            }
 			return View();
 		}
-	}
+
+        [HttpPost]
+        public IActionResult LoadingToDb(List<StationExcelModel> stations)
+        {
+			try
+			{
+				foreach (var station in stations)
+				{
+					_servicesmanager.Stations.SaveStationExcelModelToDb(station);
+				}
+			}
+			catch (Exception e)
+			{
+                return View();
+            }
+
+			return Redirect("/Station/Index"); ;
+        }
+    }
 }
