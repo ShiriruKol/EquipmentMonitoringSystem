@@ -10,6 +10,17 @@ namespace EquipmentMonitoringSystem.PresentationLayer.Models
         public List<EquipmentViewModel> Equipments { get; set; }
     }
 
+    public class GroupIndexModel
+    {
+        public Group Group { get; set; }
+        public int EqCount { get; set; } 
+    }
+
+    public class GroupInfoModel
+    {
+        public Group Group { get; set; }
+    }
+
     public class GroupEditViewModel
     {
         public int Id { get; set; }

@@ -1,4 +1,4 @@
-﻿@model EquipmentMonitoringSystem.PresentationLayer.Models.GroupViewModel
+﻿@model EquipmentMonitoringSystem.PresentationLayer.Models.GroupInfoModel
 @{
     ViewData["Title"] = @Model.Group.Name;
 }
@@ -13,7 +13,7 @@
                 <b>Описание:</b> @Model.Group.Description
             </div>
 
-            @if (Model.Equipments.Any())
+            @if (Model.Group.Equipments.Any())
             {
                 <div class="mb-2">
                     <b>Оборудования группы</b>
@@ -24,37 +24,16 @@
                                 <th>Наименование</th>
                                 <th>Тип</th>
                                 <th>Заводской номер</th>
-                                <th>ТО</th>
-                                <th>Месяцы</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach (var (item, index) in Model.Equipments.OrderByDescending(item => item.Equipment.Id).Select((item, index) => (item, index)))
+                            @foreach (var (item, index) in Model.Group.Equipments.OrderByDescending(item => item.Id).Select((item, index) => (item, index)))
                             {
                                 <tr>
                                     <td>@(index + 1)</td>
-                                    <td>@item.Equipment.Name</td>
-                                    <td>@item.Equipment.Type</td>
-                                    <td>@item.Equipment.FactoryNumber</td>
-
-
-                                    @{
-                                        string arr = "";
-                                    }
-                                    @*@foreach (var to in item.Equipment.arrayRepair)
-                                    {
-                                        arr += to.ToString() + ' ';
-                                    }*@
-                                    <td>@arr</td>
-
-                                    @{
-                                        arr = "";
-                                    }
-                                    @*@foreach (var to in item.Equipment.arrayMouthRepair)
-                                    {
-                                        arr += to.ToString() + ' ';
-                                    }*@
-                                    <td>@arr</td>
+                                    <td>@item.Name</td>
+                                    <td>@item.Type</td>
+                                    <td>@item.FactoryNumber</td>
                                 </tr>
                             }
                         </tbody>

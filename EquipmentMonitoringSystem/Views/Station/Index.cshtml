@@ -1,4 +1,4 @@
-﻿@model List<EquipmentMonitoringSystem.PresentationLayer.Models.StationViewModel>
+﻿@model List<EquipmentMonitoringSystem.PresentationLayer.Models.StationIndexViewModel>
 @{
     ViewData["Title"] = "Список станций";
 }
@@ -28,7 +28,7 @@
                         <tr>
                             <th scope="row">@index</th>
                             <td>@item.Station.Name</td>
-                            <td>@item.Groups.Count</td>
+                            <td>@item.NumberGroups</td>
                             <td>
                                 <div class="action-area">
                                     <a class="btn btn-secondary action-icon" href="/Station/Edit/@item.Station.Id" title="Нажмите, чтобы редактировать информацию.">

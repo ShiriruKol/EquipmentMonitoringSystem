@@ -6,6 +6,9 @@ namespace EquipmentMonitoringSystem.BuissnesLayer.Interfaces
     {
         IEnumerable<Station> GetAllStations(bool includegroups = false);
         Station GetStationById(int stationid, bool includegroups = false);
+        int GetNumGroupsStationId(int stationid);
+        string GetStationName(int stationid);
+        List<Group> GetGroupsByStation(int stationid);
         void SaveStation(Station station);
         void DeleteStation(Station station);
     }

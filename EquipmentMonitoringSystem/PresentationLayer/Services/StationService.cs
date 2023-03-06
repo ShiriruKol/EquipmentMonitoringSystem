@@ -1,6 +1,7 @@
 ﻿using EquipmentMonitoringSystem.BuissnesLayer;
 using EquipmentMonitoringSystem.DataLayer.Entityes;
 using EquipmentMonitoringSystem.PresentationLayer.Models;
+using System.IO;
 
 namespace EquipmentMonitoringSystem.PresentationLayer.Services
 {
@@ -14,28 +15,33 @@ namespace EquipmentMonitoringSystem.PresentationLayer.Services
             _groupService = new GroupService(dataManager);
         }
 
-        public List<StationViewModel> GetStationList()
+        public List<StationIndexViewModel> GetStationList()
         {
-            var _dirs = _dataManager.Stations.GetAllStations(true);
-            List<StationViewModel> _modelsList = new List<StationViewModel>();
+            var _dirs = _dataManager.Stations.GetAllStations();
+            List<StationIndexViewModel> _modelsList = new List<StationIndexViewModel>();
             foreach (var item in _dirs)
             {
-                _modelsList.Add(StationDBToViewModelById(item.Id));
+                _modelsList.Add(StationDBToViewIndexModelById(item.Id));
             }
             return _modelsList;
         }
 
-        public StationViewModel StationDBToViewModelById(int stationId)
+        public StationIndexViewModel StationDBToViewIndexModelById(int stationId)
         {
-            var _directory = _dataManager.Stations.GetStationById(stationId, true);
-
-            List<GroupViewModel> _materialsViewModelList = new List<GroupViewModel>();
-            foreach (var item in _directory.Groups)
-            {
-                _materialsViewModelList.Add(_groupService.GroupDBToViewModelById(item.Id));
-            }
-            return new StationViewModel() { Station = _directory, Groups = _materialsViewModelList };
+            var _directory = _dataManager.Stations.GetStationById(stationId);
+            int _count = _dataManager.Stations.GetNumGroupsStationId(stationId);
+            
+            return new StationIndexViewModel() { Station = _directory, NumberGroups = _count };
         }
+
+        public StationInfoViewModel StationDBToInfoViewModel(int stationId)
+        {
+            var _name = _dataManager.Stations.GetStationName(stationId);
+            List<Group> _groups = _dataManager.Stations.GetGroupsByStation(stationId);
+
+            return new StationInfoViewModel() { StationName = _name, Groups = _groups };
+        }
+
         public StationEditModel GetStationEditModel(int directoryid = 0)
         {
             if (directoryid != 0)
@@ -50,7 +56,7 @@ namespace EquipmentMonitoringSystem.PresentationLayer.Services
             }
             else { return new StationEditModel() { }; }
         }
-        public StationViewModel SaveStationEditModelToDb(StationEditModel stationEditModel)
+        public StationIndexViewModel SaveStationEditModelToDb(StationEditModel stationEditModel)
         {
             DataLayer.Entityes.Station _stationDbModel;
             if (stationEditModel.Id != 0)
@@ -65,7 +71,7 @@ namespace EquipmentMonitoringSystem.PresentationLayer.Services
 
             _dataManager.Stations.SaveStation(_stationDbModel);
 
-            return StationDBToViewModelById(_stationDbModel.Id);
+            return StationDBToViewIndexModelById(_stationDbModel.Id);
         }
 
         public void SaveStationExcelModelToDb(StationExcelModel stationExcelModel)

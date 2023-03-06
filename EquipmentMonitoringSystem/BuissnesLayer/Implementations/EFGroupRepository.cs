@@ -1,5 +1,6 @@
 ﻿using EquipmentMonitoringSystem.BuissnesLayer.Interfaces;
 using EquipmentMonitoringSystem.DataLayer;
+using EquipmentMonitoringSystem.DataLayer.Entityes;
 using Microsoft.EntityFrameworkCore;
 
 namespace EquipmentMonitoringSystem.BuissnesLayer.Implementations
@@ -24,6 +25,11 @@ namespace EquipmentMonitoringSystem.BuissnesLayer.Implementations
                 return _context.Set<DataLayer.Entityes.Group>().Include(x => x.Equipments).AsNoTracking().ToList();
             else
                 return _context.Groups.ToList();
+        }
+
+        public int GetEqCountbyGroup(int groupId)
+        {
+            return _context.Set<Group>().Include(x => x.Equipments).AsNoTracking().FirstOrDefault(x => x.Id == groupId).Equipments.Count!;
         }
 
         public DataLayer.Entityes.Group GetGroupById(int grid, bool includeequipment = false)

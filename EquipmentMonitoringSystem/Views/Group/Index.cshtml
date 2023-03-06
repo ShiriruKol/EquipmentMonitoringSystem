@@ -1,4 +1,4 @@
-﻿@model List<EquipmentMonitoringSystem.PresentationLayer.Models.GroupViewModel>
+﻿@model List<EquipmentMonitoringSystem.PresentationLayer.Models.GroupIndexModel>
 @{
     ViewData["Title"] = "Список групп";
 }
@@ -30,7 +30,7 @@
                             <th scope="row">@index</th>
                             <td>@item.Group.Name</td>
                             <td>@item.Group.Description</td>
-                            <td>@item.Group.Equipments.Count</td>
+                            <td>@item.EqCount</td>
                             <td>
                                 <div class="action-area">
                                     <a class="btn btn-secondary action-icon" href="/Group/Edit/@item.Group.Id" title="Нажмите, чтобы редактировать информацию.">

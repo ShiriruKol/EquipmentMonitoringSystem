@@ -11,10 +11,6 @@
 </div>
 
 @if (Model != null){
-    @*<form asp-action="LoadingToDb" asp asp-controller="Excel" method="post">
-        @
-        <input class="btn btn-success mt-1" type="submit" value="Загрузить в Базу Данных" />
-    </form>*@
     <h3>Список станций, их групп и оборудования</h3>
     @foreach (var station in Model)
     {

@@ -6,6 +6,7 @@ namespace EquipmentMonitoringSystem.BuissnesLayer.Interfaces
     {
         IEnumerable<Group> GetAllGroups(bool includeequipment = false);
         Group GetGroupById(int grid, bool includeequipment = false);
+        int GetEqCountbyGroup(int groupId);
         void SaveGroup(Group group);
         void DeleteGroup(Group group);
     }

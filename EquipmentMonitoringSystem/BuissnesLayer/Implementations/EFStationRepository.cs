@@ -36,6 +36,11 @@ namespace EquipmentMonitoringSystem.BuissnesLayer.Implementations
                 return _context.Stations.FirstOrDefault(x => x.Id == stationid)!;
         }
 
+        public int GetNumGroupsStationId(int stationid)
+        {
+            return _context.Set<Station>().Include(x => x.Groups).AsNoTracking().FirstOrDefault(x => x.Id == stationid).Groups.Count!;
+        }
+
         public void SaveStation(Station station)
         {
             if (station.Id == 0)
@@ -43,6 +48,16 @@ namespace EquipmentMonitoringSystem.BuissnesLayer.Implementations
             else
                 _context.Entry(station).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
             _context.SaveChanges();
+        }
+
+        public string GetStationName(int stationid)
+        {
+            return _context.Stations.FirstOrDefault(x => x.Id == stationid)!.Name;
+        }
+
+        public List<Group> GetGroupsByStation(int stationid)
+        {
+            return _context.Set<Group>().Include(x => x.Equipments).Where(x => x.StationId == stationid).AsNoTracking().ToList();
         }
     }
 }

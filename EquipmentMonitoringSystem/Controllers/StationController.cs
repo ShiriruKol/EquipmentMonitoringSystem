@@ -21,7 +21,7 @@ namespace EquipmentMonitoringSystem.Controllers
 
         public IActionResult Index()
         {
-            List<StationViewModel> _dirs = _servicesmanager.Stations.GetStationList();
+            List<StationIndexViewModel> _dirs = _servicesmanager.Stations.GetStationList();
             return View(_dirs);
         }
 
@@ -49,7 +49,7 @@ namespace EquipmentMonitoringSystem.Controllers
             if (id == 0)
                 return BadRequest();
 
-            var model = _servicesmanager.Stations.StationDBToViewModelById(id);
+            StationInfoViewModel model = _servicesmanager.Stations.StationDBToInfoViewModel(id);
 
             return View(model);
         }

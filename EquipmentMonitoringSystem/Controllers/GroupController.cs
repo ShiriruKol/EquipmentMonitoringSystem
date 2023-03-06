@@ -22,7 +22,7 @@ namespace EquipmentMonitoringSystem.Controllers
         public IActionResult Index()
         {
 
-            List<GroupViewModel> _dirs = _servicesmanager.Groups.GetGroupsList();
+            List<GroupIndexModel> _dirs = _servicesmanager.Groups.GetGroupsList();
             return View(_dirs);
         }
         [HttpGet]
@@ -62,7 +62,7 @@ namespace EquipmentMonitoringSystem.Controllers
             if (id == 0)
                 return BadRequest();
 
-            var model = _servicesmanager.Groups.GroupDBToViewModelById(id);
+            GroupInfoModel model = _servicesmanager.Groups.GroupDBToViewInfoModelById(id);
 
             return View(model);
         }

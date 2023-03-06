@@ -9,6 +9,18 @@ namespace EquipmentMonitoringSystem.PresentationLayer.Models
         public List<GroupViewModel> Groups { get; set; }
     }
 
+    public class StationInfoViewModel
+    {
+        public string StationName { get; set; }
+        public List<Group> Groups { get; set; }
+    }
+
+    public class StationIndexViewModel
+    {
+        public Station Station { get; set; }
+        public int NumberGroups { get; set; } 
+    }
+
     public class StationEditModel
     {
         public int Id { get; set; }

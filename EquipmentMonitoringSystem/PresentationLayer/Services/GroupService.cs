@@ -14,10 +14,11 @@ namespace EquipmentMonitoringSystem.PresentationLayer.Services
             _equipmentService = new EquipmentService(dataManager);
         }
 
-        public List<GroupViewModel> GetGroupsList()
+        public List<GroupIndexModel> GetGroupsList()
         {
             var _dirs = _dataManager.Groups.GetAllGroups(true);
-            List<GroupViewModel> _modelsList = new List<GroupViewModel>();
+
+            List<GroupIndexModel> _modelsList = new List<GroupIndexModel>();
             foreach (var item in _dirs)
             {
                 _modelsList.Add(GroupDBToViewModelById(item.Id));
@@ -25,16 +26,17 @@ namespace EquipmentMonitoringSystem.PresentationLayer.Services
             return _modelsList;
         }
 
-        public GroupViewModel GroupDBToViewModelById(int grouId)
+        public GroupIndexModel GroupDBToViewModelById(int grouId)
         {
-            var _directory = _dataManager.Groups.GetGroupById(grouId, true);
+            Group _directory = _dataManager.Groups.GetGroupById(grouId);
+            int _eqcount = _dataManager.Groups.GetEqCountbyGroup(grouId);
+            return new GroupIndexModel() { Group = _directory, EqCount = _eqcount};
+        }
 
-            List<EquipmentViewModel> _materialsViewModelList = new List<EquipmentViewModel>();
-            foreach (var item in _directory.Equipments)
-            {
-                _materialsViewModelList.Add(_equipmentService.EquipmentDBModelToView(item.Id));
-            }
-            return new GroupViewModel() { Group = _directory, Equipments = _materialsViewModelList };
+        public GroupInfoModel GroupDBToViewInfoModelById(int grouId)
+        {
+            Group _directory = _dataManager.Groups.GetGroupById(grouId, true);
+            return new GroupInfoModel() { Group = _directory };
         }
 
         public GroupEditViewModel GetGroupEditModel(int directoryid = 0)
@@ -53,7 +55,7 @@ namespace EquipmentMonitoringSystem.PresentationLayer.Services
             else { return new GroupEditViewModel() { }; }
         }
 
-        public GroupViewModel SaveAlbumEditModelToDb(GroupEditViewModel groupEditModel)
+        public GroupIndexModel SaveAlbumEditModelToDb(GroupEditViewModel groupEditModel)
         {
             Group _groupDbModel;
             Station _statDbMocel;
