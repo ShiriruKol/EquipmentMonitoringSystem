@@ -1,56 +1,86 @@
-﻿@model List<EquipmentMonitoringSystem.PresentationLayer.Models.EquipmentViewModel>
+﻿@using EquipmentMonitoringSystem.PresentationLayer.Models;
+@model EquipmentIndexViewModel
 @{
     ViewData["Title"] = "Список оборудований";
 }
+
+<form asp-controller="Equipment" asp-action="Index">
 <div class="container">
-    <main role="main" class="pb-3">
-        <div class="action-area">
-            <h4>Добавить новое оборудование </h4>
-            <a class="btn btn-success action-icon" href="/Equipment/Add" title="Нажмите, чтобы добавить.">
-                <i class="fa-sharp fa-solid fa-plus"></i>
-            </a>
+    <div class="row">
+        <div class="col">Выберите станцию</div>
+        <div class="col">Выберите группу</div>
+        <div class="col"></div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <select id="SelectedStationId" asp-for="StationId" asp-items="Model.Stations" class="form-select"></select>
         </div>
-        <table class="table table-bordered">
-            <thead>
-                <tr>
-                    <th scope="col">№</th>
-                    <th scope="col">Имя</th>
-                    <th scope="col">Тип</th>
-                    <th scope="col">Заводской номер</th>
-                    <th scope="col">Группа</th>
-                    <th scope="col">Действия</th>
-                </tr>
-            </thead>
-            <tbody>
-                @{
-                    var index = 1;
-                    foreach (var item in Model)
-                    {
-                        <tr>
-                            <th scope="row">@index</th>
-                            <td>@item.Equipment.Name</td>
-                            <td>@item.Equipment.Type</td>
-                            <td>@item.Equipment.FactoryNumber</td>
-                            <td>@item.GroupName</td>
-                            <td>
-                                <div class="action-area">
-                                    <a class="btn btn-secondary action-icon" href="/Equipment/Edit/@item.Equipment.Id" title="Нажмите, чтобы редактировать информацию.">
-                                        <i class="fas fa-pen"></i>
-                                    </a>
-                                    <a class="btn btn-primary action-icon" href="/Equipment/Info/@item.Equipment.Id" title="Нажмите, чтобы узнать подробнее.">
-                                        <i class="fa-sharp fa-solid fa-info"></i>
-                                    </a>
-                                    <a class="btn btn-danger action-icon" href="/Equipment/Remove/@item.Equipment.Id" title="Нажмите, чтобы удалить.">
-                                        <i class="fas fa-trash"></i>
-                                    </a>
-                                    
-                                </div>
-                            </td>
-                        </tr>
-                        index++;
-                    }
-                }
-            </tbody>
-        </table>
-    </main>
+        <div class="col">
+            <select id="SelectedGroupId" asp-for="GroupId" asp-items="Model.Groups" class="form-select"></select>
+        </div>
+        <div class="col">
+            <button class="btn btn-success">Поиск</button>
+        </div>
+    </div>
 </div>
+</form>
+
+
+
+@if (Model.Equipments != null)
+{
+    <div class="container mt-1">
+        <main role="main" class="pb-3">
+            <div class="action-area">
+                <h4>Добавить новое оборудование </h4>
+                <a class="btn btn-success action-icon" href="/Equipment/Add" title="Нажмите, чтобы добавить.">
+                    <i class="fa-sharp fa-solid fa-plus"></i>
+                </a>
+            </div>
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th scope="col">№</th>
+                        <th scope="col">Имя</th>
+                        <th scope="col">Тип</th>
+                        <th scope="col">Заводской номер</th>
+                        <th scope="col">Действия</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @{
+                        var index = 1;
+                        foreach (var item in Model.Equipments)
+                        {
+                            <tr>
+                                <th scope="row">@index</th>
+                                <td>@item.Name</td>
+                                <td>@item.Type</td>
+                                <td>@item.FactoryNumber</td>
+                                <td>
+                                    <div class="action-area">
+                                        <a class="btn btn-secondary action-icon" href="/Equipment/Edit/@item.Id" title="Нажмите, чтобы редактировать информацию.">
+                                            <i class="fas fa-pen"></i>
+                                        </a>
+                                        <a class="btn btn-primary action-icon" href="/Equipment/Info/@item.Id" title="Нажмите, чтобы узнать подробнее.">
+                                            <i class="fa-sharp fa-solid fa-info"></i>
+                                        </a>
+                                        <a class="btn btn-danger action-icon" href="/Equipment/Remove/@item.Id" title="Нажмите, чтобы удалить.">
+                                            <i class="fas fa-trash"></i>
+                                        </a>
+
+                                    </div>
+                                </td>
+                            </tr>
+                            index++;
+                        }
+                    }
+                </tbody>
+            </table>
+        </main>
+    </div>
+}
+
+<script>
+
+</script>

@@ -22,33 +22,6 @@ namespace EquipmentMonitoringSystem.Controllers
             return View();
         }
 
-        /*Вывод всех имен оборудований*/
-        List<string> ParsStr(string equps)
-		{
-
-			List<string> Names = new List<string>();
-			string Name = "";
-			if (equps.IndexOf('\n') != -1)
-			{
-				for (int i = 0; i < equps.Length - 1; i++)
-				{
-					if (equps[i] == '\n')
-					{
-						Names.Add(Name);
-						i++;
-						Name = "";
-					}
-					else
-						Name += equps[i];
-				}
-				Names.Add(Name + equps[equps.Length - 1]);
-			}
-			else
-				Names.Add(equps);
-
-			return Names;
-		}
-
 		[HttpPost]
 		public IActionResult ImportExcel(IFormFile uploadedFile)
 		{
@@ -92,7 +65,7 @@ namespace EquipmentMonitoringSystem.Controllers
 												var NameEmpls = worksheet.Cells[row, 5].Value?.ToString();
                                                 if (NameEmpls != null)
                                                 {
-                                                    List<string> Names = ParsStr(NameEmpls);
+                                                    List<string> Names = NameEmpls.Split('\n').ToList();
 													List<EquipmentExcelModel> eqs = new List<EquipmentExcelModel>();
                                                     foreach (var item in Names)
                                                     {

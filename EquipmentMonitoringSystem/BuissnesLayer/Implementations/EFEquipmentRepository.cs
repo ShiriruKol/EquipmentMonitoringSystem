@@ -34,6 +34,11 @@ namespace EquipmentMonitoringSystem.BuissnesLayer.Implementations
                 return _context.Equipments.FirstOrDefault(x => x.Id == eqid)!;
         }
 
+        public IEnumerable<Equipment> GetEquipmentsByIdGroup(int idgr)
+        {
+            return _context.Set<Equipment>().Where(x => x.GroupId == idgr).AsNoTracking()!;
+        }
+
         public void SaveEquipment(Equipment equipment)
         {
             if (equipment.Id == 0)

@@ -20,10 +20,22 @@ namespace EquipmentMonitoringSystem.Controllers
             _servicesmanager = servicesmanager;
         }
 
-        public IActionResult Index()
+        public IActionResult Index(EquipmentIndexViewModel model)
         {
-            List<EquipmentViewModel> _dirs = _servicesmanager.Equipments.GetEquipmentList();
-            return View(_dirs);
+           
+            var groupsList = GroupsToSelectedList();
+            model.Groups = groupsList;
+
+            var stlist = StationsToSelectedList();
+            model.Stations = stlist;
+
+            if(model.StationId != 0 && model.GroupId != 0)
+            {
+                List<Equipment> equipments = _datamanager.Equipments.GetEquipmentsByIdGroup(model.GroupId).ToList();
+                model.Equipments = equipments;
+            }
+
+            return View(model);
         }
         [HttpGet]
         public IActionResult Add()
@@ -121,6 +133,17 @@ namespace EquipmentMonitoringSystem.Controllers
         {
             _servicesmanager.Equipments.DeleteEquipment(id);
             return RedirectToAction("Index");
+        }
+
+        private List<SelectListItem> StationsToSelectedList()
+        {
+            var stations = _datamanager.Stations.GetAllStations().Select(st => new SelectListItem
+            {
+                Value = st.Id.ToString(),
+                Text = st.Name,
+            }).ToList();
+
+            return stations;
         }
 
         private List<SelectListItem> GroupsToSelectedList()

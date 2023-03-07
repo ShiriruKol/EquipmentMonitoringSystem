@@ -11,6 +11,15 @@ namespace EquipmentMonitoringSystem.PresentationLayer.Models
         public string GroupName { get; set; }
     }
 
+    public class EquipmentIndexViewModel
+    {
+        public int StationId { get; set; }
+        public int GroupId { get; set; }
+        public List<SelectListItem> Stations { get; set; }
+        public List<SelectListItem> Groups { get; set; }
+        public List<Equipment> Equipments { get; set; }
+    }
+
     public class EquipmentEditViewModel
     {
         public int Id { get; set; }
