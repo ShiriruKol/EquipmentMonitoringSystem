@@ -34,47 +34,50 @@
                         <span asp-validation-for="FactoryNumber" class="text-danger"></span>
                     </div>
 
-                    <h2 class="h2">Виды тех.обслуживания</h2>
-                    <div class="border-1 rounded">
-                        @{
-                            int i = 0;
-                            int j = 0;
-                            int k = 3;
-                        }
-                        @do
-                        {
-                            <div class="row">
-                                @for (i = k - 3; i < k; i++)
-                                {
+                    @if(Model.Maintenances.Count != 0)
+                    {
+                        <h2 class="h2">Виды тех.обслуживания</h2>
+                        <div class="border-1 rounded">
+                            @{
+                                int i = 0;
+                                int j = 0;
+                                int k = 3;
+                            }
+                            @do
+                            {
+                                <div class="row">
+                                    @for (i = k - 3; i < k; i++)
+                                    {
 
-                                    <div class="card col-sm" style="width: 18rem;">
-                                        <div class="card-header text-center">
-                                            <input asp-for="Maintenances[i].Name" placeholder="Имя" class="form-control">
-                                            <span asp-validation-for="Maintenances[i].Name" class="text-danger"></span>
+                                        <div class="card col-sm" style="width: 18rem;">
+                                            <div class="card-header text-center">
+                                                <input asp-for="Maintenances[i].Name" placeholder="Имя" class="form-control">
+                                                <span asp-validation-for="Maintenances[i].Name" class="text-danger"></span>
+                                            </div>
+                                            <ul class="list-group list-group-flush">
+                                                <li class="list-group-item">
+                                                    <label asp-for="Maintenances[i].NumberHours">Кол-во часов</label>
+                                                    <input asp-for="Maintenances[i].NumberHours" placeholder="Кол-во часов" class="form-control">
+                                                    <span asp-validation-for="Maintenances[i].NumberHours" class="text-danger"></span>
+                                                </li>
+                                                <li class="list-group-item">
+                                                    <label asp-for="Maintenances[i].DateMaintenance">Дата проведения</label>
+                                                    <input asp-for="Maintenances[i].DateMaintenance" placeholder="Дата проведения" class="form-control" type="date" value="@Model.Maintenances[i].DateMaintenance" />
+                                                    <span asp-validation-for="Maintenances[i].DateMaintenance" class="text-danger"></span>
+                                                </li>
+                                                <li class="list-group-item" hidden>
+                                                    <input asp-for="Maintenances[i].Id" class="form-control" hidden />
+                                                    <input asp-for="Maintenances[i].EquipmentId" class="form-control" hidden />
+                                                </li>
+                                            </ul>
                                         </div>
-                                        <ul class="list-group list-group-flush">
-                                            <li class="list-group-item">
-                                                <label asp-for="Maintenances[i].NumberHours">Кол-во часов</label>
-                                                <input asp-for="Maintenances[i].NumberHours" placeholder="Кол-во часов" class="form-control">
-                                                <span asp-validation-for="Maintenances[i].NumberHours" class="text-danger"></span>
-                                            </li>
-                                            <li class="list-group-item">
-                                                <label asp-for="Maintenances[i].DateMaintenance">Дата проведения</label>
-                                                <input asp-for="Maintenances[i].DateMaintenance" placeholder="Дата проведения" class="form-control" type="date" value="@Model.Maintenances[i].DateMaintenance" />
-                                                <span asp-validation-for="Maintenances[i].DateMaintenance" class="text-danger"></span>
-                                            </li>
-                                            <li class="list-group-item" hidden>
-                                                <input asp-for="Maintenances[i].Id" class="form-control" hidden/>
-                                                <input asp-for="Maintenances[i].EquipmentId" class="form-control" hidden />
-                                            </li>
-                                        </ul>
-                                    </div>
-                                }
-                            </div>
-                            k = 6;
-                            j++;
-                        } while (j < 2);
-                    </div>
+                                    }
+                                </div>
+                                k = 6;
+                                j++;
+                            } while (j < 2);
+                        </div>
+                    }
 
                     <div class="validation" asp-validation-summary="ModelOnly"></div>
 

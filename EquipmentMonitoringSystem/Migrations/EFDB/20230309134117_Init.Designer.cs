@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace EquipmentMonitoringSystem.Migrations.EFDB
 {
     [DbContext(typeof(EFDBContext))]
-    [Migration("20230227150928_Initial")]
-    partial class Initial
+    [Migration("20230309134117_Init")]
+    partial class Init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -93,6 +93,9 @@ namespace EquipmentMonitoringSystem.Migrations.EFDB
 
                     b.Property<int>("EquipmentId")
                         .HasColumnType("integer");
+
+                    b.Property<bool>("IsUnplanned")
+                        .HasColumnType("boolean");
 
                     b.Property<string>("Name")
                         .IsRequired()

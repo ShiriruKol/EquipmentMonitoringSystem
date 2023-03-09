@@ -92,6 +92,9 @@ namespace EquipmentMonitoringSystem.Migrations.EFDB
                     b.Property<int>("EquipmentId")
                         .HasColumnType("integer");
 
+                    b.Property<bool>("IsUnplanned")
+                        .HasColumnType("boolean");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("text");

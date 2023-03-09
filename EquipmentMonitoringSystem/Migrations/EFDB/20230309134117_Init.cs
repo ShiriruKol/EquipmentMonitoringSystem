@@ -6,7 +6,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace EquipmentMonitoringSystem.Migrations.EFDB
 {
-    public partial class Initial : Migration
+    public partial class Init : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -75,6 +75,7 @@ namespace EquipmentMonitoringSystem.Migrations.EFDB
                     Name = table.Column<string>(type: "text", nullable: false),
                     NumberHours = table.Column<double>(type: "double precision", nullable: false),
                     Status = table.Column<bool>(type: "boolean", nullable: false),
+                    IsUnplanned = table.Column<bool>(type: "boolean", nullable: false),
                     DateMaintenance = table.Column<DateOnly>(type: "date", nullable: false),
                     EquipmentId = table.Column<int>(type: "integer", nullable: false)
                 },
