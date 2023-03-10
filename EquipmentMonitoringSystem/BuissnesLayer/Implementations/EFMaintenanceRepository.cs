@@ -1,6 +1,7 @@
 ﻿using EquipmentMonitoringSystem.BuissnesLayer.Interfaces;
 using EquipmentMonitoringSystem.DataLayer;
 using EquipmentMonitoringSystem.DataLayer.Entityes;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.DateTime;
 
 namespace EquipmentMonitoringSystem.BuissnesLayer.Implementations
 {
@@ -21,6 +22,11 @@ namespace EquipmentMonitoringSystem.BuissnesLayer.Implementations
         public IEnumerable<Maintenance> GetAllMaintenances()
         {
             return _context.Maintenances.ToList();
+        }
+
+        public Maintenance GetMaintenanceByEqIdCurrDate(int eqid)
+        {
+            return _context.Maintenances.Where(x => x.EquipmentId == eqid && x.DateMaintenance > DateOnly.FromDateTime(DateTime.Now)).First();
         }
 
         public Maintenance GetMaintenanceById(int id)

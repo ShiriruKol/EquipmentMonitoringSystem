@@ -23,15 +23,25 @@ namespace EquipmentMonitoringSystem.Controllers
         public IActionResult Index(EquipmentIndexViewModel model)
         {
            
-            var groupsList = GroupsToSelectedList();
-            model.Groups = groupsList;
-
+            
             var stlist = StationsToSelectedList();
             model.Stations = stlist;
 
-            if(model.StationId != 0 && model.GroupId != 0)
+            if(model.StationId != 0 && model.GroupId == 0)
+            {
+                var groupsList = GroupsToSelectedList(model.StationId);
+                model.Groups = groupsList;
+            }
+            if (model.StationId != 0 && model.GroupId != 0)
             {
                 List<Equipment> equipments = _datamanager.Equipments.GetEquipmentsByIdGroup(model.GroupId).ToList();
+                foreach(var eq in equipments)
+                {
+                    Maintenance main = _datamanager.Maintenances.GetMaintenanceByEqIdCurrDate(eq.Id);
+                    List<Maintenance> maintenances = new List<Maintenance>();
+                    maintenances.Add(main);
+                    eq.Maintenances = maintenances;
+                }
                 model.Equipments = equipments;
             }
 
@@ -144,6 +154,17 @@ namespace EquipmentMonitoringSystem.Controllers
             }).ToList();
 
             return stations;
+        }
+
+        private List<SelectListItem> GroupsToSelectedList(int stid)
+        {
+            var groups = _datamanager.Groups.GetAllGroupsByStId(false, stid).Select(group => new SelectListItem
+            {
+                Value = group.Id.ToString(),
+                Text = group.Name,
+            }).ToList();
+
+            return groups;
         }
 
         private List<SelectListItem> GroupsToSelectedList()

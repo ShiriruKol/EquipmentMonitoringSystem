@@ -6,6 +6,7 @@ namespace EquipmentMonitoringSystem.BuissnesLayer.Interfaces
     {
         IEnumerable<Maintenance> GetAllMaintenances();
         Maintenance GetMaintenanceById(int id);
+        Maintenance GetMaintenanceByEqIdCurrDate(int eqid);
         void SaveMaintenance(Maintenance maintenance);
         void DeleteMaintenance(Maintenance maintenance);
     }

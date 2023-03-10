@@ -8,6 +8,7 @@
 <div class="container">
     <div class="row">
         <div class="col">Выберите станцию</div>
+        <div class="col"></div>
         <div class="col">Выберите группу</div>
         <div class="col"></div>
     </div>
@@ -15,6 +16,9 @@
         <div class="col">
             <select id="SelectedStationId" asp-for="StationId" asp-items="Model.Stations" class="form-select"></select>
         </div>
+            <div class="col">
+                <button class="btn btn-success">Загрузка групп</button>
+            </div>
         <div class="col">
             <select id="SelectedGroupId" asp-for="GroupId" asp-items="Model.Groups" class="form-select"></select>
         </div>
@@ -42,8 +46,8 @@
                     <tr>
                         <th scope="col">№</th>
                         <th scope="col">Имя</th>
-                        <th scope="col">Тип</th>
-                        <th scope="col">Заводской номер</th>
+                        <th scope="col">Ближайшее ТО</th>
+                        <th scope="col">Статус</th>
                         <th scope="col">Действия</th>
                     </tr>
                 </thead>
@@ -55,8 +59,15 @@
                             <tr>
                                 <th scope="row">@index</th>
                                 <td>@item.Name</td>
-                                <td>@item.Type</td>
-                                <td>@item.FactoryNumber</td>
+                                <td>@item.Maintenances[0].Name  @item.Maintenances[0].DateMaintenance</td>
+                                @if (@item.Maintenances[0].Status)
+                                {
+                                    <td>ТО ВЫПОЛНЕН</td>
+                                }
+                                else
+                                {
+                                    <td>ТО НЕ ПРОИЗВЕДЕН</td>
+                                }
                                 <td>
                                     <div class="action-area">
                                         <a class="btn btn-secondary action-icon" href="/Equipment/Edit/@item.Id" title="Нажмите, чтобы редактировать информацию.">

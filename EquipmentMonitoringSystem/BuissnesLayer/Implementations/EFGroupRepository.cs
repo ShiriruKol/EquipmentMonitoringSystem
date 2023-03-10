@@ -27,6 +27,14 @@ namespace EquipmentMonitoringSystem.BuissnesLayer.Implementations
                 return _context.Groups.ToList();
         }
 
+        public IEnumerable<Group> GetAllGroupsByStId(bool includeequipment = false, int idst = 0)
+        {
+            if (includeequipment)
+                return _context.Set<DataLayer.Entityes.Group>().Where(x => x.StationId == idst).Include(x => x.Equipments).AsNoTracking().ToList();
+            else
+                return _context.Groups.Where(x => x.StationId == idst).ToList();
+        }
+
         public int GetEqCountbyGroup(int groupId)
         {
             return _context.Set<Group>().Include(x => x.Equipments).AsNoTracking().FirstOrDefault(x => x.Id == groupId).Equipments.Count!;
