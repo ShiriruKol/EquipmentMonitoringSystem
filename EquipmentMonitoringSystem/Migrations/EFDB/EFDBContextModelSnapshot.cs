@@ -129,6 +129,30 @@ namespace EquipmentMonitoringSystem.Migrations.EFDB
                     b.ToTable("Stations");
                 });
 
+            modelBuilder.Entity("EquipmentMonitoringSystem.DataLayer.Entityes.UpcomingMaintenance", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<DateOnly>("DateMaintenance")
+                        .HasColumnType("date");
+
+                    b.Property<string>("EquipmentName")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("MaintenanceName")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("UpcomingMaintenances");
+                });
+
             modelBuilder.Entity("EquipmentMonitoringSystem.DataLayer.Entityes.Equipment", b =>
                 {
                     b.HasOne("EquipmentMonitoringSystem.DataLayer.Entityes.Group", "Group")

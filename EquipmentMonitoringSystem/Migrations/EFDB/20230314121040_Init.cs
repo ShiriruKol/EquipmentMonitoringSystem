@@ -24,6 +24,21 @@ namespace EquipmentMonitoringSystem.Migrations.EFDB
                 });
 
             migrationBuilder.CreateTable(
+                name: "UpcomingMaintenances",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    EquipmentName = table.Column<string>(type: "text", nullable: false),
+                    MaintenanceName = table.Column<string>(type: "text", nullable: false),
+                    DateMaintenance = table.Column<DateOnly>(type: "date", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_UpcomingMaintenances", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Groups",
                 columns: table => new
                 {
@@ -110,6 +125,9 @@ namespace EquipmentMonitoringSystem.Migrations.EFDB
         {
             migrationBuilder.DropTable(
                 name: "Maintenances");
+
+            migrationBuilder.DropTable(
+                name: "UpcomingMaintenances");
 
             migrationBuilder.DropTable(
                 name: "Equipments");

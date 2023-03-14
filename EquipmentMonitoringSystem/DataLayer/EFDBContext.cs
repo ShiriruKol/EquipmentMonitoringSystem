@@ -54,11 +54,21 @@ namespace EquipmentMonitoringSystem.DataLayer
                 entity.Property(x => x.IsUnplanned);
                 entity.HasOne(x => x.Equipment).WithMany(x => x.Maintenances).HasForeignKey(x => x.EquipmentId);
             });
+
+            modelBuilder.Entity<UpcomingMaintenance>(entity =>
+            {
+                entity.HasKey(x => x.Id);
+                entity.Property(x => x.EquipmentName);
+                entity.Property(x => x.MaintenanceName);
+                entity.Property(x => x.DateMaintenance);
+            });
+
         }
 
         public DbSet<Equipment> Equipments { get; set; }
         public DbSet<Group> Groups { get; set; }
         public DbSet<Station> Stations { get; set; }
         public DbSet<Maintenance> Maintenances { get; set; }
+        public DbSet<UpcomingMaintenance> UpcomingMaintenances { get; set; }
     }
 }
