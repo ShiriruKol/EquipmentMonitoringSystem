@@ -43,6 +43,7 @@ builder.Services.AddTransient<IStationRepository, EFStationRepository>();
 builder.Services.AddTransient<IGroupRepository, EFGroupRepository>();
 builder.Services.AddTransient<IEquipmentRepository, EFEquipmentRepository>();
 builder.Services.AddTransient<IMaintenanceRepository, EFMaintenanceRepository>();
+builder.Services.AddTransient<IUpcomingMaintenanceRepository, EFUpcomingMaintenanceRepository>();
 builder.Services.AddScoped<DataManager>();
 builder.Services.AddScoped<ServicesManager>();
 

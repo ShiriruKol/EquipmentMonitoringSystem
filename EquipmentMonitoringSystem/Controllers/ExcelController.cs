@@ -1,12 +1,14 @@
 ﻿using EquipmentMonitoringSystem.BuissnesLayer;
 using EquipmentMonitoringSystem.PresentationLayer;
 using EquipmentMonitoringSystem.PresentationLayer.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using OfficeOpenXml;
 
 namespace EquipmentMonitoringSystem.Controllers
 {
-	public class ExcelController : Controller
+    [Authorize]
+    public class ExcelController : Controller
 	{
 		private readonly DataManager _datamanager;
 		private readonly ServicesManager _servicesmanager;

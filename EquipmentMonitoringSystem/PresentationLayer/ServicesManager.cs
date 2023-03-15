@@ -9,6 +9,7 @@ namespace EquipmentMonitoringSystem.PresentationLayer
         private StationService _stationService;
         private GroupService _groupService;
         private EquipmentService _equipmentService;
+        private UpcomingMaintenanceService _upcomingMaintenanceService;
 
         public ServicesManager(
             DataManager dataManager
@@ -18,9 +19,11 @@ namespace EquipmentMonitoringSystem.PresentationLayer
             _stationService = new StationService(_dataManager);
             _groupService = new GroupService(_dataManager);
             _equipmentService = new EquipmentService(_dataManager);
+            _upcomingMaintenanceService = new UpcomingMaintenanceService(_dataManager);
         }
         public StationService Stations { get { return _stationService; } }
         public GroupService Groups { get { return _groupService; } }
         public EquipmentService Equipments { get { return _equipmentService; } }
+        public UpcomingMaintenanceService UpcomingMaintenanceService { get { return _upcomingMaintenanceService; } }
     }
 }
