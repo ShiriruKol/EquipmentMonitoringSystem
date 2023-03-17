@@ -9,6 +9,7 @@ namespace EquipmentMonitoringSystem.BuissnesLayer.Interfaces
         int GetNumGroupsStationId(int stationid);
         string GetStationName(int stationid);
         List<Group> GetGroupsByStation(int stationid);
+        int GetEquipmentCount(int stationid);
         void SaveStation(Station station);
         void DeleteStation(Station station);
     }

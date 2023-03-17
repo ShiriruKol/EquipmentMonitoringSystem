@@ -49,6 +49,7 @@ builder.Services.AddScoped<ServicesManager>();
 
 builder.Services.AddHostedService<BackgroundTask>();
 
+builder.Services.AddRazorPages().AddRazorRuntimeCompilation();
 
 var app = builder.Build();
 

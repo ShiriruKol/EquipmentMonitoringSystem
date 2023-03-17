@@ -59,5 +59,10 @@ namespace EquipmentMonitoringSystem.BuissnesLayer.Implementations
         {
             return _context.Set<Group>().Include(x => x.Equipments).Where(x => x.StationId == stationid).AsNoTracking().ToList();
         }
+
+        public int GetEquipmentCount(int stationid)
+        {
+            return _context.Equipments.Where(x=>x.Group.StationId == stationid).Count();
+        }
     }
 }

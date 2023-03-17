@@ -3,7 +3,7 @@
 }
 
 
-
+<input id="ID" value="Show Statictic" type="button"></input>
 <div class="container">
     <div class="row">
         <div class="col-2">
@@ -51,7 +51,7 @@
                     <canvas class="my-4 w-100 chartjs-render-monitor" id="myChart2" width="1329" height="561" style="display: block; width: 1329px; height: 561px;"></canvas>
                 </div>
                 <div class="col-6">
-                    <h4 class="h4">График прохождения ТО на разных станциях за январь</h4>
+                    <h4 class="h4">Количество оборудований на разных станциях</h4>
                     <canvas class="my-4 w-100 chartjs-render-monitor" id="myChart3" width="1329" height="561" style="display: block; width: 1329px; height: 561px;"></canvas>
                 </div>
             </div>
@@ -112,27 +112,47 @@
         }
     });
 
-    const ctx3 = document.getElementById('myChart3');
-    new Chart(ctx3, {
-        type: 'polarArea',
-        data: {
-            labels: ['Станция №1', 'Станция №2', 'Станция №3', 'Станция №4', 'Станция №5'],
-            datasets: [{
-                label: 'Кол-во ТО',
-                data: [12, 19, 3, 5, 2, 3],
-                borderWidth: 1
-            }]
-        },
-        options: {
-            plugins: {
+</script>
 
-            },
-            scales: {
-                y: {
-                    beginAtZero: true
-                }
+<script type="text/javascript">
+
+    $(function(){
+        $("#ID").click(function(){
+            $.ajax({
+                type:"POST",
+                url: "/Statistic/GetStatistics",
+                data: "",
+                contextType: "application/json; charset=utf-8",
+                dataType:"json",
+                success: OnSuccessResult,
+                error: OnError
+            });
+
+            function OnSuccessResult(data){
+
+                var _data = data;
+                var _chartLabels=_data[0];
+                var _chartData=_data[1];
+                
+                var barColor=["red", "green", "blue", "orange", "brown", "purple"];
+
+                new Chart("myChart3",
+                {
+                    type:"bar",
+                    data:{
+                        labels: _chartLabels,
+                        datasets: [{
+                            backgroundColor: barColor,
+                            data:_chartData
+                        }]
+                    }
+                });
             }
-        }
+
+            function OnError(err) {
+
+            }
+        });
     });
 
 </script>
