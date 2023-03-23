@@ -14,6 +14,7 @@ html {
     min-height: 100%;
 }
 
+
 body {
     margin-bottom: 60px;
     scroll-behavior: auto;
@@ -24,17 +25,9 @@ header {
     z-index: 2;
 }
 
-footer {
-    position: relative;
-    z-index: 2;
-    background-color: white;
-}
-
 .specdiv {
     position: relative;
     z-index: 2;
-    /*margin-left: 10%;
-    margin-right: 10%;*/
 }
 
 * {
@@ -97,11 +90,10 @@ footer {
         background-color: lightblue;
     }
 
-#footer {
-    position: fixed;
-    bottom: 0;
-    left: 0;
+footer {
+    display: block;
 }
+
 
 .buttonMain {
     margin: 0 auto;

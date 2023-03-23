@@ -64,5 +64,15 @@ namespace EquipmentMonitoringSystem.BuissnesLayer.Implementations
         {
             return _context.Equipments.Where(x=>x.Group.StationId == stationid).Count();
         }
+
+        public int GetSuccsesMaintenancesCount(int stationid)
+        {
+            return _context.Maintenances.Where(x => x.Status == true && x.Equipment.Group.StationId == stationid && x.DateMaintenance.Month == DateTime.Now.Month).Count();
+        }
+
+        public int GetUnplannedCount(int stationid)
+        {
+            return _context.Maintenances.Where(x => x.Equipment.Group.StationId == stationid && x.IsUnplanned == true).Count();
+        }
     }
 }

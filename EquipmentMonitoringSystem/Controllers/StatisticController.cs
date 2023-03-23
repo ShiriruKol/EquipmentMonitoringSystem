@@ -36,5 +36,39 @@ namespace EquipmentMonitoringSystem.Controllers
             statistics.Add(eqcount);
             return statistics;
         }
+
+        [HttpPost]
+        public List<object> GetStatisticsMounth()
+        {
+            List<object> statistics = new List<object>();
+            var sts = _datamanager.Stations.GetAllStations();
+            List<string> statstr = new List<string>();
+            List<int> eqcount = new List<int>();
+            foreach (var station in sts)
+            {
+                statstr.Add(station.Name);
+                eqcount.Add(_datamanager.Stations.GetSuccsesMaintenancesCount(station.Id));
+            }
+            statistics.Add(statstr);
+            statistics.Add(eqcount);
+            return statistics;
+        }
+
+        [HttpPost]
+        public List<object> GetStatisticsUplanned()
+        {
+            List<object> statistics = new List<object>();
+            var sts = _datamanager.Stations.GetAllStations();
+            List<string> statstr = new List<string>();
+            List<int> eqcount = new List<int>();
+            foreach (var station in sts)
+            {
+                statstr.Add(station.Name);
+                eqcount.Add(_datamanager.Stations.GetUnplannedCount(station.Id));
+            }
+            statistics.Add(statstr);
+            statistics.Add(eqcount);
+            return statistics;
+        }
     }
 }
