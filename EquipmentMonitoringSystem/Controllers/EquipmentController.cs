@@ -22,12 +22,11 @@ namespace EquipmentMonitoringSystem.Controllers
 
         public IActionResult Index(EquipmentIndexViewModel model)
         {
-           
             
             var stlist = StationsToSelectedList();
             model.Stations = stlist;
 
-            if(model.StationId != 0 && model.GroupId == 0)
+            if(model.StationId != 0 )
             {
                 var groupsList = GroupsToSelectedList(model.StationId);
                 model.Groups = groupsList;
@@ -165,6 +164,24 @@ namespace EquipmentMonitoringSystem.Controllers
             }).ToList();
 
             return groups;
+        }
+
+        [HttpPost]
+        public List<object> GroupSelect(string stid)
+        {
+            var groups = _datamanager.Groups.GetAllGroupsByStId(false, Convert.ToInt32(stid)).ToList();
+
+            List<object> listgr = new List<object>();
+            List<string> names = new List<string>();
+            List<int> idvals = new List<int>();
+            foreach (var group in groups)
+            {
+                idvals.Add(group.Id);
+                names.Add(group.Name);
+            }
+            listgr.Add(idvals);
+            listgr.Add(names);
+            return listgr;
         }
 
         private List<SelectListItem> GroupsToSelectedList()
