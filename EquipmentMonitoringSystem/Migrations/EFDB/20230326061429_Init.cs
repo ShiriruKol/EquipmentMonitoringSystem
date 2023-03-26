@@ -92,6 +92,7 @@ namespace EquipmentMonitoringSystem.Migrations.EFDB
                     Status = table.Column<bool>(type: "boolean", nullable: false),
                     IsUnplanned = table.Column<bool>(type: "boolean", nullable: false),
                     DateMaintenance = table.Column<DateOnly>(type: "date", nullable: false),
+                    Description = table.Column<string>(type: "text", nullable: false),
                     EquipmentId = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>

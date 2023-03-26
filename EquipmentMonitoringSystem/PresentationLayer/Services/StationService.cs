@@ -101,6 +101,7 @@ namespace EquipmentMonitoringSystem.PresentationLayer.Services
                         {
                             Maintenance ma = new Maintenance();
                             ma.Name = maintenance.Name;
+                            ma.Description = maintenance.Description;
                             ma.Status = maintenance.Status;
                             ma.DateMaintenance = DateOnly.Parse(maintenance.DateMaintenance);
                             ma.NumberHours = maintenance.NumberHours;

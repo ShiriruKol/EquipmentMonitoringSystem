@@ -184,6 +184,24 @@ namespace EquipmentMonitoringSystem.Controllers
             return listgr;
         }
 
+        [HttpPost]
+        public List<object> EquipmentSelect(string grid)
+        {
+            var equipments = _datamanager.Equipments.GetEquipmentsByIdGroup(Convert.ToInt32(grid)).ToList();
+
+            List<object> listgr = new List<object>();
+            List<string> names = new List<string>();
+            List<int> idvals = new List<int>();
+            foreach (var equipment in equipments)
+            {
+                idvals.Add(equipment.Id);
+                names.Add(equipment.Name);
+            }
+            listgr.Add(idvals);
+            listgr.Add(names);
+            return listgr;
+        }
+
         private List<SelectListItem> GroupsToSelectedList()
         {
             var groups = _datamanager.Groups.GetAllGroups().Select(group => new SelectListItem

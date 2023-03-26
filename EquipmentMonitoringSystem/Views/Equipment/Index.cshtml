@@ -15,7 +15,9 @@
     </div>
     <div class="row">
         <div class="col">
-            <select onchange="OnSelectionChange (this)" id="SelectedStationId" asp-for="StationId" asp-items="Model.Stations" class="form-select"></select>
+            <select id="SelectedStationId" asp-for="StationId" asp-items="Model.Stations" class="form-select">
+                <option selected disabled>Выберите станцию</option>
+            </select>
         </div>
         <div class="col">
             <select id="SelectedGroupId" asp-for="GroupId" asp-items="Model.Groups" class="form-select"></select>

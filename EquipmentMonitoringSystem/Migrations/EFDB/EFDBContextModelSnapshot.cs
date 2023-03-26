@@ -89,6 +89,10 @@ namespace EquipmentMonitoringSystem.Migrations.EFDB
                     b.Property<DateOnly>("DateMaintenance")
                         .HasColumnType("date");
 
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.Property<int>("EquipmentId")
                         .HasColumnType("integer");
 

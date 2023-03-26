@@ -52,6 +52,7 @@ namespace EquipmentMonitoringSystem.DataLayer
                 entity.Property(x => x.NumberHours);
                 entity.Property(x => x.DateMaintenance);
                 entity.Property(x => x.IsUnplanned);
+                entity.Property(x => x.Description);
                 entity.HasOne(x => x.Equipment).WithMany(x => x.Maintenances).HasForeignKey(x => x.EquipmentId);
             });
 

@@ -1,0 +1,158 @@
+﻿@using EquipmentMonitoringSystem.PresentationLayer.Models;
+@model MaintenanceUnscheduledModel
+@{
+    ViewData["Title"] = "Создать внеплановый ремонт";
+}
+
+<form asp-controller="Maintenance" asp-action="AddUnscheduled" method="post">
+    <div class="container">
+        <div class="row">
+            <div class="col-4">
+                Выберите станцию
+            </div>
+            <div class="col-4">
+                Выберите группу
+            </div>
+            <div class="col-4">
+                Выберите оборудование
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-4">
+                <select id="SelectedStationId" asp-for="StationId" asp-items="Model.Stations" class="form-select">
+                    <option selected disabled>Выберите станцию</option>
+                </select>
+            </div>
+            <div class="col-4">
+                <select id="SelectedGroupId" asp-for="GroupId" class="form-select">
+                    <option selected disabled>Выберите группу</option>
+                </select>
+            </div>
+            <div class="col-4">
+                <select id="SelectedEquipmentId" asp-for="EquipmentId" class="form-select">
+                    <option selected disabled>Выберите оборудование</option>
+                </select>
+            </div>
+        </div>
+        <div>
+            <label>Кол-во часов</label>
+            <input asp-for="NumberHours" placeholder="Кол-во часов" class="form-control">
+            <span asp-validation-for="NumberHours" class="text-danger"></span>
+
+            <label>Дата проведения</label>
+            <input asp-for="Date" placeholder="Дата проведения" class="form-control" type="date" />
+            <span asp-validation-for="Date" class="text-danger"></span>
+
+            <label>Описание</label>
+            <textarea asp-for="Description" placeholder="Описание" class="form-control">  </textarea>
+            <span asp-validation-for="Description" class="text-danger"></span>
+
+            <button type="submit" class="btn btn-success mt-1">Создать</button>
+        </div>
+    </div>
+    
+ </form>
+
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+
+        $("#SelectedGroupId").change(function () {
+
+            var select = document.getElementById("SelectedGroupId");
+            var value = select.value;
+
+            $.ajax({
+                type: "POST",
+                url: "/Equipment/EquipmentSelect",
+                data: { 'grid': value },
+                contextType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: OnSuccessResult,
+                error: OnError
+            });
+
+            function OnSuccessResult(data) {
+                var _data = data;
+                alert(data);
+                var idgrs = _data[0];
+                var namegrs = _data[1];
+
+                var selecteq = document.getElementById("SelectedEquipmentId");
+
+                $('#SelectedEquipmentId').find('option').remove(); //удаление старых данных
+
+                let selectedOption = selecteq.options[selecteq.selectedIndex];
+                let newOption = new Option("Выберите оборудование", -1);
+                newOption.disabled = true;
+                selecteq.append(newOption);
+                newOption.selected = true;
+
+                for (var i = 0; i < idgrs.length; i++) {
+
+                    let selectedOption = selecteq.options[selecteq.selectedIndex];
+                    let newOption = new Option(namegrs[i], idgrs[i]);
+                    selecteq.append(newOption);
+                    newOption.selected = false;
+                }
+            }
+
+            function OnError(err) {
+                alert("Произошла ошибка!!!")
+            }
+            return false;
+        });
+    });
+</script>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+
+        $("#SelectedStationId").change(function () {
+
+            var select = document.getElementById("SelectedStationId");
+            var value = select.value;
+
+            $.ajax({
+                type: "POST",
+                url: "/Equipment/GroupSelect",
+                data: { 'stid': value },
+                contextType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: OnSuccessResult,
+                error: OnError
+            });
+
+            function OnSuccessResult(data) {
+                var _data = data;
+                alert(data);
+                var idgrs = _data[0];
+                var namegrs = _data[1];
+
+                var selectgr = document.getElementById("SelectedGroupId");
+
+                $('#SelectedGroupId').find('option').remove(); //удаление старых данных
+
+                let selectedOption = selectgr.options[selectgr.selectedIndex];
+                let newOption = new Option("Выберите группу", -1);
+                newOption.disabled = true;
+                selectgr.append(newOption);
+                newOption.selected = true;
+
+                for (var i = 0; i < idgrs.length; i++) {
+
+                    let selectedOption = selectgr.options[selectgr.selectedIndex];
+                    let newOption = new Option(namegrs[i], idgrs[i]);
+                    selectgr.append(newOption);
+                    newOption.selected = false;
+                }
+            }
+
+            function OnError(err) {
+                alert("Произошла ошибка!!!")
+            }
+            return false;
+        });
+    });
+</script>
