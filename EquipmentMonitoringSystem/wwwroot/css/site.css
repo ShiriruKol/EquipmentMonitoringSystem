@@ -8,6 +8,14 @@ html {
     }
 }
 
+.navbar-nav {
+    z-index: 1000000;
+}
+
+.dropdown-menu {
+    z-index: 1000000;
+}
+
 
 html {
     position: relative;
@@ -27,7 +35,11 @@ header {
 
 .specdiv {
     position: relative;
-    z-index: 2;
+    z-index: -1;
+}
+
+.img {
+    z-index: -1;
 }
 
 * {

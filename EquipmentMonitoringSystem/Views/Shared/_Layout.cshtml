@@ -26,40 +26,60 @@
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" wfd-invisible="true">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <div class="collapse navbar-collapse" id="navbarCollapse" bis_skin_checked="1">
-                    <ul class="navbar-nav me-auto mb-2 mb-md-0">
-                        @if (ViewContext.HttpContext.User.IsInRole("Admin") || ViewContext.HttpContext.User.IsInRole("Главный механик") || ViewContext.HttpContext.User.IsInRole("Инженер"))
-                        {
-                            <li class="nav-item">
-                                <a class="nav-link" asp-area="" asp-controller="Station" asp-action="Index">Станции</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" asp-area="" asp-controller="Group" asp-action="Index">Группы</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link " asp-area="" asp-controller="Equipment" asp-action="Index">Оборудования</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link " asp-area="" asp-controller="Statistic" asp-action="Index">Статистика</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link " asp-area="" asp-controller="UpcomingMaintenance" asp-action="Index">Приближающиеся ТО</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link " asp-area="" asp-controller="Maintenance" asp-action="AddUnscheduled">Создать внеплановый ремонт</a>
-                            </li>
-                        }
-                        @if (ViewContext.HttpContext.User.IsInRole("Admin"))
-                        {
-                            <li class="nav-item">
-                                <a class="nav-link " asp-area="" asp-controller="AppRoles" asp-action="Index">Роли</a>
-                            </li>
-                        }
-                        
+
+
+                <div class="collapse navbar-collapse" id="navbarNavDarkDropdown" >
+                    <ul class="navbar-nav">
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Списки и дествия
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink">
+                                <li class="dropdown-item">
+                                    <a class="nav-link" asp-area="" asp-controller="Station" asp-action="Index">Станции</a>
+                                </li>
+                                <li class="dropdown-item">
+                                    <a class="nav-link" asp-area="" asp-controller="Group" asp-action="Index">Группы</a>
+                                </li>
+                                <li class="dropdown-item">
+                                    <a class="nav-link " asp-area="" asp-controller="Equipment" asp-action="Index">Оборудования</a>
+                                </li>
+                            </ul>
+                        </li>
+
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Техническое обслуживание
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink">
+                                <li class="dropdown-item">
+                                    <a class="nav-link " asp-area="" asp-controller="Statistic" asp-action="Index">Статистика</a>
+                                </li>
+                                <li class="dropdown-item">
+                                    <a class="nav-link " asp-area="" asp-controller="UpcomingMaintenance" asp-action="Index">Приближающиеся ТО</a>
+                                </li>
+                                <li class="dropdown-item">
+                                    <a class="nav-link " asp-area="" asp-controller="Maintenance" asp-action="AddUnscheduled">Создать внеплановый ремонт</a>
+                                </li>
+                            </ul>
+                        </li>
+
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Админ панель
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink">
+                                <li class="nav-item">
+                                    <a class="nav-link " asp-area="" asp-controller="AppRoles" asp-action="Index">Роли</a>
+                                </li>
+                            </ul>
+                        </li>
                     </ul>
-                    <a class="me-3 nav-link p-2" asp-controller="" asp-action=""><i class="fa-sharp fa-solid fa-bell"></i></a>
-                    <partial name="_LoginPartial.cshtml" />
+                    
                 </div>
+                <a class="me-3 nav-link p-2" asp-controller="" asp-action=""><i class="fa-sharp fa-solid fa-bell"></i></a>
+                <partial name="_LoginPartial.cshtml" />
+
             </div>
         </nav>
     </header>
