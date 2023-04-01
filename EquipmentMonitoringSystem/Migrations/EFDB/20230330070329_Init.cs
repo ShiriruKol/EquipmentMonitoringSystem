@@ -11,6 +11,21 @@ namespace EquipmentMonitoringSystem.Migrations.EFDB
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
+                name: "Nortifys",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Heding = table.Column<string>(type: "text", nullable: false),
+                    Description = table.Column<string>(type: "text", nullable: false),
+                    Date = table.Column<DateTime>(type: "timestamp with time zone", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Nortifys", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Stations",
                 columns: table => new
                 {
@@ -126,6 +141,9 @@ namespace EquipmentMonitoringSystem.Migrations.EFDB
         {
             migrationBuilder.DropTable(
                 name: "Maintenances");
+
+            migrationBuilder.DropTable(
+                name: "Nortifys");
 
             migrationBuilder.DropTable(
                 name: "UpcomingMaintenances");

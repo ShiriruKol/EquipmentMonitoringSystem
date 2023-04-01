@@ -4,7 +4,6 @@ using EquipmentMonitoringSystem.PresentationLayer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-
 namespace EquipmentMonitoringSystem.Controllers
 {
     [Authorize]
@@ -83,6 +82,5 @@ namespace EquipmentMonitoringSystem.Controllers
             _servicesmanager.Stations.DeleteStation(id);
             return RedirectToAction("Index");
         }
-
     }
 }

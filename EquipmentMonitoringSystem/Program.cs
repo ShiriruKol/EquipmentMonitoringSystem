@@ -6,7 +6,6 @@ using EquipmentMonitoringSystem.PresentationLayer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 using EquipmentMonitoringSystem.Areas.Identity.Data;
-using Microsoft.Extensions.Hosting;
 using EquipmentMonitoringSystem.TimerTask;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -44,10 +43,12 @@ builder.Services.AddTransient<IGroupRepository, EFGroupRepository>();
 builder.Services.AddTransient<IEquipmentRepository, EFEquipmentRepository>();
 builder.Services.AddTransient<IMaintenanceRepository, EFMaintenanceRepository>();
 builder.Services.AddTransient<IUpcomingMaintenanceRepository, EFUpcomingMaintenanceRepository>();
+builder.Services.AddTransient<INortifyRepository, EFNortifyRepository>();
 builder.Services.AddScoped<DataManager>();
 builder.Services.AddScoped<ServicesManager>();
 
 builder.Services.AddHostedService<BackgroundTask>();
+builder.Services.AddHostedService<NortifyTimer>();
 
 builder.Services.AddRazorPages().AddRazorRuntimeCompilation();
 

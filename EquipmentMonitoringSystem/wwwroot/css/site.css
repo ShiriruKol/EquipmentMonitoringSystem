@@ -35,11 +35,11 @@ header {
 
 .specdiv {
     position: relative;
-    z-index: -1;
+    z-index: 1;
 }
 
 .img {
-    z-index: -1;
+    z-index: 1;
 }
 
 * {
@@ -132,3 +132,28 @@ footer {
     transform: translateY(2px) translateX(1px);
     box-shadow: 0 0 0 0 black;
 }
+
+
+.notification {
+    background-color: #212529;
+    color: white;
+    text-decoration: none;
+    padding: 15px 26px;
+    position: relative;
+    display: inline-block;
+    border-radius: 2px;
+}
+
+    .notification:hover {
+        background: white;
+    }
+
+    .notification .badge {
+        position: absolute;
+        top: -5px;
+        right: -5px;
+        padding: 5px 10px;
+        border-radius: 50%;
+        background: red;
+        color: white;
+    }

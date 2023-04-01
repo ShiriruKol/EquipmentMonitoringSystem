@@ -22,5 +22,12 @@ namespace EquipmentMonitoringSystem.Controllers
             List<UpcomingViewMaintenanceModel> _dirs = _servicesmanager.UpcomingMaintenanceService.GetStationList();
             return View(_dirs);
         }
+
+        [HttpPost]
+        public object CountNortify()
+        {
+            object count = _datamanager.NortifyRepository.GetAllNortify().Count();
+            return count;
+        }
     }
 }

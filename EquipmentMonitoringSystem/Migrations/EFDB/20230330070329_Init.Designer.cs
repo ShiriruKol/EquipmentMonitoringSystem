@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace EquipmentMonitoringSystem.Migrations.EFDB
 {
     [DbContext(typeof(EFDBContext))]
-    [Migration("20230326061429_Init")]
+    [Migration("20230330070329_Init")]
     partial class Init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -116,6 +116,30 @@ namespace EquipmentMonitoringSystem.Migrations.EFDB
                     b.HasIndex("EquipmentId");
 
                     b.ToTable("Maintenances");
+                });
+
+            modelBuilder.Entity("EquipmentMonitoringSystem.DataLayer.Entityes.Nortify", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime?>("Date")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Heding")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Nortifys");
                 });
 
             modelBuilder.Entity("EquipmentMonitoringSystem.DataLayer.Entityes.Station", b =>

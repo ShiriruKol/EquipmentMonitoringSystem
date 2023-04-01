@@ -33,9 +33,10 @@ namespace EquipmentMonitoringSystem.Controllers
             Maintenance maintenance = new Maintenance()
             {
                 Name = "Внеплановый",
-                Description = model.Description,
+                Description = model.Description == null ? "none" : model.Description,
                 DateMaintenance = DateOnly.Parse(model.Date),
                 NumberHours = Convert.ToDouble(model.NumberHours),
+                IsUnplanned = true,
                 EquipmentId = model.EquipmentId,
             };
             _datamanager.Maintenances.SaveMaintenance(maintenance);
