@@ -4,6 +4,8 @@ namespace EquipmentMonitoringSystem.PresentationLayer.Models
 {
     public class UpcomingViewMaintenanceModel
     {
-        public UpcomingMaintenance UpcomingMaintenance { get; set; }
+        public string NameEquip { get; set; }
+        public string NameMain { get; set; }
+        public string Date { get; set; }
     }
 }

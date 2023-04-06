@@ -11,15 +11,5 @@ namespace EquipmentMonitoringSystem.PresentationLayer.Services
         {
             _dataManager = dataManager;
         }
-
-        /*public void SaveMaintenanceEditModelToDB(MaintenanceEditModel model, int eqId)
-        {
-            Maintenance maintenance;
-            if(model.Id == 0)
-            {
-                model.
-                equipment = _dataManager.Equipments.GetEquipmentById(editModel.Id);
-            }
-        }*/
     }
 }

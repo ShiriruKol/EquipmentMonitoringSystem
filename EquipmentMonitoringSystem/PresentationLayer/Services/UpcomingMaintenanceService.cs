@@ -6,14 +6,14 @@ namespace EquipmentMonitoringSystem.PresentationLayer.Services
     public class UpcomingMaintenanceService
     {
         private DataManager _dataManager;
-        private GroupService _groupService;
+        private MaintenanceService _groupService;
         public UpcomingMaintenanceService(DataManager dataManager)
         {
             this._dataManager = dataManager;
-            _groupService = new GroupService(dataManager);
+            _groupService = new MaintenanceService(dataManager);
         }
 
-        public List<UpcomingViewMaintenanceModel> GetStationList()
+        public List<UpcomingViewMaintenanceModel> GetUpcomingList()
         {
             var _dirs = _dataManager.UpcomingMaintenanceRepository.GetAllUpcomingMaintenance();
             List<UpcomingViewMaintenanceModel> _modelsList = new List<UpcomingViewMaintenanceModel>();
@@ -27,7 +27,15 @@ namespace EquipmentMonitoringSystem.PresentationLayer.Services
         {
             var _directory = _dataManager.UpcomingMaintenanceRepository.GetUpcomingMaintenanceById(Id);
 
-            return new UpcomingViewMaintenanceModel() { UpcomingMaintenance  = _directory };
+            string namemain = _dataManager.Maintenances.GetMaintenanceById(_directory.MaintenancesID).Name;
+            string datemain = _dataManager.Maintenances.GetMaintenanceById(_directory.MaintenancesID).DateMaintenance.ToString();
+            string nameequip = _dataManager.Equipments.GetEquipmentById(_dataManager.Maintenances.GetMaintenanceById(_directory.MaintenancesID).EquipmentId).Name;
+
+            return new UpcomingViewMaintenanceModel() { 
+                NameMain = namemain,
+                Date = datemain,
+                NameEquip = nameequip,
+            };
         }
     }
 }

@@ -1,22 +1,36 @@
 ﻿(async () => {
     // создаем и покажем уведомление
     const showNotification = () => {
-        // создаем новое уведомление
-        const notification = new Notification('Добро пожаловать!!!', {
-            body: '(@_@)',
-            icon: './img/js.png'
+
+        $.ajax({
+            type: "POST",
+            url: "/UpcomingMaintenance/CountNortify",
+            contextType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: OnSuccessResult,
+            error: OnError
         });
 
-        // закрываем уведомление через 10 секунд
-        setTimeout(() => {
-            notification.close();
-        }, 10 * 1000);
+        function OnSuccessResult(data) {
+            var _data = data;
+            // создаем новое уведомление
+            const notification = new Notification('Технические обслуживания', {
+                body: 'У вас ' + _data + ' непроизведенных(-ый) ремонт(-ов)',
+                icon: './img/js.png'
+            });
 
-        // переход к URL-адресу при нажатии
-        /*notification.addEventListener('click', () => {
+            // закрываем уведомление через 10 секунд
+            setTimeout(() => {
+                notification.close();
+            }, 10 * 1000);
+        }
 
-            window.open('https://habr.com/ru/all/', '_blank');
-        });*/
+        function OnError(err) {
+            alert("Произошла ошибка!!!")
+        }
+
+        
+
     }
 
     // отобразим сообщение об ошибке

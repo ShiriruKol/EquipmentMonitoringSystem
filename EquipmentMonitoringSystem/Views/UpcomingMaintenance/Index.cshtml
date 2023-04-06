@@ -10,7 +10,6 @@
         <table class="table table-bordered">
             <thead>
                 <tr>
-                    <th scope="col">№</th>
                     <th scope="col">Имя оборудования</th>
                     <th scope="col">Имя ТО</th>
                     <th scope="col">Дата проведения</th>
@@ -18,16 +17,13 @@
             </thead>
             <tbody>
                 @{
-                    var index = 1;
                     foreach (var item in Model)
                     {
                         <tr>
-                            <th scope="row">@index</th>
-                            <td>@item.UpcomingMaintenance.EquipmentName</td>
-                            <td>@item.UpcomingMaintenance.MaintenanceName</td>
-                            <td>@item.UpcomingMaintenance.DateMaintenance</td>
+                            <td>@item.NameEquip</td>
+                            <td>@item.NameMain</td>
+                            <td>@item.Date</td>
                         </tr>
-                        index++;
                     }
                 }
             </tbody>

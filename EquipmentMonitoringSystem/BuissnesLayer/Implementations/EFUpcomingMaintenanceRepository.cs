@@ -1,6 +1,7 @@
 ﻿using EquipmentMonitoringSystem.BuissnesLayer.Interfaces;
 using EquipmentMonitoringSystem.DataLayer;
 using EquipmentMonitoringSystem.DataLayer.Entityes;
+using Microsoft.EntityFrameworkCore;
 
 namespace EquipmentMonitoringSystem.BuissnesLayer.Implementations
 {
@@ -19,7 +20,7 @@ namespace EquipmentMonitoringSystem.BuissnesLayer.Implementations
 
         public UpcomingMaintenance GetUpcomingMaintenanceById(int id)
         {
-            return _context.UpcomingMaintenances.FirstOrDefault(x => x.Id == id)!;
+            return _context.Set<UpcomingMaintenance>().AsNoTracking().FirstOrDefault(x => x.Id == id)!;
         }
     }
 }

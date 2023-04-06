@@ -19,7 +19,7 @@ namespace EquipmentMonitoringSystem.Controllers
         }
         public IActionResult Index()
         {
-            List<UpcomingViewMaintenanceModel> _dirs = _servicesmanager.UpcomingMaintenanceService.GetStationList();
+            List<UpcomingViewMaintenanceModel> _dirs = _servicesmanager.UpcomingMaintenanceService.GetUpcomingList();
             return View(_dirs);
         }
 

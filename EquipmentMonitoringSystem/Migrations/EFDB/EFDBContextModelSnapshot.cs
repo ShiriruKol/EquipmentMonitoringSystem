@@ -160,23 +160,16 @@ namespace EquipmentMonitoringSystem.Migrations.EFDB
             modelBuilder.Entity("EquipmentMonitoringSystem.DataLayer.Entityes.UpcomingMaintenance", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("integer");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+                    NpgsqlPropertyBuilderExtensions.UseSerialColumn(b.Property<int>("Id"));
 
-                    b.Property<DateOnly>("DateMaintenance")
-                        .HasColumnType("date");
-
-                    b.Property<string>("EquipmentName")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("MaintenanceName")
-                        .IsRequired()
-                        .HasColumnType("text");
+                    b.Property<int>("MaintenancesID")
+                        .HasColumnType("integer");
 
                     b.HasKey("Id");
+
+                    b.HasAlternateKey("MaintenancesID");
 
                     b.ToTable("UpcomingMaintenances");
                 });
@@ -214,6 +207,17 @@ namespace EquipmentMonitoringSystem.Migrations.EFDB
                     b.Navigation("Equipment");
                 });
 
+            modelBuilder.Entity("EquipmentMonitoringSystem.DataLayer.Entityes.UpcomingMaintenance", b =>
+                {
+                    b.HasOne("EquipmentMonitoringSystem.DataLayer.Entityes.Maintenance", "Maintenance")
+                        .WithOne("UpcomingMaintenance")
+                        .HasForeignKey("EquipmentMonitoringSystem.DataLayer.Entityes.UpcomingMaintenance", "Id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Maintenance");
+                });
+
             modelBuilder.Entity("EquipmentMonitoringSystem.DataLayer.Entityes.Equipment", b =>
                 {
                     b.Navigation("Maintenances");
@@ -222,6 +226,12 @@ namespace EquipmentMonitoringSystem.Migrations.EFDB
             modelBuilder.Entity("EquipmentMonitoringSystem.DataLayer.Entityes.Group", b =>
                 {
                     b.Navigation("Equipments");
+                });
+
+            modelBuilder.Entity("EquipmentMonitoringSystem.DataLayer.Entityes.Maintenance", b =>
+                {
+                    b.Navigation("UpcomingMaintenance")
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("EquipmentMonitoringSystem.DataLayer.Entityes.Station", b =>

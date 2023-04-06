@@ -39,21 +39,6 @@ namespace EquipmentMonitoringSystem.Migrations.EFDB
                 });
 
             migrationBuilder.CreateTable(
-                name: "UpcomingMaintenances",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    EquipmentName = table.Column<string>(type: "text", nullable: false),
-                    MaintenanceName = table.Column<string>(type: "text", nullable: false),
-                    DateMaintenance = table.Column<DateOnly>(type: "date", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_UpcomingMaintenances", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Groups",
                 columns: table => new
                 {
@@ -121,6 +106,26 @@ namespace EquipmentMonitoringSystem.Migrations.EFDB
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "UpcomingMaintenances",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
+                    MaintenancesID = table.Column<int>(type: "integer", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_UpcomingMaintenances", x => x.Id);
+                    table.UniqueConstraint("AK_UpcomingMaintenances_MaintenancesID", x => x.MaintenancesID);
+                    table.ForeignKey(
+                        name: "FK_UpcomingMaintenances_Maintenances_Id",
+                        column: x => x.Id,
+                        principalTable: "Maintenances",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_Equipments_GroupId",
                 table: "Equipments",
@@ -140,13 +145,13 @@ namespace EquipmentMonitoringSystem.Migrations.EFDB
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Maintenances");
-
-            migrationBuilder.DropTable(
                 name: "Nortifys");
 
             migrationBuilder.DropTable(
                 name: "UpcomingMaintenances");
+
+            migrationBuilder.DropTable(
+                name: "Maintenances");
 
             migrationBuilder.DropTable(
                 name: "Equipments");
