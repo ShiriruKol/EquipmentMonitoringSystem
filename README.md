@@ -11,14 +11,13 @@ CREATE OR REPLACE FUNCTION update_upmaintenance()
         
        DELETE FROM public."UpcomingMaintenances";
 WITH temp_table AS (
-	SELECT "Maintenances"."Id"
+	SELECT "Maintenances"."Id" as "MainId"
     FROM "Equipments", "Maintenances"
     WHERE "Maintenances"."EquipmentId" = "Equipments"."Id" AND "Maintenances"."Status" = 'false' AND
 	(CURRENT_DATE, CURRENT_DATE + integer '30') OVERLAPS ("Maintenances"."DateMaintenance", "Maintenances"."DateMaintenance")
 	)
-INSERT INTO public."UpcomingMaintenances" ("MaintenancesID") 
-SELECT * FROM temp_table;
-        
+	INSERT INTO public."UpcomingMaintenances" ("MaintenancesID" )
+	SELECT "MainId" FROM temp_table;
         
         val :=1;
 		RETURN val;
