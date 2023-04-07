@@ -27,7 +27,7 @@ namespace EquipmentMonitoringSystem.BuissnesLayer
         public IGroupRepository Groups { get { return _groupRepository; } }
         public IEquipmentRepository Equipments { get { return _equipmentRepository; } }
         public IMaintenanceRepository Maintenances { get { return _maintenanceRepository; } }
-        public IUpcomingMaintenanceRepository UpcomingMaintenanceRepository { get { return _upcomingMaintenanceRepository; } }
-        public INortifyRepository NortifyRepository { get { return _nortifyRepository; } }
+        public IUpcomingMaintenanceRepository UpcomingMaintenance{ get { return _upcomingMaintenanceRepository; } }
+        public INortifyRepository Nortify { get { return _nortifyRepository; } }
     }
 }

@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace EquipmentMonitoringSystem.Migrations.EFDB
 {
     [DbContext(typeof(EFDBContext))]
-    [Migration("20230406083518_Init")]
+    [Migration("20230407130113_Init")]
     partial class Init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

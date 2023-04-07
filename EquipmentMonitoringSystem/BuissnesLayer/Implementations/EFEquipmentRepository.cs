@@ -34,9 +34,12 @@ namespace EquipmentMonitoringSystem.BuissnesLayer.Implementations
                 return _context.Equipments.FirstOrDefault(x => x.Id == eqid)!;
         }
 
-        public IEnumerable<Equipment> GetEquipmentsByIdGroup(int idgr)
+        public IEnumerable<Equipment> GetEquipmentsByIdGroup(int idgr, bool includemain = false)
         {
-            return _context.Set<Equipment>().Where(x => x.GroupId == idgr).AsNoTracking()!;
+            if (includemain)
+                return _context.Set<Equipment>().Include(x => x.Maintenances).AsNoTracking().Where(x => x.GroupId == idgr).AsNoTracking()!;
+            else
+                return _context.Set<Equipment>().Where(x => x.GroupId == idgr).AsNoTracking()!;
         }
 
         public void SaveEquipment(Equipment equipment)

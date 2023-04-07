@@ -1,5 +1,6 @@
 ﻿using EquipmentMonitoringSystem.DataLayer.Entityes;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ValueGeneration;
 using System.Collections.Generic;
 using System.Reflection.Emit;
 
@@ -61,6 +62,7 @@ namespace EquipmentMonitoringSystem.DataLayer
             {
                 entity.HasKey(x => x.Id);
                 entity.Property(x => x.Id).UseSerialColumn();
+                entity.Property(x => x.Id).HasValueGenerator<GuidValueGenerator>(); ;
                 entity.Property(x => x.MaintenancesID);
                 entity.HasOne(x => x.Maintenance).WithOne(x=>x.UpcomingMaintenance).HasPrincipalKey<Maintenance>(x => x.Id);
             });
@@ -72,8 +74,6 @@ namespace EquipmentMonitoringSystem.DataLayer
                 entity.Property(x => x.Description);
                 entity.Property(x => x.Date);
             });
-
-
         }
 
         public DbSet<Equipment> Equipments { get; set; }
