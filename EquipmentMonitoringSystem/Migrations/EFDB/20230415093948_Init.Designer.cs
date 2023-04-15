@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace EquipmentMonitoringSystem.Migrations.EFDB
 {
     [DbContext(typeof(EFDBContext))]
-    [Migration("20230407130113_Init")]
+    [Migration("20230415093948_Init")]
     partial class Init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -162,6 +162,7 @@ namespace EquipmentMonitoringSystem.Migrations.EFDB
             modelBuilder.Entity("EquipmentMonitoringSystem.DataLayer.Entityes.UpcomingMaintenance", b =>
                 {
                     b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("integer");
 
                     NpgsqlPropertyBuilderExtensions.UseSerialColumn(b.Property<int>("Id"));
@@ -171,7 +172,8 @@ namespace EquipmentMonitoringSystem.Migrations.EFDB
 
                     b.HasKey("Id");
 
-                    b.HasAlternateKey("MaintenancesID");
+                    b.HasIndex("MaintenancesID")
+                        .IsUnique();
 
                     b.ToTable("UpcomingMaintenances");
                 });
@@ -213,7 +215,7 @@ namespace EquipmentMonitoringSystem.Migrations.EFDB
                 {
                     b.HasOne("EquipmentMonitoringSystem.DataLayer.Entityes.Maintenance", "Maintenance")
                         .WithOne("UpcomingMaintenance")
-                        .HasForeignKey("EquipmentMonitoringSystem.DataLayer.Entityes.UpcomingMaintenance", "Id")
+                        .HasForeignKey("EquipmentMonitoringSystem.DataLayer.Entityes.UpcomingMaintenance", "MaintenancesID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

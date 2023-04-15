@@ -26,7 +26,7 @@ namespace EquipmentMonitoringSystem.BuissnesLayer.Implementations
 
         public Maintenance GetMaintenanceByEqIdCurrDate(int eqid)
         {
-            return _context.Maintenances.Where(x => x.EquipmentId == eqid && x.DateMaintenance > DateOnly.FromDateTime(DateTime.Now)).First();
+            return _context.Maintenances.Where(x => x.EquipmentId == eqid && x.DateMaintenance > DateOnly.FromDateTime(DateTime.Now)).FirstOrDefault();
         }
 
         public Maintenance GetMaintenanceById(int id)

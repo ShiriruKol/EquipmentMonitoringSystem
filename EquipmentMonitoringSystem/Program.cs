@@ -7,6 +7,9 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 using EquipmentMonitoringSystem.Areas.Identity.Data;
 using EquipmentMonitoringSystem.TimerTask;
+using System;
+using Microsoft.Extensions.Options;
+using Microsoft.Extensions.DependencyInjection;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -24,24 +27,31 @@ builder.Services.AddDbContext<AuthDbContext>(
     }));
 
 
-builder.Services.AddDbContext<EFDBContext>(
-    o => o.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"),
+builder.Services.AddDbContext<EFDBContext>(o =>
+{
+    o.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"),
     npgsqlOptionsAction: sqlOptions =>
     {
         sqlOptions.EnableRetryOnFailure(
-            maxRetryCount: 10,
-            maxRetryDelay: TimeSpan.FromSeconds(5),
-            errorCodesToAdd: null);
-    }));
+        maxRetryCount: 10,
+        maxRetryDelay: TimeSpan.FromSeconds(5),
+        errorCodesToAdd: null);
+    });
+    o.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
+});
+    
 
 builder.Services.AddDefaultIdentity<IdentityUser>().AddDefaultTokenProviders()
     .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<AuthDbContext>();
 
-builder.Services.AddTransient<IStationRepository, EFStationRepository>();
+
+
+
+builder.Services.AddScoped<IStationRepository, EFStationRepository>();
 builder.Services.AddTransient<IGroupRepository, EFGroupRepository>();
 builder.Services.AddTransient<IEquipmentRepository, EFEquipmentRepository>();
-builder.Services.AddTransient<IMaintenanceRepository, EFMaintenanceRepository>();
+builder.Services.AddScoped<IMaintenanceRepository, EFMaintenanceRepository>();
 builder.Services.AddTransient<IUpcomingMaintenanceRepository, EFUpcomingMaintenanceRepository>();
 builder.Services.AddTransient<INortifyRepository, EFNortifyRepository>();
 builder.Services.AddScoped<DataManager>();

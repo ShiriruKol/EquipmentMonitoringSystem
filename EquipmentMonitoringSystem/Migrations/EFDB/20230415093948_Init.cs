@@ -117,10 +117,9 @@ namespace EquipmentMonitoringSystem.Migrations.EFDB
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_UpcomingMaintenances", x => x.Id);
-                    table.UniqueConstraint("AK_UpcomingMaintenances_MaintenancesID", x => x.MaintenancesID);
                     table.ForeignKey(
-                        name: "FK_UpcomingMaintenances_Maintenances_Id",
-                        column: x => x.Id,
+                        name: "FK_UpcomingMaintenances_Maintenances_MaintenancesID",
+                        column: x => x.MaintenancesID,
                         principalTable: "Maintenances",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -140,6 +139,12 @@ namespace EquipmentMonitoringSystem.Migrations.EFDB
                 name: "IX_Maintenances_EquipmentId",
                 table: "Maintenances",
                 column: "EquipmentId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UpcomingMaintenances_MaintenancesID",
+                table: "UpcomingMaintenances",
+                column: "MaintenancesID",
+                unique: true);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
