@@ -36,10 +36,10 @@ CREATE OR REPLACE FUNCTION update_nortifys()
         
        DELETE FROM public."Nortifys";
 WITH temp_table AS (
-	SELECT 'Внеплановый ремонт!', "Stations"."Name"|| ' '|| "Groups"."Name" || ' ' || "Equipments"."Name", "Maintenances"."DateMaintenance"
-    FROM "Stations", "Groups", "Equipments", "Maintenances"
+	SELECT 'Внеплановый ремонт!', "Maintenances"."Description", "Maintenances"."Id" as "MaintenancesId"
+    FROM  "Maintenances"
     WHERE "Maintenances"."IsUnplanned" = 'true' )
-	INSERT INTO public."Nortifys" ("Heding", "Description", "Date") 
+	INSERT INTO public."Nortifys" ("Heding", "Description", "MaintenancesID") 
 	SELECT * FROM temp_table;
         
         val :=1;
