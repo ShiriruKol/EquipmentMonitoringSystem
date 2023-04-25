@@ -56,6 +56,7 @@ namespace EquipmentMonitoringSystem.DataLayer
                 entity.Property(x => x.Description);
                 entity.HasOne(x => x.Equipment).WithMany(x => x.Maintenances).HasForeignKey(x => x.EquipmentId);
                 entity.HasOne(x => x.UpcomingMaintenance).WithOne(p => p.Maintenance).HasForeignKey<UpcomingMaintenance>(p => p.MaintenancesID);
+                entity.HasOne(x => x.Nortify).WithOne(p => p.Maintenance).HasForeignKey<Nortify>(p => p.MaintenancesID);
             });
 
             modelBuilder.Entity<UpcomingMaintenance>(entity =>
@@ -71,7 +72,7 @@ namespace EquipmentMonitoringSystem.DataLayer
                 entity.HasKey(x => x.Id);
                 entity.Property(x => x.Heding);
                 entity.Property(x => x.Description);
-                entity.Property(x => x.Date);
+                entity.Property(x => x.MaintenancesID);
             });
         }
 

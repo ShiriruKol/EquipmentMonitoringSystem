@@ -26,7 +26,7 @@
         }
 
         function OnError(err) {
-            alert("Произошла ошибка!!!")
+           
         }
 
         

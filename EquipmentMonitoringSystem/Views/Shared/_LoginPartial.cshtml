@@ -7,7 +7,7 @@
 <ul class="navbar-nav">
 @if (SignInManager.IsSignedIn(User))
 {
-    <a class="me-3 nav-link p-2 notification" asp-controller="" asp-action="">
+    <a class="me-3 nav-link p-2 notification" asp-controller="UpcomingMaintenance" asp-action="IndexNortf">
         <i class="fa-sharp fa-solid fa-bell"></i>
         <span id="nortfid" class="badge"></span>
     </a>
@@ -52,7 +52,7 @@ else
         }
 
         function OnError(err) {
-            alert("Произошла ошибка!!!")
+            
         }
     });
 </script>

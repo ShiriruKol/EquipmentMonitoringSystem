@@ -124,9 +124,6 @@ namespace EquipmentMonitoringSystem.Migrations.EFDB
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<DateTime?>("Date")
-                        .HasColumnType("timestamp with time zone");
-
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("text");
@@ -135,7 +132,13 @@ namespace EquipmentMonitoringSystem.Migrations.EFDB
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<int>("MaintenancesID")
+                        .HasColumnType("integer");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("MaintenancesID")
+                        .IsUnique();
 
                     b.ToTable("Nortifys");
                 });
@@ -209,6 +212,17 @@ namespace EquipmentMonitoringSystem.Migrations.EFDB
                     b.Navigation("Equipment");
                 });
 
+            modelBuilder.Entity("EquipmentMonitoringSystem.DataLayer.Entityes.Nortify", b =>
+                {
+                    b.HasOne("EquipmentMonitoringSystem.DataLayer.Entityes.Maintenance", "Maintenance")
+                        .WithOne("Nortify")
+                        .HasForeignKey("EquipmentMonitoringSystem.DataLayer.Entityes.Nortify", "MaintenancesID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Maintenance");
+                });
+
             modelBuilder.Entity("EquipmentMonitoringSystem.DataLayer.Entityes.UpcomingMaintenance", b =>
                 {
                     b.HasOne("EquipmentMonitoringSystem.DataLayer.Entityes.Maintenance", "Maintenance")
@@ -232,6 +246,9 @@ namespace EquipmentMonitoringSystem.Migrations.EFDB
 
             modelBuilder.Entity("EquipmentMonitoringSystem.DataLayer.Entityes.Maintenance", b =>
                 {
+                    b.Navigation("Nortify")
+                        .IsRequired();
+
                     b.Navigation("UpcomingMaintenance")
                         .IsRequired();
                 });

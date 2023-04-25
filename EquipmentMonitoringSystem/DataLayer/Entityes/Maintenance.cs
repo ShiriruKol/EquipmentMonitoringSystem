@@ -12,5 +12,6 @@
         public int EquipmentId { get; set; } // Внешний ключ
         public Equipment? Equipment { get; set; } // Навигационное свойство
         public UpcomingMaintenance UpcomingMaintenance { get; set; }
+        public Nortify Nortify { get; set; }
     }
 }

@@ -83,5 +83,10 @@ namespace EquipmentMonitoringSystem.Controllers
             object count = _datamanager.Nortify.GetAllNortify().Count();
             return count;
         }
+
+        [HttpGet]
+        public IActionResult IndexNortf() { 
+            return View(); 
+        }
     }
 }
