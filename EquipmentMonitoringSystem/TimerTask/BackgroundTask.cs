@@ -23,7 +23,7 @@ namespace EquipmentMonitoringSystem.TimerTask
 
                     Console.WriteLine("Успешный вызов процедуры", result);
                 }
-                await Task.Delay(900000);
+                await Task.Delay(15000);
             }
         }
     }
