@@ -5,6 +5,7 @@ using EquipmentMonitoringSystem.PresentationLayer.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Npgsql;
 
 namespace EquipmentMonitoringSystem.Controllers
 {
@@ -85,8 +86,53 @@ namespace EquipmentMonitoringSystem.Controllers
         }
 
         [HttpGet]
-        public IActionResult IndexNortf() { 
-            return View(); 
+        public IActionResult IndexNortf() {
+            List<UnplannedMainView> unplannedMains = new List<UnplannedMainView>();
+            List<Nortify> nortfs = _datamanager.Nortify.GetAllNortify().ToList();
+            
+            foreach (var nort in nortfs)
+            {
+                Maintenance main = _datamanager.Maintenances.GetMaintenanceById(nort.MaintenancesID);
+                Equipment eq = _datamanager.Equipments.GetEquipmentById(main.EquipmentId);
+                Group gr = _datamanager.Groups.GetGroupById(eq.GroupId);
+                string namest = _datamanager.Stations.GetStationName(gr.StationId);
+                
+                UnplannedMainView unplanned = new UnplannedMainView() {
+                    Id = main.Id,
+                    Header = nort.Heding,
+                    Description = nort.Description,
+                    EmplName = eq.Name,
+                    StatName = namest,
+                };
+
+                unplannedMains.Add(unplanned);
+            }
+
+            return View(unplannedMains); 
+        }
+
+        [HttpGet]
+        public IActionResult Fix(int id)
+        {
+            if (id == 0)
+                return BadRequest();
+
+            Maintenance main = _datamanager.Maintenances.GetMaintenanceById(id);
+            main.Status = true;
+            _datamanager.Maintenances.SaveMaintenance(main);
+            string sqlExpression = "update_nortifys";
+            string connectionString = @"Server=localhost;Database=PulseRigDB;Port=5432;User Id=postgres;Password=12K345i678R9;";
+            using (NpgsqlConnection connection = new NpgsqlConnection(connectionString))
+            {
+                connection.Open();
+                NpgsqlCommand command = new NpgsqlCommand(sqlExpression, connection);
+                // указываем, что команда представляет хранимую процедуру
+                command.CommandType = System.Data.CommandType.StoredProcedure;
+                var result = command.ExecuteScalar();
+
+                Console.WriteLine("Успешный вызов процедуры", result);
+            }
+            return RedirectToAction("IndexNortf");
         }
     }
 }

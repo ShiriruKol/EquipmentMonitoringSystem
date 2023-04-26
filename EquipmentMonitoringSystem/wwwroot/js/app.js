@@ -1,4 +1,5 @@
 ﻿(async () => {
+
     // создаем и покажем уведомление
     const showNotification = () => {
 
@@ -16,20 +17,20 @@
             // создаем новое уведомление
             const notification = new Notification('Технические обслуживания', {
                 body: 'У вас ' + _data + ' непроизведенных(-ый) ремонт(-ов)',
-                icon: './img/js.png'
+                icon: './Icon.png'
             });
 
             // закрываем уведомление через 10 секунд
             setTimeout(() => {
                 notification.close();
             }, 10 * 1000);
+
+            CheckRepeat = false;
         }
 
         function OnError(err) {
            
         }
-
-        
 
     }
 
