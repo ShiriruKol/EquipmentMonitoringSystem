@@ -38,7 +38,7 @@ CREATE OR REPLACE FUNCTION update_nortifys()
 WITH temp_table AS (
 	SELECT 'Внеплановый ремонт!', "Maintenances"."Description", "Maintenances"."Id" as "MaintenancesId"
     FROM  "Maintenances"
-    WHERE "Maintenances"."IsUnplanned" = 'true' )
+    WHERE "Maintenances"."IsUnplanned" = 'true' AND "Maintenances"."Status" = 'false' )
 	INSERT INTO public."Nortifys" ("Heding", "Description", "MaintenancesID") 
 	SELECT * FROM temp_table;
         
