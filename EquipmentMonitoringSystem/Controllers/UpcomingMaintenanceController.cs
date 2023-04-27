@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Npgsql;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Logical;
 
 namespace EquipmentMonitoringSystem.Controllers
 {
@@ -13,12 +14,10 @@ namespace EquipmentMonitoringSystem.Controllers
     public class UpcomingMaintenanceController : Controller
     {
         private readonly DataManager _datamanager;
-        private readonly ServicesManager _servicesmanager;
 
-        public UpcomingMaintenanceController(DataManager datamanager, ServicesManager servicesmanager)
+        public UpcomingMaintenanceController(DataManager datamanager)
         {
             _datamanager = datamanager;
-            _servicesmanager = servicesmanager;
         }
         public IActionResult Index(UpcomingViewMaintenanceModel model)
         {
@@ -133,6 +132,77 @@ namespace EquipmentMonitoringSystem.Controllers
                 Console.WriteLine("Успешный вызов процедуры", result);
             }
             return RedirectToAction("IndexNortf");
+        }
+
+        [HttpPost]
+        public List<object> UnplanAll()
+        {
+            var lstunpla = _datamanager.Nortify.GetAllNortify().ToList();
+
+            List<object> listunpObject = new List<object>();
+            List<string> desc = new List<string>();
+            List<string> head = new List<string>();
+            List<int> idMain = new List<int>();
+            List<string> eqnamelist = new List<string>();
+            List<string> stnamelist = new List<string>();
+
+
+            foreach (var item in lstunpla)
+            {
+                desc.Add(item.Description);
+                head.Add(item.Heding);
+                idMain.Add(item.MaintenancesID);
+
+                Maintenance main = _datamanager.Maintenances.GetMaintenanceById(item.MaintenancesID);
+                Equipment eq = _datamanager.Equipments.GetEquipmentById(main.EquipmentId);
+                Group gr = _datamanager.Groups.GetGroupById(eq.GroupId);
+                string namest = _datamanager.Stations.GetStationName(gr.StationId);
+
+                eqnamelist.Add(eq.Name);
+                stnamelist.Add(namest);
+            }
+            
+            listunpObject.Add(head);
+            listunpObject.Add(desc);
+            listunpObject.Add(idMain);
+            listunpObject.Add(eqnamelist);
+            listunpObject.Add(stnamelist);
+            return listunpObject;
+        }
+
+        [HttpPost]
+        public List<object> PlanAll()
+        {
+            List<object> listunpObject = new List<object>();
+
+            List<string> desc = new List<string>();
+            List<string> head = new List<string>();
+            List<int> idMain = new List<int>();
+            List<string> eqnamelist = new List<string>();
+            List<string> stnamelist = new List<string>();
+
+            var listplan = _datamanager.UpcomingMaintenance.GetAllUpcomingMaintenance();
+            foreach ( var item in listplan )
+            {
+                desc.Add("---");
+                head.Add("Плановый ремонт");
+                idMain.Add(item.MaintenancesID);
+
+                Maintenance main = _datamanager.Maintenances.GetMaintenanceById(item.MaintenancesID);
+                Equipment eq = _datamanager.Equipments.GetEquipmentById(main.EquipmentId);
+                Group gr = _datamanager.Groups.GetGroupById(eq.GroupId);
+                string namest = _datamanager.Stations.GetStationName(gr.StationId);
+
+                eqnamelist.Add(eq.Name);
+                stnamelist.Add(namest);
+            }
+
+            listunpObject.Add(head);
+            listunpObject.Add(desc);
+            listunpObject.Add(idMain);
+            listunpObject.Add(eqnamelist);
+            listunpObject.Add(stnamelist);
+            return listunpObject;
         }
     }
 }

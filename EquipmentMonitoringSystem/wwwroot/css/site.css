@@ -102,9 +102,6 @@ header {
         background-color: lightblue;
     }
 
-footer {
-    display: block;
-}
 
 
 .buttonMain {
@@ -157,3 +154,4 @@ footer {
         background: red;
         color: white;
     }
+

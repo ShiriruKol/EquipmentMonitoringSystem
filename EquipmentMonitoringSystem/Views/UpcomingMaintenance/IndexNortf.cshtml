@@ -4,9 +4,117 @@
 }
 
 
+
+<script type="text/javascript">
+    $(document).ready(function () {
+
+        $('#btndown').on('click', function () {
+
+            if (document.getElementById("btnradio1").checked) {
+                $.ajax({
+                    type: "POST",
+                    url: "/UpcomingMaintenance/UnplanAll",
+                    contextType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: OnSuccessResult,
+                    error: OnError
+                });
+
+                function OnSuccessResult(data) {
+                    var table = document.getElementById('info-table');
+                    var rows = table.getElementsByTagName("TR");
+
+                    var _data = data;
+                    var heads = _data[0];
+                    var descs = _data[1];
+                    var mainidlist = _data[2];
+                    var eqlist = _data[3];
+                    var stlist = _data[3];
+
+                    for (j = 1; j <= rows.length; j++) {
+                        table.deleteRow(j);
+                    }
+
+                    for (i = 0; i < Object.keys(heads).length; i++) {
+                        $(`#info-table tbody`).prepend('<tr><td>' 
+                        + heads[i] + '</td><td>' 
+                        + descs[i] + '</td><td>' 
+                        + eqlist[i] + '</td><td>'
+                        + stlist[i]
+                        +'</td><td><a class="btn btn-success" href="/UpcomingMaintenance/Fix/' + mainidlist[i] + '" title="Нажмите, чтобы объявить о прохождении ТО."><i class="fa - sharp fa - solid fa - check"></i>Выполнить</a></td></tr>');
+                    }
+                }
+
+                function OnError(err) {
+                    alert("Произошла ошибка!!!");
+                }
+
+            } else if (document.getElementById("btnradio2").checked) {
+                $.ajax({
+                    type: "POST",
+                    url: "/UpcomingMaintenance/PlanAll",
+                    contextType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: OnSuccessResult,
+                    error: OnError
+                });
+
+                function OnSuccessResult(data) {
+                    var table = document.getElementById('info-table');
+                    var rows = table.getElementsByTagName("TR");
+
+                    var _data = data;
+                    var heads = _data[0];
+                    var descs = _data[1];
+                    var mainidlist = _data[2];
+                    var eqlist = _data[3];
+                    var stlist = _data[3];
+
+                    for (j = 1; j <= rows.length; j++) {
+                        table.deleteRow(j);
+                    }
+
+                    for (i = 0; i < Object.keys(heads).length; i++) {
+                        $(`#info-table tbody`).prepend('<tr><td>'
+                            + heads[i] + '</td><td>'
+                            + descs[i] + '</td><td>'
+                            + eqlist[i] + '</td><td>'
+                            + stlist[i]
+                            + '</td><td><a class="btn btn-success" href="/UpcomingMaintenance/Fix/' + mainidlist[i] + '" title="Нажмите, чтобы объявить о прохождении ТО."><i class="fa - sharp fa - solid fa - check"></i>Выполнить</a></td></tr>');
+                    }
+                }
+
+                function OnError(err) {
+                    alert("Произошла ошибка!!!");
+                }
+            }
+
+        });
+    });
+</script>
+
+
+<div class="row">
+    <div class="col-md-8 mx-auto  btn-group" role="group" aria-label="Basic radio toggle button group">
+        <input type="radio" class="btn-check" name="btnradio" id="btnradio1" autocomplete="on" checked >
+        <label class="btn btn-outline-primary" for="btnradio1">Внеплановые ремонты</label>
+
+        <input type="radio" class="btn-check" name="btnradio" id="btnradio2" autocomplete="off" >
+        <label class="btn btn-outline-primary" for="btnradio2">Плановые ремонты</label>
+
+    </div>
+</div>
+<div class="row mt-2">
+    <div class="col text-center">
+        <button type="button" class="btn btn-outline-primary" id="btndown">Загрузить</button>
+    </div>
+</div>
+
+
+
 @if(Model.Count != 0)
 {
-    <div class="container">
+    <div class="container mt-2">
         <main role="main" class="pb-3">
 
             <input class="form-control" type="text" placeholder="Поиск по таблице" id="search-text" onkeyup="tableSearch()">
@@ -45,8 +153,10 @@
 }
 else
 {
-    <h1>Внеплановых ремонтов пока нет</h1>
+    <h3 class="text-center mt-2">Внеплановых ремонтов пока нет</h3>
 }
+
+
 
 
 <script>
