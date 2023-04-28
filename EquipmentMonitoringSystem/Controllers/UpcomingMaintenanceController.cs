@@ -171,7 +171,7 @@ namespace EquipmentMonitoringSystem.Controllers
         }
 
         [HttpPost]
-        public List<object> PlanAll()
+        public List<object> PlanAll(int grid)
         {
             List<object> listunpObject = new List<object>();
 
@@ -179,29 +179,33 @@ namespace EquipmentMonitoringSystem.Controllers
             List<string> head = new List<string>();
             List<int> idMain = new List<int>();
             List<string> eqnamelist = new List<string>();
-            List<string> stnamelist = new List<string>();
+            string stname = _datamanager.Stations.GetStationName(_datamanager.Groups.GetGroupById(grid).StationId);
 
-            var listplan = _datamanager.UpcomingMaintenance.GetAllUpcomingMaintenance();
-            foreach ( var item in listplan )
+
+            var Listeq = _datamanager.Equipments.GetEquipmentsByIdGroup(grid).ToList();
+
+            foreach ( var item in Listeq )
             {
-                desc.Add("---");
-                head.Add("Плановый ремонт");
-                idMain.Add(item.MaintenancesID);
+                var listplan = _datamanager.UpcomingMaintenance.GetUpmainByEquipId(item.Id);
 
-                Maintenance main = _datamanager.Maintenances.GetMaintenanceById(item.MaintenancesID);
-                Equipment eq = _datamanager.Equipments.GetEquipmentById(main.EquipmentId);
-                Group gr = _datamanager.Groups.GetGroupById(eq.GroupId);
-                string namest = _datamanager.Stations.GetStationName(gr.StationId);
+                foreach ( var item2 in listplan)
+                {
+                    desc.Add("---");
+                    head.Add("Плановый ремонт");
+                    idMain.Add(item2.MaintenancesID);
+                    eqnamelist.Add(item.Name);
 
-                eqnamelist.Add(eq.Name);
-                stnamelist.Add(namest);
+                    listunpObject.Add(head);
+                    listunpObject.Add(desc);
+                    listunpObject.Add(idMain);
+                    listunpObject.Add(eqnamelist);
+                    listunpObject.Add(stname);
+
+                }
+
             }
 
-            listunpObject.Add(head);
-            listunpObject.Add(desc);
-            listunpObject.Add(idMain);
-            listunpObject.Add(eqnamelist);
-            listunpObject.Add(stnamelist);
+            
             return listunpObject;
         }
     }

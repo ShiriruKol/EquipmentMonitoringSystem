@@ -167,6 +167,24 @@ namespace EquipmentMonitoringSystem.Controllers
         }
 
         [HttpPost]
+        public List<object> StationSelect()
+        {
+            var stations = _datamanager.Stations.GetAllStations();
+
+            List<object> listst = new List<object>();
+            List<string> names = new List<string>();
+            List<int> idvals = new List<int>();
+            foreach (var st in stations)
+            {
+                idvals.Add(st.Id);
+                names.Add(st.Name);
+            }
+            listst.Add(idvals);
+            listst.Add(names);
+            return listst;
+        }
+
+        [HttpPost]
         public List<object> GroupSelect(string stid)
         {
             var groups = _datamanager.Groups.GetAllGroupsByStId(false, Convert.ToInt32(stid)).ToList();
