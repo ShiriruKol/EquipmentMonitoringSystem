@@ -1,15 +1,16 @@
 ﻿@model EquipmentMonitoringSystem.PresentationLayer.Models.StationEditModel
 @{
     ViewData["Title"] = "Добавить станцию";
+    Layout = null;
 }
+
 
 <div class="container">
     <main role="main" class="pb-3">
         <div class="column">
-            <h4 class="display-4">Добавить станцию</h4>
 
             <div class="col-8 mb-4">
-                <form asp-controller="Station" asp-action="Add" method="post">
+                    <form asp-controller="Station" asp-action="Add" onsubmit="return jQueryAjaxPost(this);">
                     <div class="form-group mb-3">
                         <label asp-for="Name">Наименование</label>
                         <input asp-for="Name" class="form-control">
@@ -18,11 +19,9 @@
 
                     <div class="validation" asp-validation-summary="ModelOnly"></div>
 
-                    <button type="submit" class="btn btn-success">Добавить</button>
+                    <input type="submit" value="Выполнить" class="btn btn-primary btn-block" />
                 </form>
             </div>
-
-            <a asp-action="Index">Вернуться назад</a>
         </div>
     </main>
 </div>

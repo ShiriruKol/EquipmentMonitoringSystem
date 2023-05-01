@@ -3,6 +3,7 @@ using EquipmentMonitoringSystem.PresentationLayer.Models;
 using EquipmentMonitoringSystem.PresentationLayer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace EquipmentMonitoringSystem.Controllers
 {
@@ -37,10 +38,10 @@ namespace EquipmentMonitoringSystem.Controllers
                 ModelState.AddModelError(nameof(model.Name), "Указано некорректное наименование!");
 
             if (!ModelState.IsValid)
-                return View(model);
+                return Json(new { isValid = false, html = Helper.RenderRazorViewToString(this, "Add", model) });
 
             _servicesmanager.Stations.SaveStationEditModelToDb(model);
-            return RedirectToAction("Index");
+            return Json(new { isValid = true, html = Helper.RenderRazorViewToString(this, "_ViewAll", _servicesmanager.Stations.GetStationList()) });
         }
         [HttpGet]
         public IActionResult Info(int id)
@@ -70,14 +71,33 @@ namespace EquipmentMonitoringSystem.Controllers
                 ModelState.AddModelError(nameof(model.Name), "Указано некорректное наименование!");
 
             if (!ModelState.IsValid)
-                return View(model);
+                return Json(new { isValid = false, html = Helper.RenderRazorViewToString(this, "Edit", model) });
 
             _servicesmanager.Stations.SaveStationEditModelToDb(model);
-            return RedirectToAction("Index");
+            return Json(new { isValid = true, html = Helper.RenderRazorViewToString(this, "_ViewAll", _servicesmanager.Stations.GetStationList()) });
         }
 
         [HttpGet]
         public IActionResult Remove(int id)
+        {
+            
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var model = _servicesmanager.Stations.StationDBToViewIndexModelById(id);
+            if (model == null)
+            {
+                return NotFound();
+            }
+
+            return View(model);
+        }
+
+        [HttpPost, ActionName("Remove")]
+        [ValidateAntiForgeryToken]
+        public IActionResult RemoveConf(int id)
         {
             _servicesmanager.Stations.DeleteStation(id);
             return RedirectToAction("Index");

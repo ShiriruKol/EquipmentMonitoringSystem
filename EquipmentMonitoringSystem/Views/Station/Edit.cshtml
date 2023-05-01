@@ -1,15 +1,15 @@
 ﻿@model EquipmentMonitoringSystem.PresentationLayer.Models.StationEditModel
 @{
     ViewData["Title"] = "Изменить станцию";
+    Layout = null;
 }
 
 <div class="container">
     <main role="main" class="pb-3">
         <div class="column">
-            <h4 class="display-4">Изменить станцию</h4>
 
             <div class="col-8 mb-4">
-                <form asp-controller="Station" asp-action="Edit" method="POST">
+                <form asp-controller="Station" asp-action="Edit" onsubmit="return jQueryAjaxPost(this);">
                     <input type="hidden" asp-for="Id" value="@Model.Id" />
                     <div class="form-group mb-3">
                         <label asp-for="Name">Наименование</label>

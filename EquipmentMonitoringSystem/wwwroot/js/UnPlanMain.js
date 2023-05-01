@@ -21,7 +21,7 @@
                 var descs = _data[1];
                 var mainidlist = _data[2];
                 var eqlist = _data[3];
-                var stlist = _data[3];
+                var stlist = _data[4];
 
                 $("#info-table").find("tr:gt(0)").remove();//удаление старых данных*/
 
@@ -74,7 +74,7 @@
 
                     $("#info-table").find("tr:gt(0)").remove(); //удаление старых данных
 
-                    alert(heads);
+                    
                     if (typeof heads !== 'undefined') {
                         document.getElementById('noinfo').hidden = true;
                         document.getElementById('yesinfo').hidden = false;
