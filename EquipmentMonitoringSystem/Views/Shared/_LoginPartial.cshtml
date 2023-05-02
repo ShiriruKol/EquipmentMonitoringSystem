@@ -4,35 +4,25 @@
 @inject SignInManager<IdentityUser> SignInManager
 @inject UserManager<IdentityUser> UserManager
 
-<ul class="navbar-nav">
 @if (SignInManager.IsSignedIn(User))
 {
+    //Убираем все символы после @
+    var name = UserManager.GetUserName(User).ToString().Split("@").First();
     <a class="me-3 nav-link p-2 notification" asp-controller="UpcomingMaintenance" asp-action="IndexNortf">
         <i class="fa-sharp fa-solid fa-bell"></i>
         <span id="nortfid" class="badge"></span>
     </a>
-    //Убираем все символы после @
-    var name = UserManager.GetUserName(User).ToString().Split("@").First();
+    <a id="manage" class=" btn btn-outline-info" @*asp-area="Identity" asp-page="/Account/Manage/Index"*@ title="Manage">Профиль @name</a>
 
-    <li class="nav-item">
-        <a id="manage" class="nav-link text-light" @*asp-area="Identity" asp-page="/Account/Manage/Index"*@ title="Manage">Профиль @name</a>
-    </li>
-    <li class="nav-item">
-        <form id="logoutForm" class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
-            <button id="logout" type="submit" class="nav-link btn btn-link text-light">Выйти</button>
-        </form>
-    </li>
+    <a class="btn btn-outline-light" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">Выйти</a>
+    
+    
 }
 else
 {
-    <li class="nav-item">
-        <a class="nav-link text-light" id="register" asp-area="Identity" asp-page="/Account/Register">Регистрация</a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link text-light" id="login" asp-area="Identity" asp-page="/Account/Login">Войти</a>
-    </li>
+    <a class="btn btn-warning" id="register" asp-area="Identity" asp-page="/Account/Register">Регистрация</a>
+    <a class="btn btn-outline-light me-2" id="login" asp-area="Identity" asp-page="/Account/Login">Войти</a>
 }
-</ul>
 
 
 <script type="text/javascript">

@@ -17,6 +17,10 @@ html {
 }
 
 
+.logoutform {
+    display: inline-block;
+}
+
 html {
     position: relative;
     min-height: 100%;

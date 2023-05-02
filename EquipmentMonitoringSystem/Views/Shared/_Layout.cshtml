@@ -15,8 +15,79 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/bxslider/4.2.12/jquery.bxslider.min.js"></script>
 </head>
+
 <body>
-    <header>
+    <header class="p-3 text-bg-white bg-dark mb-3">
+        <div class="container">
+            <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
+                <a href="/" class="d-flex align-items-center mb-2 mb-lg-0 text-white text-decoration-none">
+                    <img class="bi me-2" width="42" height="42" role="img" src="~/Icon.png" aria-label="PulseRig"></img>
+                </a>
+
+                <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
+                    <li class="nav-item dropdown text-white">
+                            <a class="nav-link dropdown-toggle text-light" href="#" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Списки и дествия
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-dark text-light" aria-labelledby="navbarDarkDropdownMenuLink">
+                                <li class="dropdown-item text-light">
+                                    <a class="nav-link text-light" asp-area="" asp-controller="Station" asp-action="Index">Станции</a>
+                                </li>
+                                <li class="dropdown-item text-light">
+                                    <a class="nav-link text-light" asp-area="" asp-controller="Group" asp-action="Index">Группы</a>
+                                </li>
+                                <li class="dropdown-item text-light">
+                                    <a class="nav-link text-light" asp-area="" asp-controller="Equipment" asp-action="Index">Оборудования</a>
+                                </li>
+                                <li class="dropdown-item text-light">
+                                    <a class="nav-link text-light" asp-controller="Excel" asp-action="ImportExcel">Экспорт их Excel</a>
+                                </li>
+                            </ul>
+                    </li>
+
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle text-light" href="#" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Техническое обслуживание
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink">
+                            <li class="dropdown-item">
+                                <a class="nav-link text-light" asp-area="" asp-controller="Statistic" asp-action="Index">Статистика</a>
+                            </li>
+                            <li class="dropdown-item">
+                                <a class="nav-link text-light" asp-area="" asp-controller="UpcomingMaintenance" asp-action="Index">Приближающиеся ТО</a>
+                            </li>
+                            <li class="dropdown-item">
+                                <a class="nav-link text-light" asp-area="" asp-controller="Maintenance" asp-action="AddUnscheduled">Создать внеплановый ремонт</a>
+                            </li>
+                        </ul>
+                    </li>
+
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle text-light" href="#" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Админ панель
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink">
+                            <li class="nav-item">
+                                <a class="nav-link text-light" asp-area="" asp-controller="AppRoles" asp-action="Index">Роли</a>
+                            </li>
+                        </ul>
+                    </li>
+                    
+
+                </ul>
+
+                
+
+                <div class="text-end">
+                    <partial name="_LoginPartial.cshtml" />
+                </div>
+            </div>
+        </div>
+    </header>
+    @*<header>
+
+
+
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark box-shadow  bg-dark border-bottom mb-3">
             <div class="container-fluid" bis_skin_checked="1">
                 <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">
@@ -50,33 +121,7 @@
                             </ul>
                         </li>
 
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                Техническое обслуживание
-                            </a>
-                            <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink">
-                                <li class="dropdown-item">
-                                    <a class="nav-link " asp-area="" asp-controller="Statistic" asp-action="Index">Статистика</a>
-                                </li>
-                                <li class="dropdown-item">
-                                    <a class="nav-link " asp-area="" asp-controller="UpcomingMaintenance" asp-action="Index">Приближающиеся ТО</a>
-                                </li>
-                                <li class="dropdown-item">
-                                    <a class="nav-link " asp-area="" asp-controller="Maintenance" asp-action="AddUnscheduled">Создать внеплановый ремонт</a>
-                                </li>
-                            </ul>
-                        </li>
-
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                Админ панель
-                            </a>
-                            <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink">
-                                <li class="nav-item">
-                                    <a class="nav-link " asp-area="" asp-controller="AppRoles" asp-action="Index">Роли</a>
-                                </li>
-                            </ul>
-                        </li>
+                        
                     </ul>
                     
                 </div>
@@ -86,7 +131,9 @@
 
             </div>
         </nav>
-    </header>
+    </header>*@
+
+
     <div class="container ">
         <main role="main" class="pb-3">
             @RenderBody()
