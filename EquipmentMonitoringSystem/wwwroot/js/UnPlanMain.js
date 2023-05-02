@@ -13,9 +13,6 @@
             });
 
             function OnSuccessResult(data) {
-                var table = document.getElementById('info-table');
-                var rows = table.getElementsByTagName("TR");
-
                 var _data = data;
                 var heads = _data[0];
                 var descs = _data[1];
@@ -23,16 +20,25 @@
                 var eqlist = _data[3];
                 var stlist = _data[4];
 
-                $("#info-table").find("tr:gt(0)").remove();//удаление старых данных*/
+                if (Object.keys(heads).length !== 0) {
+                    document.getElementById('noinfo').hidden = true;
+                    document.getElementById('yesinfo').hidden = false;
 
-                for (i = 0; i < Object.keys(heads).length; i++) {
-                    $(`#info-table tbody`).prepend('<tr><td>'
-                        + heads[i] + '</td><td>'
-                        + descs[i] + '</td><td>'
-                        + eqlist[i] + '</td><td>'
-                        + stlist[i]
-                        + '</td><td><a class="btn btn-success" href="/UpcomingMaintenance/Fix/' + mainidlist[i] + '" title="Нажмите, чтобы объявить о прохождении ТО."><i class="fa - sharp fa - solid fa - check"></i>Выполнить</a></td></tr>');
+                    $("#info-table").find("tr:gt(0)").remove();//удаление старых данных*/
+
+                    for (i = 0; i < Object.keys(heads).length; i++) {
+                        $(`#info-table tbody`).prepend('<tr><td>'
+                            + heads[i] + '</td><td>'
+                            + descs[i] + '</td><td>'
+                            + eqlist[i] + '</td><td>'
+                            + stlist[i]
+                            + '</td><td><a class="btn btn-success" href="/UpcomingMaintenance/Fix/' + mainidlist[i] + '" title="Нажмите, чтобы объявить о прохождении ТО."><i class="fa - sharp fa - solid fa - check"></i>Выполнить</a></td></tr>');
+                    }
+                } else {
+                    document.getElementById('noinfo').hidden = false;
+                    document.getElementById('yesinfo').hidden = true;
                 }
+                
             }
 
             function OnError(err) {
@@ -62,8 +68,6 @@
                 });
 
                 function OnSuccessResult(data) {
-                    var table = document.getElementById('info-table');
-                    var rows = table.getElementsByTagName("TR");
 
                     var _data = data;
                     var heads = _data[0];

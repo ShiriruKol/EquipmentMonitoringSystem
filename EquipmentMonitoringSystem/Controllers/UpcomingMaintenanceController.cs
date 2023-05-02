@@ -1,12 +1,10 @@
 ﻿using EquipmentMonitoringSystem.BuissnesLayer;
 using EquipmentMonitoringSystem.DataLayer.Entityes;
-using EquipmentMonitoringSystem.PresentationLayer;
 using EquipmentMonitoringSystem.PresentationLayer.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Npgsql;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.Logical;
 
 namespace EquipmentMonitoringSystem.Controllers
 {
