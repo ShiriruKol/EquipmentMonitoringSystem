@@ -1,6 +1,7 @@
 ﻿@model EquipmentMonitoringSystem.PresentationLayer.Models.GroupEditViewModel
 @{
     ViewData["Title"] = "Изменить группу";
+    Layout = null;
 }
 
 <div class="container">
@@ -9,7 +10,7 @@
             <h4 class="display-4">Изменить группу</h4>
 
             <div class="col-8 mb-4">
-                <form asp-controller="Group" asp-action="Edit" method="POST">
+                <form asp-controller="Group" asp-action="Edit" onsubmit="return jQueryAjaxPost(this);">
                     <input type="hidden" asp-for="Id" value="@Model.Id" />
                     <div class="form-group mb-3">
                         <label asp-for="Name">Наименование</label>

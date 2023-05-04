@@ -110,18 +110,26 @@ namespace EquipmentMonitoringSystem.PresentationLayer.Services
 
             equipment.Maintenances = arrm;
             equipment.GroupId = editModel.GroupId;
-            if (equipment.Maintenances[0].Id != null)
+            if(equipment.Maintenances.Count != 0)
             {
-                foreach (var item in equipment.Maintenances)
+                if (equipment.Maintenances[0].Id != 0)
                 {
-                    _dataManager.Maintenances.SaveMaintenance(item);
+                    foreach (var item in equipment.Maintenances)
+                    {
+                        _dataManager.Maintenances.SaveMaintenance(item);
+                    }
+                    equipment.Maintenances = null;
                 }
-                equipment.Maintenances = null;
+                else
+                {
+                    _dataManager.Equipments.SaveEquipment(equipment);
+                }
             }
             else
             {
                 _dataManager.Equipments.SaveEquipment(equipment);
             }
+            
             return EquipmentDBModelToView(equipment.Id);
         }
 

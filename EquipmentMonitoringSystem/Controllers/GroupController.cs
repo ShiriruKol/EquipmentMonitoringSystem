@@ -19,12 +19,28 @@ namespace EquipmentMonitoringSystem.Controllers
             _servicesmanager = servicesmanager;
         }
 
-        public IActionResult Index()
+        public IActionResult Index(GroupViewIndexModel _model)
         {
+            if(_model.Stations == null)
+            {
+                var stlist = StationsToSelectedList();
+                _model.Stations = stlist;
+            }
+            
+            if(_model.StationId != 0)
+            {
+                var grs = _datamanager.Groups.GetAllGroupsByStId(false, _model.StationId).Select(gr => new GroupModel
+                {
+                    Group = gr,
+                    EqCount = _datamanager.Groups.GetEqCountbyGroup(gr.Id),
+                }).ToList();
+                _model.Groups = grs;
+            }
 
-            List<GroupIndexModel> _dirs = _servicesmanager.Groups.GetGroupsList();
-            return View(_dirs);
+            return View(_model);
         }
+       
+
         [HttpGet]
         public IActionResult Add()
         {
@@ -50,11 +66,17 @@ namespace EquipmentMonitoringSystem.Controllers
             {
                 // Список не передается, поэтому следует получить его
                 model.Stations = StationsToSelectedList();
-                return View(model);
+                return Json(new { isValid = false, html = Helper.RenderRazorViewToString(this, "Add", model) });
             }
 
             _servicesmanager.Groups.SaveAlbumEditModelToDb(model);
-            return RedirectToAction("Index");
+            
+
+            GroupViewIndexModel tmp = new GroupViewIndexModel();
+            var stlist = StationsToSelectedList();
+            tmp.Stations = stlist;
+
+            return Json(new { isValid = true, html = Helper.RenderRazorViewToString(this, "_ViewAll", tmp) });
         }
         [HttpGet]
         public IActionResult Info(int id)
@@ -93,18 +115,16 @@ namespace EquipmentMonitoringSystem.Controllers
             {
                 // Список не передается, поэтому следует получить его
                 model.Stations = StationsToSelectedList();
-                return View(model);
+                return Json(new { isValid = false, html = Helper.RenderRazorViewToString(this, "Edit", model) });
             }
 
             _servicesmanager.Groups.SaveAlbumEditModelToDb(model);
-            return RedirectToAction("Index");
-        }
 
-        [HttpGet]
-        public IActionResult Remove(int id)
-        {
-            _servicesmanager.Groups.DeleteGroup(id);
-            return RedirectToAction("Index");
+            GroupViewIndexModel tmp = new GroupViewIndexModel();
+            var stlist = StationsToSelectedList();
+            tmp.Stations = stlist;
+
+            return Json(new { isValid = true, html = Helper.RenderRazorViewToString(this, "_ViewAll", tmp) });
         }
 
         private List<SelectListItem> StationsToSelectedList()
@@ -116,6 +136,32 @@ namespace EquipmentMonitoringSystem.Controllers
             }).ToList();
 
             return stations;
+        }
+
+        [HttpGet]
+        public IActionResult Remove(int id)
+        {
+
+            if (id == 0)
+            {
+                return NotFound();
+            }
+
+            var model = _servicesmanager.Groups.GroupDBToViewModelById(id);
+            if (model == null)
+            {
+                return NotFound();
+            }
+
+            return View(model);
+        }
+
+        [HttpPost, ActionName("Remove")]
+        [ValidateAntiForgeryToken]
+        public IActionResult RemoveConf(int id)
+        {
+            _servicesmanager.Groups.DeleteGroup(id);
+            return RedirectToAction("Index");
         }
     }
 }

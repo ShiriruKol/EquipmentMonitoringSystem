@@ -51,7 +51,9 @@ namespace EquipmentMonitoringSystem.BuissnesLayer.Implementations
         public void SaveGroup(DataLayer.Entityes.Group group)
         {
             if (group.Id == 0)
+            {
                 _context.Groups.Add(group);
+            }
             else
                 _context.Entry(group).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
             _context.SaveChanges();

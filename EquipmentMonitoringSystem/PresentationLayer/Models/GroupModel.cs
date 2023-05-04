@@ -10,10 +10,18 @@ namespace EquipmentMonitoringSystem.PresentationLayer.Models
         public List<EquipmentViewModel> Equipments { get; set; }
     }
 
-    public class GroupIndexModel
+    public class GroupModel
     {
         public Group Group { get; set; }
-        public int EqCount { get; set; } 
+        public int EqCount { get; set; }
+        
+    }
+
+    public class GroupViewIndexModel
+    {
+        public int StationId { get; set; } = 0;
+        public List<SelectListItem> Stations { get; set; }
+        public List<GroupModel> Groups { get; set; }
     }
 
     public class GroupInfoModel
@@ -24,9 +32,9 @@ namespace EquipmentMonitoringSystem.PresentationLayer.Models
     public class GroupEditViewModel
     {
         public int Id { get; set; }
-        [Required]
+        [Required(ErrorMessage = "Имя является обязательным полем!")]
         public string Name { get; set; }
-        [Required]
+        [Required(ErrorMessage = "Описание является обязательным полем!")]
         public string Description { get; set; }
         public int StationId { get; set; } = 0;
         public List<SelectListItem> Stations { get; set; } = new();

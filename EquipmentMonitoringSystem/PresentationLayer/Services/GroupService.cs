@@ -14,23 +14,26 @@ namespace EquipmentMonitoringSystem.PresentationLayer.Services
             _equipmentService = new EquipmentService(dataManager);
         }
 
-        public List<GroupIndexModel> GetGroupsList()
+        /*public List<GroupViewIndexModel> GetGroupsList()
         {
             var _dirs = _dataManager.Groups.GetAllGroups(true);
 
-            List<GroupIndexModel> _modelsList = new List<GroupIndexModel>();
+            List<GroupViewIndexModel> _modelsList = new List<GroupViewIndexModel>();
             foreach (var item in _dirs)
             {
-                _modelsList.Add(GroupDBToViewModelById(item.Id));
+                GroupModel _tmp = GroupDBToViewModelById(item.Id);
+                GroupViewIndexModel _model = new GroupViewIndexModel();
+                _model.Groups.Add(_tmp);
+                _modelsList.Add();
             }
             return _modelsList;
-        }
+        }*/
 
-        public GroupIndexModel GroupDBToViewModelById(int grouId)
+        public GroupModel GroupDBToViewModelById(int grouId)
         {
             Group _directory = _dataManager.Groups.GetGroupById(grouId);
             int _eqcount = _dataManager.Groups.GetEqCountbyGroup(grouId);
-            return new GroupIndexModel() { Group = _directory, EqCount = _eqcount};
+            return new GroupModel() { Group = _directory, EqCount = _eqcount};
         }
 
         public GroupInfoModel GroupDBToViewInfoModelById(int grouId)
@@ -55,23 +58,21 @@ namespace EquipmentMonitoringSystem.PresentationLayer.Services
             else { return new GroupEditViewModel() { }; }
         }
 
-        public GroupIndexModel SaveAlbumEditModelToDb(GroupEditViewModel groupEditModel)
+        public GroupModel SaveAlbumEditModelToDb(GroupEditViewModel groupEditModel)
         {
             Group _groupDbModel;
-            Station _statDbMocel;
+
             if (groupEditModel.Id != 0)
             {
                 _groupDbModel = _dataManager.Groups.GetGroupById(groupEditModel.Id);
-                _statDbMocel = _dataManager.Stations.GetStationById(groupEditModel.StationId);
             }
             else
             {
                 _groupDbModel = new Group();
-                _statDbMocel = _dataManager.Stations.GetStationById(groupEditModel.StationId);
             }
             _groupDbModel.Name = groupEditModel.Name;
             _groupDbModel.Description = groupEditModel.Description;
-            _groupDbModel.Station = _statDbMocel;
+            _groupDbModel.StationId = groupEditModel.StationId;
 
             _dataManager.Groups.SaveGroup(_groupDbModel);
 

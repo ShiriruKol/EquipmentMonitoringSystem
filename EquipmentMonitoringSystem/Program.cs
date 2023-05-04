@@ -49,11 +49,11 @@ builder.Services.AddDefaultIdentity<IdentityUser>().AddDefaultTokenProviders()
 
 
 builder.Services.AddScoped<IStationRepository, EFStationRepository>();
-builder.Services.AddTransient<IGroupRepository, EFGroupRepository>();
-builder.Services.AddTransient<IEquipmentRepository, EFEquipmentRepository>();
+builder.Services.AddScoped<IGroupRepository, EFGroupRepository>();
+builder.Services.AddScoped<IEquipmentRepository, EFEquipmentRepository>();
 builder.Services.AddScoped<IMaintenanceRepository, EFMaintenanceRepository>();
-builder.Services.AddTransient<IUpcomingMaintenanceRepository, EFUpcomingMaintenanceRepository>();
-builder.Services.AddTransient<INortifyRepository, EFNortifyRepository>();
+builder.Services.AddScoped<IUpcomingMaintenanceRepository, EFUpcomingMaintenanceRepository>();
+builder.Services.AddScoped<INortifyRepository, EFNortifyRepository>();
 builder.Services.AddScoped<DataManager>();
 builder.Services.AddScoped<ServicesManager>();
 

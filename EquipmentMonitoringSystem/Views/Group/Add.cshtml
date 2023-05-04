@@ -1,15 +1,16 @@
 ﻿@model EquipmentMonitoringSystem.PresentationLayer.Models.GroupEditViewModel
 @{
-    ViewData["Title"] = "Добавить станцию";
+    ViewData["Title"] = "Добавить группу";
+    Layout = null;
 }
 <div class="container">
     <main role="main" class="pb-3">
         <div class="column">
-            <h4 class="display-4">Добавить группу</h4>
+            <h5 class="display-4">Добавить группу</h5>
 
             <div class="col-8 mb-4">
 
-                <form asp-controller="Group" asp-action="Add" method="post">
+                <form asp-controller="Group" asp-action="Add" onsubmit="return jQueryAjaxPost(this);">
                     <div class="form-group mb-3">
                         <label asp-for="Name">Наименование</label>
                         <input asp-for="Name" class="form-control">
