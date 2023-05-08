@@ -78,70 +78,81 @@
 
 @if (Model.Equipments != null)
 {
-    <div class="container mt-1">
-        <main role="main" class="pb-3">
-            <div class="action-area">
-                <h4>Добавить новое оборудование </h4>
-                <a class="btn btn-success action-icon" href="/Equipment/Add" title="Нажмите, чтобы добавить.">
-                    <i class="fa-sharp fa-solid fa-plus"></i>
-                </a>
-            </div>
+    if(Model.Equipments.Count != 0)
+    {
+        <div class="container mt-1">
+            <main role="main" class="pb-3">
+                <div class="action-area">
+                    <h4>Добавить новое оборудование </h4>
+                    <a class="btn btn-success action-icon" href="/Equipment/Add" title="Нажмите, чтобы добавить.">
+                        <i class="fa-sharp fa-solid fa-plus"></i>
+                    </a>
+                </div>
 
-            <input class="form-control" type="text" placeholder="Поиск по таблице" id="search-text" onkeyup="tableSearch()">
-            <p><button class="btn btn-success mt-1" onclick="sortTable()">Отсортировать таблицу по алфавиту</button></p>
+                <input class="form-control" type="text" placeholder="Поиск по таблице" id="search-text" onkeyup="tableSearch()">
+                <p><button class="btn btn-success mt-1" onclick="sortTable()">Отсортировать таблицу по алфавиту</button></p>
 
-            <table class="table table-bordered" id="info-table">
-                <thead>
-                    <tr>
-                        <th scope="col">№</th>
-                        <th scope="col">Имя</th>
-                        <th scope="col">Ближайшее ТО</th>
-                        <th scope="col">Статус</th>
-                        <th scope="col">Действия</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @{
-                        var index = 1;
-                        if (Model.Equipments[0].Maintenances[0] != null)
-                        {
-                            foreach (var item in Model.Equipments)
+                <table class="table table-bordered" id="info-table">
+                    <thead>
+                        <tr>
+                            <th scope="col">№</th>
+                            <th scope="col">Имя</th>
+                            <th scope="col">Ближайшее ТО</th>
+                            <th scope="col">Статус</th>
+                            <th scope="col">Действия</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @{
+                            var index = 1;
+                            if (Model.Equipments[0].Maintenances[0] != null)
                             {
-                                <tr>
-                                    <th scope="row">@index</th>
-                                    <td>@item.Name</td>
-                                    <td>@item.Maintenances[0].Name  @item.Maintenances[0].DateMaintenance</td>
-                                    @if (@item.Maintenances[0].Status)
-                                    {
-                                        <td>ТО ВЫПОЛНЕН</td>
-                                    }
-                                    else
-                                    {
-                                        <td>ТО НЕ ПРОИЗВЕДЕН</td>
-                                    }
-                                    <td>
-                                        <div class="action-area">
-                                            <a class="btn btn-secondary action-icon" href="/Equipment/Edit/@item.Id" title="Нажмите, чтобы редактировать информацию.">
-                                                <i class="fas fa-pen"></i>
-                                            </a>
-                                            <a class="btn btn-primary action-icon" href="/Equipment/Info/@item.Id" title="Нажмите, чтобы узнать подробнее.">
-                                                <i class="fa-sharp fa-solid fa-info"></i>
-                                            </a>
-                                            <a class="btn btn-danger action-icon" href="/Equipment/Remove/@item.Id" title="Нажмите, чтобы удалить.">
-                                                <i class="fas fa-trash"></i>
-                                            </a>
+                                foreach (var item in Model.Equipments)
+                                {
+                                    <tr>
+                                        <th scope="row">@index</th>
+                                        <td>@item.Name</td>
+                                        <td>@item.Maintenances[0].Name  @item.Maintenances[0].DateMaintenance</td>
+                                        @if (@item.Maintenances[0].Status)
+                                        {
+                                            <td>ТО ВЫПОЛНЕН</td>
+                                        }
+                                        else
+                                        {
+                                            <td>ТО НЕ ПРОИЗВЕДЕН</td>
+                                        }
+                                        <td>
+                                            <div class="action-area">
+                                                <a class="btn btn-secondary action-icon" href="/Equipment/Edit/@item.Id" title="Нажмите, чтобы редактировать информацию.">
+                                                    <i class="fas fa-pen"></i>
+                                                </a>
+                                                <a class="btn btn-primary action-icon" href="/Equipment/Info/@item.Id" title="Нажмите, чтобы узнать подробнее.">
+                                                    <i class="fa-sharp fa-solid fa-info"></i>
+                                                </a>
+                                                <a class="btn btn-danger action-icon" href="/Equipment/Remove/@item.Id" title="Нажмите, чтобы удалить.">
+                                                    <i class="fas fa-trash"></i>
+                                                </a>
 
-                                        </div>
-                                    </td>
-                                </tr>
-                                index++;
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    index++;
+                                }
                             }
                         }
-                    }
-                </tbody>
-            </table>
-        </main>
-    </div>
+                    </tbody>
+                </table>
+            </main>
+        </div>
+    }
+    else
+    {
+        <h5 class="mt-2 m-lg-2">Оборудованний у данной группы нет</h5>
+    }
+}
+else
+{
+    <h5 class="mt-2 m-lg-2">Оборудованний у данной группы нет</h5>
 }
 
 

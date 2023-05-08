@@ -22,9 +22,24 @@
     </div>
 </form>
 
-<div id="view-all">
-    @await Html.PartialAsync("_ViewAll", Model)
-</div>
+@if (Model.Groups != null)
+{
+    if (Model.Groups.Count != 0)
+    {
+        <div id="view-all">
+            @await Html.PartialAsync("_ViewAll", Model)
+        </div>
+    }
+    else
+    {
+        <h5 class="mt-2 m-lg-2">У данной станции нет групп</h5>
+    }
+}
+else
+{
+    <h5 class="mt-2 m-lg-2">У данной станции нет групп</h5>
+}
+
 
 <script>
     function tableSearch() {

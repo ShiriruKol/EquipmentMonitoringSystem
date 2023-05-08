@@ -23,15 +23,15 @@
             const ctx3 = document.getElementById('myChart3');
 
             var chartOptions = {
-                responsive: false,
+                legend: {
+                    display: false
+                },
+                responsive: true,
                 aspectRatio: 2,
-                maintainAspectRatio: false,
-                scales: {
-                    y: {
-                        beginAtZero: true
-                    }
-                }
+                maintainAspectRatio: true,
             };
+
+            
 
             new Chart(ctx3,
                 {
@@ -81,9 +81,12 @@ $(function () {
             const ctx3 = document.getElementById('myChart2');
 
             var chartOptions = {
-                responsive: false,
+                legend: {
+                    display: false
+                },
+                responsive: true,
                 aspectRatio: 2,
-                maintainAspectRatio: false,
+                maintainAspectRatio: true,
                 scales: {
                     y: {
                         beginAtZero: true
@@ -139,9 +142,12 @@ $(function () {
             const ctx3 = document.getElementById('myChart1');
 
             var chartOptions = {
-                responsive: false,
+                legend: {
+                    display: false
+                },
+                responsive: true,
                 aspectRatio: 2,
-                maintainAspectRatio: false,
+                maintainAspectRatio: true,
                 scales: {
                     y: {
                         beginAtZero: true
