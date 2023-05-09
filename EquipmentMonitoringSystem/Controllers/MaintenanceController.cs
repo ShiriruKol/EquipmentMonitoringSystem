@@ -30,6 +30,13 @@ namespace EquipmentMonitoringSystem.Controllers
         [HttpPost]
         public IActionResult AddUnscheduled(MaintenanceUnscheduledModel model)
         {
+            if (!ModelState.IsValid)
+            {
+                // Список не передается, поэтому следует получить его
+                model.Stations = StationsToSelectedList();
+                return View(model);
+            }
+
             Maintenance maintenance = new Maintenance()
             {
                 Name = "Внеплановый",
@@ -39,6 +46,7 @@ namespace EquipmentMonitoringSystem.Controllers
                 IsUnplanned = true,
                 EquipmentId = model.EquipmentId,
             };
+            
             _datamanager.Maintenances.SaveMaintenance(maintenance);
             return RedirectToAction("AddUnscheduled");
         }

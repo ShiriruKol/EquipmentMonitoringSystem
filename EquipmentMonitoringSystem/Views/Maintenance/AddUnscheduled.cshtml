@@ -38,15 +38,15 @@
             <label>Кол-во часов</label>
             <input asp-for="NumberHours" placeholder="Кол-во часов" class="form-control">
             <span asp-validation-for="NumberHours" class="text-danger"></span>
-
+            <br/>
             <label>Дата проведения</label>
             <input asp-for="Date" placeholder="Дата проведения" class="form-control" type="date" />
             <span asp-validation-for="Date" class="text-danger"></span>
-
+            <br />
             <label>Описание</label>
             <textarea asp-for="Description" placeholder="Описание" class="form-control">  </textarea>
             <span asp-validation-for="Description" class="text-danger"></span>
-
+            <br />
             <button type="submit" class="btn btn-success mt-1">Создать</button>
         </div>
     </div>

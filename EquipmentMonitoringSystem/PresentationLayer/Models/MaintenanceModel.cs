@@ -23,11 +23,11 @@ namespace EquipmentMonitoringSystem.PresentationLayer.Models
         public int StationId { get; set; }
         public int GroupId { get; set; }
         public int EquipmentId { get; set; }
-        [Required]
+        [Required(ErrorMessage = "Описание является обязательным полем!")]
         public string Description { get; set; }
-        [Required]
+        [Required(ErrorMessage = "Кол-во часов является обязательным полем!")]
         public string NumberHours { get; set; }
-        [Required]
+        [Required(ErrorMessage = "Дата является обязательным полем!")]
         public string Date { get; set; }
         public List<SelectListItem> Stations { get; set; }
     }
