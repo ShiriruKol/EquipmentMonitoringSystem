@@ -133,6 +133,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (e.target.tagName != 'TH') return;
         sortTable(e.target.cellIndex, e.target.getAttribute('data-type'));
     };
+
     function sortTable(colNum, type) {
         var tbody = table.getElementsByTagName('tbody')[0];
         var rowsArray = [].slice.call(tbody.rows);

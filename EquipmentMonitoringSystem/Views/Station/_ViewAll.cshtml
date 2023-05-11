@@ -1,7 +1,64 @@
 ﻿@model List<EquipmentMonitoringSystem.PresentationLayer.Models.StationIndexViewModel>
 
 
-<div class="container">
+<div class="row">
+    @foreach (var item in Model)
+    {
+        <div class="col-3 mb-4">
+            <div class="stationround p-1" style="height:21vw; border-radius: 15px; border-width: 4px;">
+                <div class="row mb-1">
+                    <div class="col-12">
+                        <div class="stationround p-1 text-center" style="height:2.5vw; border-radius: 13px; border-width: medium;">
+                            <h6>@item.Station.Name</h6>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-12 ">
+                        <img class="img-thumbnail" src="~/img/HomeImg.jpg"></img>
+                        <b>Кол-во групп:</b> @item.NumberGroups
+                    </div>
+                </div>
+                <div class="row mt-1">
+                    <div class="col ">
+                        <div class="text-center">
+                            <a class="btn btn-secondary container-fluid" title="Нажмите, чтобы изменить.">
+                                &#x270e;
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col ">
+                        <div class="text-center">
+                            <a class="btn btn-primary container-fluid" title="Нажмите, чтобы узнать подробную информацию.">
+                                &#128712;
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col ">
+                        <div class="text-center">
+                            <a class="btn btn-danger container-fluid" title="Нажмите, чтобы удалить.">
+                                ×
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+    
+
+    <div class="col-3 ">
+        <div class="p-1 m-5" style="height:21vw; border-radius: 100px; border-width: 4px; text-align: center; ">
+            <a class="btn" onclick="showInPopup('@Url.Action("Add", "Station", null, Context.Request.Scheme)', 'Новая Станция')" title="Нажмите, чтобы добавить.">
+                <i class="plus radius"></i>
+            </a>
+        </div>
+    </div>
+</div>
+
+
+@*<div class="container">
     <main role="main" class="pb-3">
         <div class="action-area">
             <h4>Добавить новую станцию </h4>
@@ -52,4 +109,4 @@
         </table>
 
     </main>
-</div>
+</div>*@
