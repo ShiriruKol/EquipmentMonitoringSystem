@@ -30,13 +30,14 @@ namespace EquipmentMonitoringSystem.Controllers
         [HttpPost]
         public IActionResult AddUnscheduled(MaintenanceUnscheduledModel model)
         {
-            if (!ModelState.IsValid)
+            model.Stations = StationsToSelectedList();
+            /*if (!ModelState.IsValid)
             {
                 // Список не передается, поэтому следует получить его
                 model.Stations = StationsToSelectedList();
                 return View(model);
             }
-
+*/
             Maintenance maintenance = new Maintenance()
             {
                 Name = "Внеплановый",

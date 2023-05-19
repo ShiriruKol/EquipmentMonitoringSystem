@@ -23,7 +23,7 @@ namespace EquipmentMonitoringSystem.PresentationLayer.Models
     public class EquipmentEditViewModel
     {
         public int Id { get; set; }
-        [Required]
+        [Required(ErrorMessage = "Имя является обязательным полем!")]
         public string Name { get; set; } = string.Empty;
 
         [Required(ErrorMessage = "Тип является обязательным полем!")]

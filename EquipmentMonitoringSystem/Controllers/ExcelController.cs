@@ -7,8 +7,8 @@ using OfficeOpenXml;
 
 namespace EquipmentMonitoringSystem.Controllers
 {
-    [Authorize]
-    public class ExcelController : Controller
+	[Authorize]
+	public class ExcelController : Controller
 	{
 		private readonly DataManager _datamanager;
 		private readonly ServicesManager _servicesmanager;
@@ -19,12 +19,13 @@ namespace EquipmentMonitoringSystem.Controllers
 			_servicesmanager = servicesmanager;
 		}
 
-        public IActionResult ImportExcel()
-        {
-            return View();
-        }
+		[HttpGet]
+		public IActionResult ImportExcel()
+		{
+			return View();
+		}
 
-		[HttpPost]
+        [HttpPost]
 		public IActionResult ImportExcel(IFormFile uploadedFile)
 		{
 			if (ModelState.IsValid)
@@ -140,44 +141,64 @@ namespace EquipmentMonitoringSystem.Controllers
 									catch (Exception ex)
 									{
 										Console.WriteLine("Что-то пошло не так");
-									}
+                                        return RedirectToAction("FailureView");
+                                    }
 								}
 								stations.Add(station);
 								station = new StationExcelModel();
 							}
 						}
-						foreach (var station in stations)
-						{
-							_servicesmanager.Stations.SaveStationExcelModelToDb(station);
-						}
-						return View(stations);
+
+                        foreach (var station in stations)
+                        {
+                            _servicesmanager.Stations.SaveStationExcelModelToDb(station);
+                        }
+                        return View(stations);
 
 					}
 					catch (Exception e)
 					{
-						return View();
-					}
+                        return RedirectToAction("FailureView");
+                    }
 				} 
             }
 			return View();
 		}
 
-        [HttpPost]
-        public IActionResult LoadingToDb(List<StationExcelModel> stations)
+        /*public IActionResult DownFile(List<StationExcelModel> model = null)
         {
-			try
-			{
-				foreach (var station in stations)
+            try
+            {
+				if(model.Count != 0)
 				{
-					_servicesmanager.Stations.SaveStationExcelModelToDb(station);
+                    foreach (var station in model)
+                    {
+                        _servicesmanager.Stations.SaveStationExcelModelToDb(station);
+                    }
 				}
-			}
-			catch (Exception e)
-			{
-                return View();
+				else
+				{
+                    return RedirectToAction("FailureView");
+                }
+                
             }
+            catch (Exception e)
+            {
+                return RedirectToAction("FailureView");
+            }
+            return RedirectToAction("SuccessfullyView");
+        }*/
 
-			return Redirect("/Station/Index"); ;
+        [HttpGet]
+        public IActionResult FailureView()
+        {
+            return View();
         }
+
+        /*[HttpGet]
+        public IActionResult SuccessfullyView()
+        {
+            return View();
+        }*/
     }
 }

@@ -6,116 +6,49 @@
 <div>
     <form asp-action="ImportExcel" asp-controller="Excel" method="post" enctype="multipart/form-data">
         <input class="form-control" type="file" name="uploadedFile" /><br>
-        <input class = "btn btn-success" type="submit" value="Загрузить" />
+        <input class = "btn btn-success" type="submit" value="Считать данные" />
     </form>
 </div>
 
 @if (Model != null){
-    <h3>Список станций, их групп и оборудования</h3>
-    @foreach (var station in Model)
-    {
-        <h3> Станция - @station.Name</h3>
-        foreach (var group in station.Groups)
-        {
-            <h4>Группа - @group.Name</h4>
-            <table class="table table-bordered">
-                <thead>
-                    <tr>
-                        <th rowspan="2">Наименование</th>
-                        <th colspan="6">Тип ТО/Норма времени</th>
-                        <th colspan="12">Месяцы</th>
-                    </tr>
-                    <tr>
-                        <th>T0-1</th>
-                        <th>ТО-3</th>
-                        <th>ТО-4</th>
-                        <th>ТО-6</th>
-                        <th>ТО-12</th>
-                        <th>ТО-24</th>
-                        <th>январь</th>
-                        <th>февраль</th>
-                        <th>март</th>
-                        <th>апрель</th>
-                        <th>май</th>
-                        <th>июнь</th>
-                        <th>июль</th>
-                        <th>август</th>
-                        <th>сентрябрь</th>
-                        <th>октябрь</th>
-                        <th>ноябрь</th>
-                        <th>декабрь</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach(var eq in group.Equipments)
-                    {
-                        List<(string, int)> TO = new List<(string, int)>()
-                        {
-                            ("ТО  1", 0),
-                            ("ТО  3", 0),
-                            ("ТО  4", 0),
-                            ("ТО  6", 0),
-                            ("ТО12", 0),
-                            ("ТО24", 0),
-                        };
-
-                        foreach(var to in eq.Maintenances)
-                        {
-                            bool check1 = true;
-                            for (int i = 0; i < TO.Count && check1 == true; i++)
-                            {
-                                if(TO[i].Item1 == to.Name)
-                                {
-                                    (string, int) tmp;
-                                    tmp.Item1 = TO[i].Item1;
-                                    tmp.Item2 = Convert.ToInt32(to.NumberHours);
-                                    TO[i] = tmp;
-                                    check1 = false;
-                                }
-                            }
-                            check1 = true;
-
-                        }
-                        <tr scope="row">
-                            <td>@eq.Name</td>
-                            @for (int i = 0; i < 6; i++)
-                            {
-                                <td>@TO[i].Item2</td>
-                            }
-
-
-                        
-
-                            @{
-                                bool check = true;
-                                List<string> Mouth = new List<string>() { "", "", "", "", "", "", "", "", "", "", "", "" };
-                                foreach (var to in eq.Maintenances)
-                                {
-                                    for (int i = 1; i < 13 && check == true; i++)
-                                    {
-                                        string strnum = to.DateMaintenance.Substring(5, 2);
-                                        int num = Convert.ToInt32(strnum);
-                                        if(i == num)
-                                        {
-                                            Mouth[i - 1] = to.Name;
-                                            check = false;
-                                        }
-                                    }
-                                    check = true;
-                                }
-                            }
-
-                            @foreach (var item in Mouth)
-                            {
-                                <td>@item</td>
-                            }
-
-                        </tr>
-                    }
-                </tbody>
-            </table>
-            
-        }
-    }
-
+    <div class="mt-2 p-1" style="border: 3px solid #87CEEB; border-radius: 10px">
+        <div class="row text-center">
+            <div class="col-12">
+                <h3 style="color: green;">Данные успешно сохранены</h3>
+            </div>
+        </div>
+        <div class="row text-center">
+            <div class="col-4">
+                <h5>Кол-во станций</h5>
+            </div>
+            <div class="col-4">
+                <h5>Кол-во групп</h5>
+            </div>
+            <div class="col-4">
+                <h5>Кол-во оборудований</h5>
+            </div>
+        </div>
+        <div class="row text-center">
+            <div class="col-4">
+                <img class="img-fluid" src="~/img/Entities/Station.png"></img>
+            </div>
+            <div class="col-4">
+                <img class="img-fluid" src="~/img/Entities/Group.png"></img>
+            </div>
+            <div class="col-4">
+                <img class="img-fluid" src="~/img/Entities/Equipment.png"></img>
+            </div>
+        </div>
+        <div class="row text-center">
+            <div class="col-4">
+                <h5>???</h5>
+            </div>
+            <div class="col-4">
+                <h5>???</h5>
+            </div>
+            <div class="col-4">
+                <h5>???</h5>
+            </div>
+        </div>
+    </div>
 }

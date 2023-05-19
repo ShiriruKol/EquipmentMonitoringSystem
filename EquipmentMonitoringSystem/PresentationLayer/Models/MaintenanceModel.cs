@@ -20,8 +20,11 @@ namespace EquipmentMonitoringSystem.PresentationLayer.Models
 
     public class MaintenanceUnscheduledModel
     {
+        [Required]
         public int StationId { get; set; }
+        [Required]
         public int GroupId { get; set; }
+        [Required]
         public int EquipmentId { get; set; }
         [Required(ErrorMessage = "Описание является обязательным полем!")]
         public string Description { get; set; }
@@ -29,6 +32,7 @@ namespace EquipmentMonitoringSystem.PresentationLayer.Models
         public string NumberHours { get; set; }
         [Required(ErrorMessage = "Дата является обязательным полем!")]
         public string Date { get; set; }
+        [Required]
         public List<SelectListItem> Stations { get; set; }
     }
 }
