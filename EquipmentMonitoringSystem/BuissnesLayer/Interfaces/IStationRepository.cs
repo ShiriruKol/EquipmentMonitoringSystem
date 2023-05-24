@@ -14,5 +14,7 @@ namespace EquipmentMonitoringSystem.BuissnesLayer.Interfaces
         void DeleteStation(Station station);
         int GetSuccsesMaintenancesCount(int stationid);
         int GetUnplannedCount(int stationid);
+        void DeleteStationCheck();
+        void UpdateStationCheck();
     }
 }

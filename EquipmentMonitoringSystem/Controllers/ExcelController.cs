@@ -25,55 +25,59 @@ namespace EquipmentMonitoringSystem.Controllers
 			return View();
 		}
 
+
         [HttpPost]
-		public IActionResult ImportExcel(IFormFile uploadedFile)
-		{
-			if (ModelState.IsValid)
-			{
+        public IActionResult ImportExcel(IFormFile uploadedFile)
+        {
+            if (ModelState.IsValid)
+            {
+                ExcelStationsInfo infosts = new ExcelStationsInfo();
+                List<StationExcelModel> Stations = new List<StationExcelModel>();
+                if (uploadedFile.Length > 0)
+                {
+                    var stream = uploadedFile.OpenReadStream();
+                    infosts.FileName = uploadedFile.FileName;
+                    try
+                    {
+                        using (var package = new ExcelPackage(stream))
+                        {
+                            // Проходим все листы
+                            for (int i = 0; i < package.Workbook.Worksheets.Count - 1; i++)
+                            {
+                                StationExcelModel station = new StationExcelModel();
+                                var worksheet = package.Workbook.Worksheets[i];//Берем текущий лист
+                                station.Name = worksheet.Name;
+                                //Ставим недоверенную станцию
+                                station.Checkst = false;
+                                var rowCount = worksheet.Dimension.Rows; //Берем количество строк
 
-				List<StationExcelModel> stations = new List<StationExcelModel>();
-				if (uploadedFile.Length > 0)
-				{
-					var stream = uploadedFile.OpenReadStream();
-					try
-					{
-						using (var package = new ExcelPackage(stream))
-						{
-							// Проходим все листы
-							for (int i = 0; i < package.Workbook.Worksheets.Count - 1; i++)
-							{
-								StationExcelModel station = new StationExcelModel();
-								var worksheet = package.Workbook.Worksheets[i];//Берем текущий лист
-								station.Name = worksheet.Name;
-								var rowCount = worksheet.Dimension.Rows; //Берем количество строк
-
-								for (var row = 11; row <= rowCount; row++)
-								{
-									if (row == 51)
-									{
-										int ut = 74;
-									}
-									try
-									{
-										//Проверяем группа или оборудование
-										if (worksheet.Cells[row, 2].Value?.ToString() == "1" && worksheet.Cells[row, 1].Value?.ToString() != null)
-										{
-											GroupExcelModel group = new GroupExcelModel();
-											var groupname = worksheet.Cells[row, 1].Value?.ToString();
+                                for (var row = 11; row <= rowCount; row++)
+                                {
+                                    if (row == 51)
+                                    {
+                                        int ut = 74;
+                                    }
+                                    try
+                                    {
+                                        //Проверяем группа или оборудование
+                                        if (worksheet.Cells[row, 2].Value?.ToString() == "1" && worksheet.Cells[row, 1].Value?.ToString() != null)
+                                        {
+                                            GroupExcelModel group = new GroupExcelModel();
+                                            var groupname = worksheet.Cells[row, 1].Value?.ToString();
                                             group.Name = groupname;
-											row++;
-											//Пока не дошли до следующей группы, выполняем действия
+                                            row++;
+                                            //Пока не дошли до следующей группы, выполняем действия
                                             while (worksheet.Cells[row, 2].Value?.ToString() != "1" && worksheet.Cells[row, 1].Value?.ToString() != null)
-											{
-												var NameEmpls = worksheet.Cells[row, 5].Value?.ToString();
+                                            {
+                                                var NameEmpls = worksheet.Cells[row, 5].Value?.ToString();
                                                 if (NameEmpls != null)
                                                 {
                                                     List<string> Names = NameEmpls.Split('\n').ToList();
-													List<EquipmentExcelModel> eqs = new List<EquipmentExcelModel>();
+                                                    List<EquipmentExcelModel> eqs = new List<EquipmentExcelModel>();
                                                     foreach (var item in Names)
                                                     {
                                                         EquipmentExcelModel eq = new EquipmentExcelModel();
-														eq.Name = item;
+                                                        eq.Name = item;
                                                         eqs.Add(eq);
                                                     }
 
@@ -84,26 +88,26 @@ namespace EquipmentMonitoringSystem.Controllers
                                                     {
                                                         if (worksheet.Cells[row, j].Value?.ToString() != "" && worksheet.Cells[row, j].Value?.ToString() != null)
                                                         {
-															MaintenanceEditModel m = new MaintenanceEditModel();
-															m.Name = worksheet.Cells[row, j].Value?.ToString();
-															//Определяем месяц
-															if(j - 11 < 10)
-																m.DateMaintenance = DateTime.Now.Year.ToString() + "-0" + (j - 11).ToString() + "-01";
-															else
+                                                            MaintenanceEditModel m = new MaintenanceEditModel();
+                                                            m.Name = worksheet.Cells[row, j].Value?.ToString();
+                                                            //Определяем месяц
+                                                            if (j - 11 < 10)
+                                                                m.DateMaintenance = DateTime.Now.Year.ToString() + "-0" + (j - 11).ToString() + "-01";
+                                                            else
                                                                 m.DateMaintenance = DateTime.Now.Year.ToString() + "-" + (j - 11).ToString() + "-01";
 
-															maintenances.Add(m);
+                                                            maintenances.Add(m);
                                                         }
                                                     }
 
-													foreach (var mn in maintenances)
-													{
-														switch (mn.Name)
-														{
-															case "ТО  1":
-																mn.NumberHours = worksheet.Cells[row, 6].Value?.ToString() != "" ? Convert.ToDouble(worksheet.Cells[row, 6].Value?.ToString()) : 0;
-																break;
-															case "ТО  3":
+                                                    foreach (var mn in maintenances)
+                                                    {
+                                                        switch (mn.Name)
+                                                        {
+                                                            case "ТО  1":
+                                                                mn.NumberHours = worksheet.Cells[row, 6].Value?.ToString() != "" ? Convert.ToDouble(worksheet.Cells[row, 6].Value?.ToString()) : 0;
+                                                                break;
+                                                            case "ТО  3":
                                                                 mn.NumberHours = worksheet.Cells[row, 7].Value?.ToString() != "" ? Convert.ToDouble(worksheet.Cells[row, 7].Value?.ToString()) : 0;
                                                                 break;
                                                             case "ТО  4":
@@ -119,86 +123,79 @@ namespace EquipmentMonitoringSystem.Controllers
                                                                 mn.NumberHours = worksheet.Cells[row, 11].Value?.ToString() != "" ? Convert.ToDouble(worksheet.Cells[row, 11].Value?.ToString()) : 0;
                                                                 break;
                                                             default:
-																mn.NumberHours = 0;
-																break;
-														}
-													}
+                                                                mn.NumberHours = 0;
+                                                                break;
+                                                        }
+                                                    }
 
-													foreach (var eq in eqs)
-													{
+                                                    foreach (var eq in eqs)
+                                                    {
                                                         eq.Maintenances.AddRange(maintenances);
                                                     }
-													group.Equipments.AddRange(eqs);
-														
+                                                    group.Equipments.AddRange(eqs);
+                                                    
                                                 }
-												row++;
+                                                row++;
                                             }
-											row--;
-											station.Groups.Add(group);
-										}
+                                            row--;
+                                            station.Groups.Add(group);
+                                            infosts.GrCount += 1;
+                                            infosts.EqCount += group.Equipments.Count;
+                                        }
 
-									}
-									catch (Exception ex)
-									{
-										Console.WriteLine("Что-то пошло не так");
+                                    }
+                                    catch (Exception ex)
+                                    {
+                                        Console.WriteLine("Что-то пошло не так");
                                         return RedirectToAction("FailureView");
                                     }
-								}
-								stations.Add(station);
-								station = new StationExcelModel();
-							}
-						}
+                                }
+                                Stations.Add(station);
+                                infosts.StCount += 1;
+                                station = new StationExcelModel();
+                            }
+                        }
 
-                        foreach (var station in stations)
+                        foreach (var station in Stations)
                         {
                             _servicesmanager.Stations.SaveStationExcelModelToDb(station);
                         }
-                        return View(stations);
+                        return View(infosts);
 
-					}
-					catch (Exception e)
-					{
+                    }
+                    catch (Exception e)
+                    {
                         return RedirectToAction("FailureView");
                     }
-				} 
-            }
-			return View();
-		}
-
-        /*public IActionResult DownFile(List<StationExcelModel> model = null)
-        {
-            try
-            {
-				if(model.Count != 0)
-				{
-                    foreach (var station in model)
-                    {
-                        _servicesmanager.Stations.SaveStationExcelModelToDb(station);
-                    }
-				}
-				else
-				{
-                    return RedirectToAction("FailureView");
                 }
-                
             }
-            catch (Exception e)
-            {
-                return RedirectToAction("FailureView");
-            }
-            return RedirectToAction("SuccessfullyView");
-        }*/
-
-        [HttpGet]
-        public IActionResult FailureView()
-        {
             return View();
         }
 
-        /*[HttpGet]
-        public IActionResult SuccessfullyView()
+		[HttpGet]
+		public IActionResult FailureView()
+		{
+			return View();
+		}
+
+		[HttpGet]
+		public IActionResult DeleteNewSts()
+		{
+            _datamanager.Stations.DeleteStationCheck();
+            return RedirectToAction("SuccessfullyView");
+        }
+
+        [HttpGet]
+        public IActionResult DownNewSts()
         {
-            return View();
-        }*/
-    }
+            _datamanager.Stations.UpdateStationCheck();
+            return RedirectToAction("SuccessfullyView");
+        }
+
+        [HttpGet]
+		public IActionResult SuccessfullyView()
+		{
+			return View();
+		}
+	}
 }

@@ -16,7 +16,8 @@ namespace EquipmentMonitoringSystem.Migrations.EFDB
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Name = table.Column<string>(type: "text", nullable: false)
+                    Name = table.Column<string>(type: "text", nullable: false),
+                    Checkst = table.Column<bool>(type: "boolean", nullable: false)
                 },
                 constraints: table =>
                 {

@@ -1,4 +1,5 @@
 ﻿using EquipmentMonitoringSystem.DataLayer.Entityes;
+using Microsoft.Extensions.FileProviders;
 using System.ComponentModel.DataAnnotations;
 
 namespace EquipmentMonitoringSystem.PresentationLayer.Models
@@ -32,7 +33,15 @@ namespace EquipmentMonitoringSystem.PresentationLayer.Models
     {
         public int Id { get; set; } 
         public string Name { get; set; }
+        public bool Checkst { get; set; } = true;
         public List<GroupExcelModel> Groups { get; set; } = new List<GroupExcelModel>();
     }
 
+    public class ExcelStationsInfo
+    {
+        public int StCount { get; set; } = 0;
+        public int GrCount { get; set; } = 0;
+        public int EqCount { get; set; } = 0;
+        public string FileName { get; set; } = string.Empty;
+    }
 }

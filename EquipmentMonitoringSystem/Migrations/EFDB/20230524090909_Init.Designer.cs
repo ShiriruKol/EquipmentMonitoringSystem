@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace EquipmentMonitoringSystem.Migrations.EFDB
 {
     [DbContext(typeof(EFDBContext))]
-    [Migration("20230425061325_Init")]
+    [Migration("20230524090909_Init")]
     partial class Init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -152,6 +152,9 @@ namespace EquipmentMonitoringSystem.Migrations.EFDB
                         .HasColumnType("integer");
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<bool>("Checkst")
+                        .HasColumnType("boolean");
 
                     b.Property<string>("Name")
                         .IsRequired()

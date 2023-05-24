@@ -23,6 +23,7 @@ namespace EquipmentMonitoringSystem.DataLayer
             {
                 entity.HasKey(x => x.Id);
                 entity.Property(x => x.Name);
+                entity.Property(x => x.Checkst);
                 entity.HasMany(x => x.Groups).WithOne(e => e.Station).HasForeignKey(e => e.StationId);
             });
 

@@ -28,6 +28,16 @@ namespace EquipmentMonitoringSystem.BuissnesLayer.Implementations
                 return _context.Stations.ToList();
         }
 
+        public void DeleteStationCheck()
+        {
+            List<Station> stations = _context.Set<Station>().AsNoTracking().Where(x=>x.Checkst == false).ToList();
+            foreach (Station station in stations)
+            {
+                _context.Stations.Remove(station);
+            }
+            _context.SaveChanges();
+        }
+
         public Station GetStationById(int stationid, bool includegroups = false)
         {
             if (includegroups)
@@ -73,6 +83,17 @@ namespace EquipmentMonitoringSystem.BuissnesLayer.Implementations
         public int GetUnplannedCount(int stationid)
         {
             return _context.Maintenances.Where(x => x.Equipment.Group.StationId == stationid && x.IsUnplanned == true).Count();
+        }
+
+        public void UpdateStationCheck()
+        {
+            List<Station> stations = _context.Set<Station>().AsNoTracking().Where(x => x.Checkst == false).ToList();
+            foreach (Station station in stations)
+            {
+                station.Checkst = true;
+                _context.Stations.Update(station);
+            }
+            _context.SaveChanges();
         }
     }
 }

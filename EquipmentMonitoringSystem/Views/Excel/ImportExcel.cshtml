@@ -1,4 +1,4 @@
-﻿@model List<EquipmentMonitoringSystem.PresentationLayer.Models.StationExcelModel>
+﻿@model EquipmentMonitoringSystem.PresentationLayer.Models.ExcelStationsInfo
 @{
     ViewData["Title"] = "Импорт из Excel";
 }
@@ -14,7 +14,7 @@
     <div class="mt-2 p-1" style="border: 3px solid #87CEEB; border-radius: 10px">
         <div class="row text-center">
             <div class="col-12">
-                <h3 style="color: green;">Данные успешно сохранены</h3>
+                <h3 style="color: green;">Данные файла "@Model.FileName"</h3>
             </div>
         </div>
         <div class="row text-center">
@@ -41,13 +41,24 @@
         </div>
         <div class="row text-center">
             <div class="col-4">
-                <h5>???</h5>
+                <h5>@Model.StCount</h5>
             </div>
             <div class="col-4">
-                <h5>???</h5>
+                <h5>@Model.GrCount</h5>
             </div>
             <div class="col-4">
-                <h5>???</h5>
+                <h5>@Model.EqCount</h5>
+            </div>
+        </div>
+        <div class="row text-center">
+            <div class="col-12">
+                <h5>Сохранить данные в базу?</h5>
+            </div>
+        </div>
+        <div class="row text-center">
+            <div class="col-12">
+                <a class="btn btn-success" asp-action="DownNewSts" asp-controller="Excel">Да</a>
+                <a class="btn btn-danger" asp-action="DeleteNewSts" asp-controller="Excel">Нет</a>
             </div>
         </div>
     </div>

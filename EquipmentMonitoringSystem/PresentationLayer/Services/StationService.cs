@@ -81,6 +81,7 @@ namespace EquipmentMonitoringSystem.PresentationLayer.Services
                 DataLayer.Entityes.Station _stationDbModel;
                 _stationDbModel = new DataLayer.Entityes.Station();
                 _stationDbModel.Name = stationExcelModel.Name;
+                _stationDbModel.Checkst = stationExcelModel.Checkst;
 
                 List<Group> groups = new List<Group>();
                 foreach (var group in stationExcelModel.Groups)
