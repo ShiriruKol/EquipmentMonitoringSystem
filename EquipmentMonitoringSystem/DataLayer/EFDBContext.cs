@@ -75,6 +75,12 @@ namespace EquipmentMonitoringSystem.DataLayer
                 entity.Property(x => x.Description);
                 entity.Property(x => x.MaintenancesID);
             });
+
+            modelBuilder.Entity<FileNames>(entity =>
+            {
+                entity.HasKey(x => x.Id);
+                entity.Property(x => x.Name);
+            });
         }
 
         public DbSet<Equipment> Equipments { get; set; }
@@ -83,5 +89,6 @@ namespace EquipmentMonitoringSystem.DataLayer
         public DbSet<Maintenance> Maintenances { get; set; }
         public DbSet<UpcomingMaintenance> UpcomingMaintenances { get; set; }
         public DbSet<Nortify> Nortifys { get; set;}
+        public DbSet<FileNames> FileNames { get; set; }
     }
 }

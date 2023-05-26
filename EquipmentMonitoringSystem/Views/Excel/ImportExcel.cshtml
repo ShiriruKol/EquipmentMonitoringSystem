@@ -12,6 +12,15 @@
 
 @if (Model != null){
     <div class="mt-2 p-1" style="border: 3px solid #87CEEB; border-radius: 10px">
+        @if (Model.CheckFile)
+        {
+            <div class="row text-center">
+                <div class="col-12">
+                    <h3 style="color: red;">Внимание! Этот файл уже использоватлся для экспорта данных в базу. Вы уверены, что хотите добавить данные из него?</h3>
+                </div>
+            </div>
+        }
+        
         <div class="row text-center">
             <div class="col-12">
                 <h3 style="color: green;">Данные файла "@Model.FileName"</h3>
@@ -56,8 +65,19 @@
             </div>
         </div>
         <div class="row text-center">
-            <div class="col-12">
-                <a class="btn btn-success" asp-action="DownNewSts" asp-controller="Excel">Да</a>
+            <div class="col-12 d-flex justify-content-center">
+                <form class="form-inline" asp-controller="Excel" asp-action="DownNewSts" method="post">
+                    
+                    <div class="form-group mb-3" hidden>
+                        <input asp-for="@Model.FileName" class="form-control">
+                    </div>
+
+                    <div class="form-group mb-3" hidden>
+                        <input asp-for="@Model.CheckFile" class="form-control">
+                    </div>
+
+                    <button type="submit" class="btn btn-success">Да</button>
+                </form>
                 <a class="btn btn-danger" asp-action="DeleteNewSts" asp-controller="Excel">Нет</a>
             </div>
         </div>

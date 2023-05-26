@@ -1,4 +1,5 @@
 ﻿using EquipmentMonitoringSystem.BuissnesLayer;
+using EquipmentMonitoringSystem.DataLayer.Entityes;
 using EquipmentMonitoringSystem.PresentationLayer;
 using EquipmentMonitoringSystem.PresentationLayer.Models;
 using Microsoft.AspNetCore.Authorization;
@@ -160,6 +161,8 @@ namespace EquipmentMonitoringSystem.Controllers
                         {
                             _servicesmanager.Stations.SaveStationExcelModelToDb(station);
                         }
+                        infosts.CheckFile = _datamanager.FileNames.CheckFileName(infosts.FileName);
+                        
                         return View(infosts);
 
                     }
@@ -185,9 +188,18 @@ namespace EquipmentMonitoringSystem.Controllers
             return RedirectToAction("SuccessfullyView");
         }
 
-        [HttpGet]
-        public IActionResult DownNewSts()
+        [HttpPost]
+        public IActionResult DownNewSts(ExcelStationsInfo model)
         {
+            if (!model.CheckFile)
+            {
+                FileNames fileName = new FileNames()
+                {
+                    Id = 0,
+                    Name = model.FileName,
+                };
+                _datamanager.FileNames.SaveFileName(fileName);
+            }
             _datamanager.Stations.UpdateStationCheck();
             return RedirectToAction("SuccessfullyView");
         }

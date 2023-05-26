@@ -54,6 +54,7 @@ builder.Services.AddScoped<IEquipmentRepository, EFEquipmentRepository>();
 builder.Services.AddScoped<IMaintenanceRepository, EFMaintenanceRepository>();
 builder.Services.AddScoped<IUpcomingMaintenanceRepository, EFUpcomingMaintenanceRepository>();
 builder.Services.AddScoped<INortifyRepository, EFNortifyRepository>();
+builder.Services.AddScoped<IFileNamesRepository, EFFileNamesRepository>();
 builder.Services.AddScoped<DataManager>();
 builder.Services.AddScoped<ServicesManager>();
 

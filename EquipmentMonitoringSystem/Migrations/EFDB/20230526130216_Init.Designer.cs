@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace EquipmentMonitoringSystem.Migrations.EFDB
 {
     [DbContext(typeof(EFDBContext))]
-    [Migration("20230524090909_Init")]
+    [Migration("20230526130216_Init")]
     partial class Init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -52,6 +52,23 @@ namespace EquipmentMonitoringSystem.Migrations.EFDB
                     b.HasIndex("GroupId");
 
                     b.ToTable("Equipments");
+                });
+
+            modelBuilder.Entity("EquipmentMonitoringSystem.DataLayer.Entityes.FileNames", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("FileNames");
                 });
 
             modelBuilder.Entity("EquipmentMonitoringSystem.DataLayer.Entityes.Group", b =>

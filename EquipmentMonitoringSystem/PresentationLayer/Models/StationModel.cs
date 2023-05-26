@@ -43,5 +43,6 @@ namespace EquipmentMonitoringSystem.PresentationLayer.Models
         public int GrCount { get; set; } = 0;
         public int EqCount { get; set; } = 0;
         public string FileName { get; set; } = string.Empty;
+        public bool CheckFile { get; set; } = false;
     }
 }

@@ -10,10 +10,11 @@ namespace EquipmentMonitoringSystem.BuissnesLayer
         private IMaintenanceRepository _maintenanceRepository;
         private IUpcomingMaintenanceRepository _upcomingMaintenanceRepository;
         private INortifyRepository _nortifyRepository;
+        private IFileNamesRepository _fileNamesRepository;
 
         public DataManager(IStationRepository stationRepository, IGroupRepository groupRepository,
             IEquipmentRepository equipmentRepository, IMaintenanceRepository maintenanceRepository,
-            IUpcomingMaintenanceRepository upcomingMaintenanceRepository, INortifyRepository nortifyRepository)
+            IUpcomingMaintenanceRepository upcomingMaintenanceRepository, INortifyRepository nortifyRepository, IFileNamesRepository fileNamesRepository)
         {
             _stationRepository = stationRepository;
             _groupRepository = groupRepository;
@@ -21,6 +22,7 @@ namespace EquipmentMonitoringSystem.BuissnesLayer
             _maintenanceRepository = maintenanceRepository;
             _upcomingMaintenanceRepository = upcomingMaintenanceRepository;
             _nortifyRepository = nortifyRepository;
+            _fileNamesRepository = fileNamesRepository;
         }
 
         public IStationRepository Stations { get { return _stationRepository; } }
@@ -29,5 +31,6 @@ namespace EquipmentMonitoringSystem.BuissnesLayer
         public IMaintenanceRepository Maintenances { get { return _maintenanceRepository; } }
         public IUpcomingMaintenanceRepository UpcomingMaintenance{ get { return _upcomingMaintenanceRepository; } }
         public INortifyRepository Nortify { get { return _nortifyRepository; } }
+        public IFileNamesRepository FileNames { get {  return _fileNamesRepository; } }
     }
 }
