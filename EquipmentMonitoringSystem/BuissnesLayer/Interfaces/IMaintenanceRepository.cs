@@ -9,5 +9,6 @@ namespace EquipmentMonitoringSystem.BuissnesLayer.Interfaces
         Maintenance GetMaintenanceByEqIdCurrDate(int eqid);
         void SaveMaintenance(Maintenance maintenance);
         void DeleteMaintenance(Maintenance maintenance);
+        bool CheckMainComplete(int nainid);
     }
 }

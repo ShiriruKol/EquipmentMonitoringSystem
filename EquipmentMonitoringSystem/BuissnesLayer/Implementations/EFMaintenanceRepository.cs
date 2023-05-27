@@ -1,6 +1,7 @@
 ﻿using EquipmentMonitoringSystem.BuissnesLayer.Interfaces;
 using EquipmentMonitoringSystem.DataLayer;
 using EquipmentMonitoringSystem.DataLayer.Entityes;
+using EquipmentMonitoringSystem.PresentationLayer.Models;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.DateTime;
 
 namespace EquipmentMonitoringSystem.BuissnesLayer.Implementations
@@ -11,6 +12,14 @@ namespace EquipmentMonitoringSystem.BuissnesLayer.Implementations
         public EFMaintenanceRepository(EFDBContext context)
         {
             _context = context;
+        }
+
+        public bool CheckMainComplete(int mainid)
+        {
+            if (_context.Maintenances.FirstOrDefault(x => x.Id == mainid && x.Status == true) == null)
+                return false;
+            else
+                return true;
         }
 
         public void DeleteMaintenance(Maintenance maintenance)

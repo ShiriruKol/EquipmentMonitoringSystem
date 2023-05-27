@@ -37,7 +37,8 @@ namespace EquipmentMonitoringSystem.Controllers
                 model.Stations = StationsToSelectedList();
                 return View(model);
             }
-*/
+            */
+
             Maintenance maintenance = new Maintenance()
             {
                 Name = "Внеплановый",
@@ -61,6 +62,54 @@ namespace EquipmentMonitoringSystem.Controllers
             }).ToList();
 
             return stations;
+        }
+
+        public IActionResult CompleteMaintenances(MaintenacesCompleteModel model)
+        {
+            var stlist = StationsToSelectedList();
+            model.Stations = stlist;
+
+            if (model.StationId != 0)
+            {
+                var groupsList = GroupsToSelectedList(model.StationId);
+                model.Groups = groupsList;
+            }
+            if (model.StationId != 0 && model.GroupId != 0)
+            {
+                List<Main> Mains = new List<Main>();
+                List<Equipment> equipmentlist = _datamanager.Equipments.GetEquipmentsByIdGroup(model.GroupId, true).ToList();
+                List<Maintenance> maintenances = new List<Maintenance>();
+                foreach (var equipment in equipmentlist)
+                {
+                    foreach (var maitenance in equipment.Maintenances)
+                    {
+                        if (_datamanager.Maintenances.CheckMainComplete(maitenance.Id))
+                        {
+                            Main upMain = new Main()
+                            {
+                                NameMain = maitenance.Name,
+                                NameEquip = equipment.Name,
+                                Date = maitenance.DateMaintenance.ToString(),
+                            };
+                            Mains.Add(upMain);
+                        }
+                    }
+                }
+                model.UpcomingMaintenances = Mains;
+            }
+            return View(model);
+        }
+
+
+        private List<SelectListItem> GroupsToSelectedList(int stid)
+        {
+            var groups = _datamanager.Groups.GetAllGroupsByStId(false, stid).Select(group => new SelectListItem
+            {
+                Value = group.Id.ToString(),
+                Text = group.Name,
+            }).ToList();
+
+            return groups;
         }
     }
 }

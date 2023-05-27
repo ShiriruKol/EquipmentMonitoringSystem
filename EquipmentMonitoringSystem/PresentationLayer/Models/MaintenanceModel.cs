@@ -18,6 +18,23 @@ namespace EquipmentMonitoringSystem.PresentationLayer.Models
         public int EquipmentId { get; set; } = 0;
     }
 
+    public class MaintenacesCompleteModel
+    {
+
+        public int StationId { get; set; }
+        public int GroupId { get; set; }
+        public List<SelectListItem> Stations { get; set; }
+        public List<SelectListItem> Groups { get; set; }
+        public List<Main> UpcomingMaintenances { get; set; }
+    }
+
+    public class Main
+    {
+        public string NameMain { get; set; } = string.Empty;
+        public string NameEquip { get; set; } = string.Empty;
+        public string Date { get; set; } = string.Empty;
+    }
+
     public class MaintenanceUnscheduledModel
     {
         [Required]

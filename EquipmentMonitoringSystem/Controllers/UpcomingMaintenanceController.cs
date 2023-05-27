@@ -17,6 +17,7 @@ namespace EquipmentMonitoringSystem.Controllers
         {
             _datamanager = datamanager;
         }
+
         public IActionResult Index(UpcomingViewMaintenanceModel model)
         {
             var stlist = StationsToSelectedList();
@@ -206,5 +207,6 @@ namespace EquipmentMonitoringSystem.Controllers
             
             return listunpObject;
         }
+
     }
 }
