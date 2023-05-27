@@ -174,4 +174,63 @@ $(function () {
 
         }
     });
+
+    $("#IDPLAN").click(function () {
+        $(this).attr('disabled', true); // атрибут disabled
+        var select = document.getElementById("SelectTO");
+        var value = select.value;
+
+        $.ajax({
+            type: "POST",
+            url: "/Statistic/GetStatisticsUplanned",
+            data: { 'idmounth': value, 'checkunpl': false },
+            contextType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: OnSuccessResult,
+            error: OnError
+        });
+
+        function OnSuccessResult(data) {
+
+            var _data = data;
+            var _chartLabels = _data[0];
+            var _chartData = _data[1];
+
+            var barColor = ["Crimson", "MediumSeaGreen", "DeepSkyBlue", "DarkOrange", "PeachPuff", "MediumPurple"];
+
+            const ctx3 = document.getElementById('myChart4');
+
+            var chartOptions = {
+                legend: {
+                    display: false
+                },
+                responsive: true,
+                aspectRatio: 2,
+                maintainAspectRatio: true,
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            };
+
+            new Chart(ctx3,
+                {
+                    type: "pie",
+                    data: {
+                        labels: _chartLabels,
+                        datasets: [{
+                            backgroundColor: barColor,
+                            data: _chartData,
+                            borderWidth: 1
+                        }]
+                    },
+                    options: chartOptions,
+                });
+        }
+
+        function OnError(err) {
+
+        }
+    });
 });

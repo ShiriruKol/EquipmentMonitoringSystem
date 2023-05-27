@@ -55,7 +55,7 @@ namespace EquipmentMonitoringSystem.Controllers
         }
 
         [HttpPost]
-        public List<object> GetStatisticsUplanned(int idmounth)
+        public List<object> GetStatisticsUplanned(int idmounth, bool checkunpl = true)
         {
             List<object> statistics = new List<object>();
             var sts = _datamanager.Stations.GetAllStations();
@@ -64,7 +64,7 @@ namespace EquipmentMonitoringSystem.Controllers
             foreach (var station in sts)
             {
                 statstr.Add(station.Name);
-                eqcount.Add(_datamanager.Stations.GetUnplannedCount(station.Id, idmounth));
+                eqcount.Add(_datamanager.Stations.GetUnplannedCount(station.Id, idmounth, checkunpl));
             }
             statistics.Add(statstr);
             statistics.Add(eqcount);

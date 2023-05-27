@@ -80,9 +80,9 @@ namespace EquipmentMonitoringSystem.BuissnesLayer.Implementations
             return _context.Maintenances.Where(x => x.Status == true && x.Equipment.Group.StationId == stationid && x.DateMaintenance.Month == DateTime.Now.Month).Count();
         }
 
-        public int GetUnplannedCount(int stationid, int monthnum)
+        public int GetUnplannedCount(int stationid, int monthnum, bool checkunpl)
         {
-            return _context.Maintenances.Where(x => x.Equipment.Group.StationId == stationid && x.IsUnplanned == true && x.DateMaintenance.Month == monthnum).Count();
+            return _context.Maintenances.Where(x => x.Equipment.Group.StationId == stationid && x.IsUnplanned == checkunpl && x.DateMaintenance.Month == monthnum).Count();
         }
 
         public void UpdateStationCheck()

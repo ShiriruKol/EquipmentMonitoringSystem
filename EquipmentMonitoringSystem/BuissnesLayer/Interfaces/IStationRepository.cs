@@ -13,7 +13,7 @@ namespace EquipmentMonitoringSystem.BuissnesLayer.Interfaces
         void SaveStation(Station station);
         void DeleteStation(Station station);
         int GetSuccsesMaintenancesCount(int stationid);
-        int GetUnplannedCount(int stationid, int monthnum);
+        int GetUnplannedCount(int stationid, int monthnum, bool checkunpl);
         void DeleteStationCheck();
         void UpdateStationCheck();
     }

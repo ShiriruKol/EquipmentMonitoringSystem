@@ -41,7 +41,7 @@
                 }
             </select>
             <div class="text-center mt-1">
-                <input id="ID" class="btn btn-success" value="Получить статистику" type="button" />
+                <input id="IDPLAN" class="btn btn-success" value="Получить статистику" type="button" />
             </div>
         </div>
     </div>
@@ -55,10 +55,33 @@
         
     </div>
     <div class="col-6 border border-3 rounded-3 text-center">
+        <h4 class="h4">Количество плановых ремонтов на станциях за выбранный месяц</h4>
+        <div class="chart-container">
+            <canvas id="myChart4"></canvas>
+        </div>
+    </div>
+</div>
+<div class="row p-1">
+    <div class="col-6 border border-3 rounded-3 text-center">
+        <h5 class="h4">TEMP</h5>
+        <div class="chart-container">
+            <canvas id="myChart5"></canvas>
+        </div>
+
+    </div>
+    <div class="col-6 border border-3 rounded-3 text-center">
         <h4 class="h4">Количество оборудований на разных станциях</h4>
         <div class="chart-container">
             <canvas id="myChart3"></canvas>
         </div>
+    </div>
+</div>
+<div class="row p-1">
+    <div class="col-6 text-center">
+        
+    </div>
+    <div class="col-6 text-center">
+        <input id="ID" class="btn btn-success" value="Получить статистику" type="button" />
     </div>
 </div>
 
