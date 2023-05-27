@@ -1,51 +1,10 @@
-﻿@{
+﻿@using EquipmentMonitoringSystem.DataLayer.Entityes;
+@{
     ViewData["Title"] = "Статистика";
 }
 
 <div class="row p-1">
-    <div class="col-2 border border-3 rounded-3 ">
-        <div class="p-1">
-            <ul class="nav flex-column">
-                @*<li class="nav-item">
-                    <a class="nav-link text-dark" href="#">
-                        <i class="fa-sharp fa-solid fa-clipboard fa-spin-pulse" ></i>
-                         Lorem
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link text-dark" href="#">
-                        <i class="fa-sharp fa-solid fa-droplet fa-spin"></i>
-                        Lorem
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link text-dark" href="#">
-                        <i class="fa-sharp fa-solid fa-car fa-spin"></i>
-                        Lorem
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link text-dark" href="#">
-                        <i class="fa-sharp fa-solid fa-circle-half-stroke fa-flip"></i>
-                        Lorem
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link text-dark" href="#">
-                        <i class="fa-sharp fa-solid fa-headphones fa-spin"></i>
-                        Lorem
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link text-dark" href="#">
-                        <i class="fa-sharp fa-solid fa-gear fa-spin"></i>
-                        Lorem
-                    </a>
-                </li>*@
-            </ul>
-        </div>
-    </div>
-    <div class="col-10 border border-3 rounded-3 text-center">
+    <div class="col-12 border border-3 rounded-3 text-center">
         <h4 class="h5 text-center">График прохождения ТО на разных станциях за текущий месяц</h4>
         <input id="IDMOUNTH" class="btn btn-success" value="Получить статистику" type="button" />
         <div class="chart-container">
@@ -56,29 +15,40 @@
 <div class="row p-1">
     <div class="col-6 border border-3 rounded-3 ">
         <div class="p-1">
-            <select class="form-select" aria-label="Default select example">
-                <option selected>Open this select menu</option>
-                <option value="1">One</option>
-                <option value="2">Two</option>
-                <option value="3">Three</option>
+            <select id="SelectTO" class="form-select" aria-label="Default select example">
+                <option selected>Выберите месяц</option>
+                @{var i = 1;}
+                @foreach (var mouth in Enum.GetValues(typeof(MouthEnum)))
+                {
+                    <option value="@i">@mouth.ToString()</option>
+                    i++;
+                }
+                @{i = 1;}
             </select>
+            <div class="text-center mt-1">
+                <input id="IDUNP" class="btn btn-success" value="Получить статистику" type="button" />
+            </div>
         </div>
     </div>
     <div class="col-6 border border-3 rounded-3 ">
         <div class="p-1">
             <select class="form-select" aria-label="Default select example">
-                <option selected>Open this select menu</option>
-                <option value="1">One</option>
-                <option value="2">Two</option>
-                <option value="3">Three</option>
+                <option selected>Выберите месяц</option>
+                @foreach (var mouth in Enum.GetValues(typeof(MouthEnum)))
+                {
+                    <option value="@i">@mouth.ToString()</option>
+                    i++;
+                }
             </select>
+            <div class="text-center mt-1">
+                <input id="ID" class="btn btn-success" value="Получить статистику" type="button" />
+            </div>
         </div>
     </div>
 </div>
 <div class="row p-1">
     <div class="col-6 border border-3 rounded-3 text-center">
-        <h5 class="h4">Количество внеплановых ремонтов на станциях</h5>
-        <input id="IDUNP" class="btn btn-success" value="Получить статистику" type="button" />
+        <h5 class="h4">Количество внеплановых ремонтов на станциях за выбранный месяц</h5>
         <div class="chart-container">
             <canvas id="myChart2"></canvas>
         </div>
@@ -86,17 +56,11 @@
     </div>
     <div class="col-6 border border-3 rounded-3 text-center">
         <h4 class="h4">Количество оборудований на разных станциях</h4>
-        <input id="ID" class="btn btn-success" value="Получить статистику" type="button" />
         <div class="chart-container">
             <canvas id="myChart3"></canvas>
         </div>
     </div>
 </div>
-
-<div class="chart-container" style="position: relative; height:40vh; width:80vw">
-    <canvas id="myChart3"></canvas>
-</div>
-
 
 
 

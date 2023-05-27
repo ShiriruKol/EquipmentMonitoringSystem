@@ -31,8 +31,6 @@
                 maintainAspectRatio: true,
             };
 
-            
-
             new Chart(ctx3,
                 {
                     type: "pie",
@@ -59,11 +57,13 @@
 $(function () {
     $("#IDUNP").click(function () {
         $(this).attr('disabled', true); // атрибут disabled
+        var select = document.getElementById("SelectTO");
+        var value = select.value;
 
         $.ajax({
             type: "POST",
             url: "/Statistic/GetStatisticsUplanned",
-            data: "",
+            data: { 'idmounth': value },
             contextType: "application/json; charset=utf-8",
             dataType: "json",
             success: OnSuccessResult,
