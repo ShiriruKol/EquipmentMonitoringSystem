@@ -2,12 +2,7 @@
 
 <div class="container">
     <main role="main" class="pb-3">
-        <div class="action-area">
-            <h4>Добавить новую группу </h4>
-            <a class="btn btn-success action-icon" onclick="showInPopup('@Url.Action("Add", "Group", null, Context.Request.Scheme)', 'Новая Станция')" title="Нажмите, чтобы добавить.">
-                <i class="fa-sharp fa-solid fa-plus"></i>
-            </a>
-        </div>
+        
 
         @if (Model.Groups != null)
         {

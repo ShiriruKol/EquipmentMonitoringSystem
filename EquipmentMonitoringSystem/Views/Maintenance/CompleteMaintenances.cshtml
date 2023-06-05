@@ -76,38 +76,45 @@
 
 @if (Model.UpcomingMaintenances != null)
 {
+    if (Model.UpcomingMaintenances.Count != 0)
+    {
+        <div class="container">
+            <main role="main" class="pb-3">
+                <div class="action-area">
+                </div>
 
-    <div class="container">
-        <main role="main" class="pb-3">
-            <div class="action-area">
-            </div>
+                <input class="form-control mt-1" type="text" placeholder="Поиск по таблице" id="search-text" onkeyup="tableSearch()">
+                <p><button class="btn btn-success mt-1" onclick="sortTable()">Отсортировать таблицу по алфавиту</button></p>
 
-            <input class="form-control mt-1" type="text" placeholder="Поиск по таблице" id="search-text" onkeyup="tableSearch()">
-            <p><button class="btn btn-success mt-1" onclick="sortTable()">Отсортировать таблицу по алфавиту</button></p>
-
-            <table class="table table-bordered" id="info-table">
-                <thead>
-                    <tr>
-                        <th scope="col">Имя оборудования</th>
-                        <th scope="col">Имя ТО</th>
-                        <th scope="col">Дата проведения</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @{
-                        foreach (var item in Model.UpcomingMaintenances)
-                        {
-                            <tr>
-                                <td>@item.NameEquip</td>
-                                <td>@item.NameMain</td>
-                                <td>@item.Date</td>
-                            </tr>
+                <table class="table table-bordered" id="info-table">
+                    <thead>
+                        <tr>
+                            <th scope="col">Имя оборудования</th>
+                            <th scope="col">Имя ТО</th>
+                            <th scope="col">Дата проведения</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @{
+                            foreach (var item in Model.UpcomingMaintenances)
+                            {
+                                <tr>
+                                    <td>@item.NameEquip</td>
+                                    <td>@item.NameMain</td>
+                                    <td>@item.Date</td>
+                                </tr>
+                            }
                         }
-                    }
-                </tbody>
-            </table>
-        </main>
-    </div>
+                    </tbody>
+                </table>
+            </main>
+        </div>
+    }
+    else
+    {
+        <h3 class="text-center mt-3">Список пуст</h3>
+    }
+    
 }
 
 

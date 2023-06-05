@@ -76,18 +76,20 @@
     });
 </script>
 
+<div class="action-area m-3">
+    <h4>Добавить новое оборудование </h4>
+    <a class="btn btn-success action-icon" href="/Equipment/Add" title="Нажмите, чтобы добавить.">
+        <i class="fa-sharp fa-solid fa-plus"></i>
+    </a>
+</div>
+
 @if (Model.Equipments != null)
 {
     if(Model.Equipments.Count != 0)
     {
         <div class="container mt-1">
             <main role="main" class="pb-3">
-                <div class="action-area">
-                    <h4>Добавить новое оборудование </h4>
-                    <a class="btn btn-success action-icon" href="/Equipment/Add" title="Нажмите, чтобы добавить.">
-                        <i class="fa-sharp fa-solid fa-plus"></i>
-                    </a>
-                </div>
+                
 
                 <input class="form-control" type="text" placeholder="Поиск по таблице" id="search-text" onkeyup="tableSearch()">
                 <p><button class="btn btn-success mt-1" onclick="sortTable()">Отсортировать таблицу по алфавиту</button></p>
@@ -105,14 +107,14 @@
                     <tbody>
                         @{
                             var index = 1;
-                            if (Model.Equipments[0].Maintenances[0] != null)
+                            foreach (var item in Model.Equipments)
                             {
-                                foreach (var item in Model.Equipments)
-                                {
-                                    <tr>
-                                        <th scope="row">@index</th>
-                                        <td>@item.Name</td>
+                                <tr>
+                                    <th scope="row">@index</th>
+                                    <td>@item.Name</td>
+                                    @if (item.Maintenances[0] != null){
                                         <td>@item.Maintenances[0].Name  @item.Maintenances[0].DateMaintenance</td>
+
                                         @if (@item.Maintenances[0].Status)
                                         {
                                             <td>ТО ВЫПОЛНЕН</td>
@@ -121,23 +123,29 @@
                                         {
                                             <td>ТО НЕ ПРОИЗВЕДЕН</td>
                                         }
-                                        <td>
-                                            <div class="action-area">
-                                                <a class="btn btn-secondary action-icon" href="/Equipment/Edit/@item.Id" title="Нажмите, чтобы редактировать информацию.">
-                                                    <i class="fas fa-pen"></i>
-                                                </a>
-                                                <a class="btn btn-primary action-icon" href="/Equipment/Info/@item.Id" title="Нажмите, чтобы узнать подробнее.">
-                                                    <i class="fa-sharp fa-solid fa-info"></i>
-                                                </a>
-                                                <a class="btn btn-danger action-icon" href="/Equipment/Remove/@item.Id" title="Нажмите, чтобы удалить.">
-                                                    <i class="fas fa-trash"></i>
-                                                </a>
+                                    }
+                                    else
+                                    {
+                                        <td>---</td>
+                                        <td>---</td>
+                                    }
 
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    index++;
-                                }
+                                    <td>
+                                        <div class="action-area">
+                                            <a class="btn btn-secondary action-icon" href="/Equipment/Edit/@item.Id" title="Нажмите, чтобы редактировать информацию.">
+                                                <i class="fas fa-pen"></i>
+                                            </a>
+                                            <a class="btn btn-primary action-icon" href="/Equipment/Info/@item.Id" title="Нажмите, чтобы узнать подробнее.">
+                                                <i class="fa-sharp fa-solid fa-info"></i>
+                                            </a>
+                                            <a class="btn btn-danger action-icon" href="/Equipment/Remove/@item.Id" title="Нажмите, чтобы удалить.">
+                                                <i class="fas fa-trash"></i>
+                                            </a>
+
+                                        </div>
+                                    </td>
+                                </tr>
+                                index++;
                             }
                         }
                     </tbody>
