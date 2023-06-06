@@ -4,6 +4,7 @@ using EquipmentMonitoringSystem.PresentationLayer;
 using EquipmentMonitoringSystem.PresentationLayer.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Npgsql;
 using OfficeOpenXml;
 
 namespace EquipmentMonitoringSystem.Controllers
@@ -201,6 +202,21 @@ namespace EquipmentMonitoringSystem.Controllers
                 _datamanager.FileNames.SaveFileName(fileName);
             }
             _datamanager.Stations.UpdateStationCheck();
+
+            // название процедуры
+            string sqlExpression = "update_upmaintenance";
+            string connectionString = @"Server=localhost;Database=PulseRigDB;Port=5432;User Id=postgres;Password=12K345i678R9;";
+            using (NpgsqlConnection connection = new NpgsqlConnection(connectionString))
+            {
+                connection.Open();
+                NpgsqlCommand command = new NpgsqlCommand(sqlExpression, connection);
+                // указываем, что команда представляет хранимую процедуру
+                command.CommandType = System.Data.CommandType.StoredProcedure;
+                var result = command.ExecuteScalar();
+
+                Console.WriteLine("Успешный вызов процедуры", result);
+            }
+
             return RedirectToAction("SuccessfullyView");
         }
 
