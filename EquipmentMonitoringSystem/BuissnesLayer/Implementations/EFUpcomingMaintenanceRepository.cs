@@ -36,5 +36,15 @@ namespace EquipmentMonitoringSystem.BuissnesLayer.Implementations
             else
                 return true;
         }
+
+        public int GetUpcomingMaintenanceCountStationId(int stid)
+        {
+            return _context.UpcomingMaintenances.Count(x => x.Maintenance.Equipment.Group.StationId == stid);
+        }
+
+        public int GetUpcomingMaintenanceCountGroupId(int grid)
+        {
+            return _context.UpcomingMaintenances.Count(x => x.Maintenance.Equipment.GroupId == grid);
+        }
     }
 }

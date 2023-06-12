@@ -11,6 +11,8 @@ namespace EquipmentMonitoringSystem.PresentationLayer.Models
         public List<SelectListItem> Stations { get; set; }
         public List<SelectListItem> Groups { get; set; }
         public List<UpMain> UpcomingMaintenances { get; set; }
+        public int CountMain { get; set; }
+        public List<int> StCount { get; set; } = new List<int>();
     }
 
     public class UpMain 

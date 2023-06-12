@@ -23,6 +23,12 @@ namespace EquipmentMonitoringSystem.Controllers
             var stlist = StationsToSelectedList();
             model.Stations = stlist;
 
+            var sts = _datamanager.Stations.GetAllStations();
+            foreach (var item in sts)
+            {
+                model.StCount.Add(_datamanager.UpcomingMaintenance.GetUpcomingMaintenanceCountStationId(item.Id));
+            }
+
             if (model.StationId != 0)
             {
                 var groupsList = GroupsToSelectedList(model.StationId);
@@ -32,7 +38,7 @@ namespace EquipmentMonitoringSystem.Controllers
             {
                 List<UpMain> upMains = new List<UpMain>();
                 List<Equipment> equipmentlist = _datamanager.Equipments.GetEquipmentsByIdGroup(model.GroupId, true).ToList();
-                List<Maintenance> maintenances = new List<Maintenance>();
+
                 foreach (var equipment in equipmentlist)
                 {
                     foreach (var maitenance in equipment.Maintenances)
@@ -51,6 +57,7 @@ namespace EquipmentMonitoringSystem.Controllers
                 }
                 model.UpcomingMaintenances = upMains;
             }
+            model.CountMain = _datamanager.UpcomingMaintenance.GetAllUpcomingMaintenance().Count();
             return View(model);
         }
 
@@ -61,7 +68,6 @@ namespace EquipmentMonitoringSystem.Controllers
                 Value = st.Id.ToString(),
                 Text = st.Name,
             }).ToList();
-
             return stations;
         }
 
@@ -87,14 +93,14 @@ namespace EquipmentMonitoringSystem.Controllers
         public IActionResult IndexNortf() {
             List<UnplannedMainView> unplannedMains = new List<UnplannedMainView>();
             List<Nortify> nortfs = _datamanager.Nortify.GetAllNortify().ToList();
-            
+
             foreach (var nort in nortfs)
             {
                 Maintenance main = _datamanager.Maintenances.GetMaintenanceById(nort.MaintenancesID);
                 Equipment eq = _datamanager.Equipments.GetEquipmentById(main.EquipmentId);
                 Group gr = _datamanager.Groups.GetGroupById(eq.GroupId);
                 string namest = _datamanager.Stations.GetStationName(gr.StationId);
-                
+
                 UnplannedMainView unplanned = new UnplannedMainView() {
                     Id = main.Id,
                     Header = nort.Heding,
@@ -106,7 +112,7 @@ namespace EquipmentMonitoringSystem.Controllers
                 unplannedMains.Add(unplanned);
             }
 
-            return View(unplannedMains); 
+            return View(unplannedMains);
         }
 
         [HttpGet]
@@ -160,7 +166,7 @@ namespace EquipmentMonitoringSystem.Controllers
                 eqnamelist.Add(eq.Name);
                 stnamelist.Add(namest);
             }
-            
+
             listunpObject.Add(head);
             listunpObject.Add(desc);
             listunpObject.Add(idMain);
@@ -183,11 +189,11 @@ namespace EquipmentMonitoringSystem.Controllers
 
             var Listeq = _datamanager.Equipments.GetEquipmentsByIdGroup(grid).ToList();
 
-            foreach ( var item in Listeq )
+            foreach (var item in Listeq)
             {
                 var listplan = _datamanager.UpcomingMaintenance.GetUpmainByEquipId(item.Id);
 
-                foreach ( var item2 in listplan)
+                foreach (var item2 in listplan)
                 {
                     desc.Add("---");
                     head.Add("Плановый ремонт");
@@ -203,9 +209,30 @@ namespace EquipmentMonitoringSystem.Controllers
                 }
 
             }
-
-            
             return listunpObject;
+        }
+
+        [HttpPost]
+        public List<object> SelGroupsCount(int stid)
+        {
+            List<object> selGroupsCount = new List<object>();
+            List<int> ids = new List<int>();
+            List<string> names = new List<string>();
+            List<int> counts = new List<int>();
+
+            var groups = _datamanager.Groups.GetAllGroupsByStId(false, stid);
+            foreach (var group in groups)
+            {
+                ids.Add(group.Id);
+                names.Add(group.Name);
+                counts.Add(_datamanager.UpcomingMaintenance.GetUpcomingMaintenanceCountGroupId(group.Id));
+            }
+
+            selGroupsCount.Add(ids);
+            selGroupsCount.Add(names);
+            selGroupsCount.Add(counts);
+
+            return selGroupsCount;
         }
 
     }
