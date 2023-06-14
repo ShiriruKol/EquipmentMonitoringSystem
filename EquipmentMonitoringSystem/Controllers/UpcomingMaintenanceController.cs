@@ -235,5 +235,63 @@ namespace EquipmentMonitoringSystem.Controllers
             return selGroupsCount;
         }
 
+        [HttpGet]
+        public IActionResult EqsGroup(int id)
+        {
+            try
+            {
+                var eqs = _datamanager.UpcomingMaintenance.GetUpcomingMaintenanceGroupId(id, true).ToList();
+                List<EqPlan> eqPlans = new List<EqPlan>();
+                foreach (var eq in eqs)
+                {
+                    EqPlan eqPlan = new EqPlan()
+                    {
+                        Id = eq.Maintenance.Id,
+                        Name = _datamanager.Equipments.GetEquipmentById(eq.Maintenance.EquipmentId).Name,
+                        FactoryNumber = _datamanager.Equipments.GetEquipmentById(eq.Maintenance.EquipmentId).FactoryNumber,
+                        Type = _datamanager.Equipments.GetEquipmentById(eq.Maintenance.EquipmentId).Type,
+                        MainDateName = eq.Maintenance.Name + ' ' + eq.Maintenance.DateMaintenance.ToString(),
+                    };
+                    eqPlans.Add(eqPlan);
+                }
+
+                EqupsGroup equpsGroup = new EqupsGroup()
+                {
+                    NameGroup = _datamanager.Groups.GetGroupById(id).Name,
+                    Equipments = eqPlans
+                };
+                return View(equpsGroup);
+            }
+            catch (Exception e)
+            {
+
+                return RedirectToRoute(new { controller = "Excel", action = "FailureView" });
+            }
+            
+        }
+
+        [HttpGet]
+        public IActionResult Fix2(int id)
+        {
+            if (id == 0)
+                return BadRequest();
+
+            Maintenance main = _datamanager.Maintenances.GetMaintenanceById(id);
+            main.Status = true;
+            _datamanager.Maintenances.SaveMaintenance(main);
+            string sqlExpression = "update_nortifys";
+            string connectionString = @"Server=localhost;Database=PulseRigDB;Port=5432;User Id=postgres;Password=12K345i678R9;";
+            using (NpgsqlConnection connection = new NpgsqlConnection(connectionString))
+            {
+                connection.Open();
+                NpgsqlCommand command = new NpgsqlCommand(sqlExpression, connection);
+                // указываем, что команда представляет хранимую процедуру
+                command.CommandType = System.Data.CommandType.StoredProcedure;
+                var result = command.ExecuteScalar();
+
+                Console.WriteLine("Успешный вызов процедуры", result);
+            }
+            return RedirectToAction("Index");
+        }
     }
 }

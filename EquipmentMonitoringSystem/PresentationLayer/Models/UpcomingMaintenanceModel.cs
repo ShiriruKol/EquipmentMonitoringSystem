@@ -1,4 +1,5 @@
 ﻿using EquipmentMonitoringSystem.DataLayer.Entityes;
+using EquipmentMonitoringSystem.PresentationLayer.Models;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace EquipmentMonitoringSystem.PresentationLayer.Models
@@ -20,5 +21,20 @@ namespace EquipmentMonitoringSystem.PresentationLayer.Models
         public string NameMain { get; set; } = string.Empty;
         public string NameEquip { get; set; } = string.Empty;
         public string Date { get; set; } = string.Empty;
+    }
+
+    public class EqPlan
+    {
+        public int Id { get; set; }
+        public string Name { get; set; } = string.Empty;
+        public string Type { get; set; } = string.Empty;
+        public string FactoryNumber { get; set; } = string.Empty;
+        public string MainDateName { get; set; } = string.Empty;
+    }
+
+    public class EqupsGroup
+    {
+        public string NameGroup { get; set; }
+        public List<EqPlan> Equipments { get; set; } = new List<EqPlan>();
     }
 }

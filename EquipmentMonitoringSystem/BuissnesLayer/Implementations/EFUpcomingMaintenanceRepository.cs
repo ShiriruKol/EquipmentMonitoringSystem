@@ -46,5 +46,13 @@ namespace EquipmentMonitoringSystem.BuissnesLayer.Implementations
         {
             return _context.UpcomingMaintenances.Count(x => x.Maintenance.Equipment.GroupId == grid);
         }
+
+        public IEnumerable<UpcomingMaintenance> GetUpcomingMaintenanceGroupId(int grid, bool includemain = false)
+        {
+            if (!includemain)
+                return _context.UpcomingMaintenances.AsNoTracking().Where(x => x.Maintenance.Equipment.GroupId == grid);
+            else
+                return _context.Set<DataLayer.Entityes.UpcomingMaintenance>().Include(x => x.Maintenance).AsNoTracking().Where(x => x.Maintenance.Equipment.GroupId == grid);
+        }
     }
 }

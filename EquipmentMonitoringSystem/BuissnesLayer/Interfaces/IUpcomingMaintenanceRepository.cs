@@ -10,5 +10,6 @@ namespace EquipmentMonitoringSystem.BuissnesLayer.Interfaces
         bool CheckMainInUpComMain(int mainid);
         int GetUpcomingMaintenanceCountStationId(int stid);
         int GetUpcomingMaintenanceCountGroupId(int grid);
+        IEnumerable<UpcomingMaintenance> GetUpcomingMaintenanceGroupId(int grid, bool includemain = false);
     }
 }

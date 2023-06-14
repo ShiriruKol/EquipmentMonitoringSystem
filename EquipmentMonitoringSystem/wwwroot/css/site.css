@@ -277,8 +277,3 @@ header {
 .divnamest {
     min-height: 30px;
 }
-
-.row-flex {
-    display: flex;
-    flex-flow: row wrap;
-}
