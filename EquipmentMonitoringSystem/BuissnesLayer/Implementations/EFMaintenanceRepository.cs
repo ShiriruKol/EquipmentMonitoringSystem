@@ -2,6 +2,7 @@
 using EquipmentMonitoringSystem.DataLayer;
 using EquipmentMonitoringSystem.DataLayer.Entityes;
 using EquipmentMonitoringSystem.PresentationLayer.Models;
+using Microsoft.EntityFrameworkCore;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.DateTime;
 
 namespace EquipmentMonitoringSystem.BuissnesLayer.Implementations
@@ -31,6 +32,11 @@ namespace EquipmentMonitoringSystem.BuissnesLayer.Implementations
         public IEnumerable<Maintenance> GetAllMaintenances()
         {
             return _context.Maintenances.ToList();
+        }
+
+        public int GetCountMainMounth(int stid, int month)
+        {
+            return _context.Maintenances.AsNoTracking().Where(x => x.Equipment.Group.StationId == stid && x.DateMaintenance.Month == month).Count();
         }
 
         public Maintenance GetMaintenanceByEqIdCurrDate(int eqid)

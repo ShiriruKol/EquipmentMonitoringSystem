@@ -18,7 +18,8 @@ namespace EquipmentMonitoringSystem.Controllers
 
         public IActionResult Index()
         {
-            return View();
+            List<StationIndexViewModel> _dirs = _servicesmanager.Stations.GetStationList();
+            return View(_dirs);
         }
         [HttpPost]
         public List<object> GetStatistics()
@@ -69,6 +70,18 @@ namespace EquipmentMonitoringSystem.Controllers
             statistics.Add(statstr);
             statistics.Add(eqcount);
             return statistics;
+        }
+
+        [HttpPost]
+        public List<object> GetStatisticsStation(int idstat)
+        {
+            List<object> stcount = new List<object>();
+            var st = _datamanager.Stations.GetStationById(idstat);
+            for (int i = 1; i <= 12; i++)
+            {
+                stcount.Add(_datamanager.Maintenances.GetCountMainMounth(idstat, i));
+            }
+            return stcount;
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿@using EquipmentMonitoringSystem.DataLayer.Entityes;
+@model List<EquipmentMonitoringSystem.PresentationLayer.Models.StationIndexViewModel>
 @{
     ViewData["Title"] = "Статистика";
 }
@@ -61,27 +62,42 @@
         </div>
     </div>
 </div>
+
+<div class="row p-1">
+    <div class="col-6 border border-3 rounded-3 ">
+        <h4 class="h4">Количество ТО в течении года на определенной станции</h4>
+        <div class="p-1">
+            <select id="SelectST" class="form-select" aria-label="Default select example">
+                <option selected>Выберите станцию</option>
+                @foreach (var station in Model)
+                {
+                    <option value="@station.Station.Id">@station.Station.Name</option>
+                }
+
+            </select>
+            <div class="text-center mt-1">
+                <input id="IDSTMONTH" class="btn btn-success" value="Получить статистику" type="button" />
+            </div>
+        </div>
+    </div>
+    <div class="col-6 border border-3 rounded-3 text-center">
+        <h4 class="h4">Количество оборудований на разных станциях</h4>
+        <input id="ID" class="btn btn-success" value="Получить статистику" type="button" />
+    </div>
+</div>
+
+
 <div class="row p-1">
     <div class="col-6 border border-3 rounded-3 text-center">
-        <h5 class="h4">TEMP</h5>
         <div class="chart-container">
             <canvas id="myChart5"></canvas>
         </div>
 
     </div>
     <div class="col-6 border border-3 rounded-3 text-center">
-        <h4 class="h4">Количество оборудований на разных станциях</h4>
         <div class="chart-container">
             <canvas id="myChart3"></canvas>
         </div>
-    </div>
-</div>
-<div class="row p-1">
-    <div class="col-6 text-center">
-        
-    </div>
-    <div class="col-6 text-center">
-        <input id="ID" class="btn btn-success" value="Получить статистику" type="button" />
     </div>
 </div>
 

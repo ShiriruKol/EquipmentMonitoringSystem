@@ -234,3 +234,48 @@ $(function () {
         }
     });
 });
+
+$(function () {
+    $("#IDSTMONTH").click(function () {
+        $(this).attr('disabled', true); // атрибут disabled
+        var select = document.getElementById("SelectST");
+        var value = select.value;
+
+        $.ajax({
+            type: "POST",
+            url: "/Statistic/GetStatisticsStation",
+            data: { 'idstat': value },
+            contextType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: OnSuccessResult,
+            error: OnError
+        });
+
+        function OnSuccessResult(data) {
+            const ctx5 = document.getElementById('myChart5');
+
+            const labels = ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'];
+
+            new Chart(ctx5,
+                {
+                    type: 'line',
+                    data: data,
+                    data: {
+                        labels: labels,
+                        datasets: [{
+                            label: 'Количество тех. обслуживаний по месяцам',
+                            data: data,
+                            fill: false,
+                            borderColor: 'rgb(75, 192, 192)',
+                            tension: 0.1
+                       
+                        }]
+                    },
+                    
+                });
+        }
+
+        function OnError(err) {
+        }
+    });
+});
