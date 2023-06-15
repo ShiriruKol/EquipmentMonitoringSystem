@@ -44,7 +44,7 @@ namespace EquipmentMonitoringSystem.BuissnesLayer.Implementations
 
         public int GetUpcomingMaintenanceCountGroupId(int grid)
         {
-            return _context.UpcomingMaintenances.Count(x => x.Maintenance.Equipment.GroupId == grid);
+            return _context.UpcomingMaintenances.Count(x => x.Maintenance.Equipment.GroupId == grid && x.Maintenance.Status != true);
         }
 
         public IEnumerable<UpcomingMaintenance> GetUpcomingMaintenanceGroupId(int grid, bool includemain = false)

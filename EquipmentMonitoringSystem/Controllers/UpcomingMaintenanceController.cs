@@ -4,6 +4,7 @@ using EquipmentMonitoringSystem.PresentationLayer.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.AspNetCore.Routing;
 using Npgsql;
 
 namespace EquipmentMonitoringSystem.Controllers
@@ -244,15 +245,18 @@ namespace EquipmentMonitoringSystem.Controllers
                 List<EqPlan> eqPlans = new List<EqPlan>();
                 foreach (var eq in eqs)
                 {
-                    EqPlan eqPlan = new EqPlan()
+                    if(eq.Maintenance.Status == false)
                     {
-                        Id = eq.Maintenance.Id,
-                        Name = _datamanager.Equipments.GetEquipmentById(eq.Maintenance.EquipmentId).Name,
-                        FactoryNumber = _datamanager.Equipments.GetEquipmentById(eq.Maintenance.EquipmentId).FactoryNumber,
-                        Type = _datamanager.Equipments.GetEquipmentById(eq.Maintenance.EquipmentId).Type,
-                        MainDateName = eq.Maintenance.Name + ' ' + eq.Maintenance.DateMaintenance.ToString(),
-                    };
-                    eqPlans.Add(eqPlan);
+                        EqPlan eqPlan = new EqPlan()
+                        {
+                            Id = eq.Maintenance.Id,
+                            Name = _datamanager.Equipments.GetEquipmentById(eq.Maintenance.EquipmentId).Name,
+                            FactoryNumber = _datamanager.Equipments.GetEquipmentById(eq.Maintenance.EquipmentId).FactoryNumber,
+                            Type = _datamanager.Equipments.GetEquipmentById(eq.Maintenance.EquipmentId).Type,
+                            MainDateName = eq.Maintenance.Name + ' ' + eq.Maintenance.DateMaintenance.ToString(),
+                        };
+                        eqPlans.Add(eqPlan);
+                    }
                 }
 
                 EqupsGroup equpsGroup = new EqupsGroup()
@@ -291,7 +295,9 @@ namespace EquipmentMonitoringSystem.Controllers
 
                 Console.WriteLine("Успешный вызов процедуры", result);
             }
-            return RedirectToAction("Index");
+            int ideq = _datamanager.Maintenances.GetMaintenanceById(id).EquipmentId;
+            int idgr = _datamanager.Equipments.GetEquipmentById(ideq).GroupId;
+            return RedirectToRoute(new { controller = "UpcomingMaintenance", action = "EqsGroup", id = idgr });
         }
     }
 }
