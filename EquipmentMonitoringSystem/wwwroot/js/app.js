@@ -15,18 +15,19 @@
         function OnSuccessResult(data) {
             
             var _data = data;
+            
             if (localStorage.getItem('CountNortf') == null) {
-                localStorage.setItem('CountNortf', _data.toString());
+                localStorage.setItem('CountNortf', _data[0].toString());
                 /*alert(Number(localStorage.getItem('CountNortf')));*/
 
             } else {
-                if (_data != 0 && _data > Number(localStorage.getItem('CountNortf'))) {
+                if (_data[0] != 0 && _data[0] > Number(localStorage.getItem('CountNortf'))) {
 
-                    localStorage.setItem('CountNortf', _data.toString());
+                    localStorage.setItem('CountNortf', _data[0].toString());
 
                     // создаем новое уведомление
                     const notification = new Notification('Технические обслуживания', {
-                        body: 'У вас ' + _data + ' непроизведенных(-ый) ремонт(-ов)',
+                        body: 'У вас ' + _data[0] + ' непроизведенных внеплавновых ремонтов и ' + _data[1] + ' плановых',
                         icon: './Icon.png'
                     });
 
@@ -37,7 +38,7 @@
 
                 } else if (_data < Number(localStorage.getItem('CountNortf'))) {
 
-                    localStorage.setItem('CountNortf', _data.toString());
+                    localStorage.setItem('CountNortf', _data[0].toString());
                 }
             }
 

@@ -38,7 +38,7 @@ else
 
         function OnSuccessResult(data) {
             var _data = data;
-            document.getElementById("nortfid").innerHTML = _data;
+            document.getElementById("nortfid").innerHTML = _data[0];
         }
 
         function OnError(err) {

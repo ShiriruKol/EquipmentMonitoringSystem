@@ -86,8 +86,12 @@ namespace EquipmentMonitoringSystem.Controllers
         [HttpPost]
         public object CountNortify()
         {
-            object count = _datamanager.Nortify.GetAllNortify().Count();
-            return count;
+            int count = _datamanager.Nortify.GetAllNortify().Count(); ;
+            int countupcom = _datamanager.UpcomingMaintenance.GetAllUpcomingMaintenance().Count();
+            List<object> listunpObject = new List<object>();
+            listunpObject.Add(count);
+            listunpObject.Add(countupcom);
+            return listunpObject;
         }
 
         [HttpGet]
