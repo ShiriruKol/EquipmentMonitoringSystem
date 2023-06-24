@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace EquipmentMonitoringSystem.Migrations.EFDB
 {
     [DbContext(typeof(EFDBContext))]
-    [Migration("20230526130216_Init")]
+    [Migration("20230624122158_Init")]
     partial class Init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -160,6 +160,37 @@ namespace EquipmentMonitoringSystem.Migrations.EFDB
                         .IsUnique();
 
                     b.ToTable("Nortifys");
+                });
+
+            modelBuilder.Entity("EquipmentMonitoringSystem.DataLayer.Entityes.Report", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<DateOnly>("Date")
+                        .HasColumnType("date");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("IdUser")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<int>("MaintenanceId")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Reports");
                 });
 
             modelBuilder.Entity("EquipmentMonitoringSystem.DataLayer.Entityes.Station", b =>

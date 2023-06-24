@@ -4,7 +4,6 @@ using EquipmentMonitoringSystem.PresentationLayer.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.AspNetCore.Routing;
 using Npgsql;
 
 namespace EquipmentMonitoringSystem.Controllers
@@ -48,6 +47,7 @@ namespace EquipmentMonitoringSystem.Controllers
                         {
                             UpMain upMain = new UpMain()
                             {
+                                Id = maitenance.Id,
                                 NameMain = maitenance.Name,
                                 NameEquip = equipment.Name,
                                 Date = maitenance.DateMaintenance.ToString(),
@@ -258,6 +258,7 @@ namespace EquipmentMonitoringSystem.Controllers
                             FactoryNumber = _datamanager.Equipments.GetEquipmentById(eq.Maintenance.EquipmentId).FactoryNumber,
                             Type = _datamanager.Equipments.GetEquipmentById(eq.Maintenance.EquipmentId).Type,
                             MainDateName = eq.Maintenance.Name + ' ' + eq.Maintenance.DateMaintenance.ToString(),
+                            MainId = eq.Maintenance.Id,
                         };
                         eqPlans.Add(eqPlan);
                     }

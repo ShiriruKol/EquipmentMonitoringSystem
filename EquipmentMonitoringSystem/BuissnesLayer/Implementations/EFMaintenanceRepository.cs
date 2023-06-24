@@ -46,7 +46,7 @@ namespace EquipmentMonitoringSystem.BuissnesLayer.Implementations
 
         public Maintenance GetMaintenanceById(int id)
         {
-            return _context.Maintenances.FirstOrDefault(x => x.Id == id)!;
+            return _context.Maintenances.AsNoTracking().FirstOrDefault(x => x.Id == id)!;
         }
 
         public void SaveMaintenance(Maintenance maintenance)

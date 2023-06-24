@@ -7,9 +7,17 @@ namespace EquipmentMonitoringSystem.PresentationLayer.Models
     {
     }
 
+    public class UserViewModel {
+        public string Id { get; set; }
+        public string FullName { get; set; }
+        public string Email { get; set; } = string.Empty;
+    }
+
     public class UserEditViewModel
     {
         public int Id { get; set; }
+        [Required]
+        public string FullName { get; set; }
         [Required]
         [EmailAddress]
         public string Email { get; set; } = string.Empty;

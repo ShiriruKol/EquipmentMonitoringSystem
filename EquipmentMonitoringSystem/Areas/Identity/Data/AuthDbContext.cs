@@ -1,4 +1,5 @@
 ﻿using EquipmentMonitoringSystem.Areas.Identity.Data;
+using EquipmentMonitoringSystem.DataLayer.Entityes;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -17,4 +18,6 @@ public class AuthDbContext : IdentityDbContext<IdentityUser>
         base.OnModelCreating(builder);
        
     }
+
+    public DbSet<ApplicationUser> ApplicationUser { get; set; }
 }

@@ -24,6 +24,23 @@ namespace EquipmentMonitoringSystem.Migrations.EFDB
                 });
 
             migrationBuilder.CreateTable(
+                name: "Reports",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Name = table.Column<string>(type: "text", nullable: false),
+                    Date = table.Column<DateOnly>(type: "date", nullable: false),
+                    MaintenanceId = table.Column<int>(type: "integer", nullable: false),
+                    Description = table.Column<string>(type: "text", nullable: false),
+                    IdUser = table.Column<string>(type: "text", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Reports", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Stations",
                 columns: table => new
                 {
@@ -180,6 +197,9 @@ namespace EquipmentMonitoringSystem.Migrations.EFDB
 
             migrationBuilder.DropTable(
                 name: "Nortifys");
+
+            migrationBuilder.DropTable(
+                name: "Reports");
 
             migrationBuilder.DropTable(
                 name: "UpcomingMaintenances");

@@ -1,5 +1,6 @@
 ﻿using EquipmentMonitoringSystem.Areas.Identity.Data;
 using EquipmentMonitoringSystem.BuissnesLayer;
+using EquipmentMonitoringSystem.DataLayer.Entityes;
 using EquipmentMonitoringSystem.PresentationLayer;
 using EquipmentMonitoringSystem.PresentationLayer.Models;
 using Microsoft.AspNetCore.Authorization;
@@ -7,6 +8,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
 using System.Data;
 
 namespace EquipmentMonitoringSystem.Controllers
@@ -14,17 +16,31 @@ namespace EquipmentMonitoringSystem.Controllers
     [Authorize(Roles = "Admin")]
     public class UserController : Controller
     {
+        private AuthDbContext _authDbContext;
         private readonly UserManager<IdentityUser> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
-        public UserController(UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager)
+        public UserController(AuthDbContext authDbContext, UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager)
         {
             _userManager = userManager;
             _roleManager = roleManager;
+            _authDbContext = authDbContext;
         }
 
         public IActionResult Index()
         {
-            var users = _userManager.Users;
+
+            var usersdb = _authDbContext.Users.ToList();
+            List<UserViewModel> users = new List<UserViewModel>();
+            foreach (ApplicationUser item in usersdb)
+            {
+                UserViewModel user = new UserViewModel()
+                {
+                    Email = item.Email,
+                    FullName = item.FullName,
+                    Id = item.Id,
+                };
+                users.Add(user);
+            }
             return View(users);
         }
 
@@ -48,6 +64,8 @@ namespace EquipmentMonitoringSystem.Controllers
                 ModelState.AddModelError(nameof(model.Password), "Указано некорректный пароль!");
             if (model.RoleId == string.Empty)
                 ModelState.AddModelError(nameof(model.RoleId), "Выберите роль");
+            if (model.FullName == string.Empty)
+                ModelState.AddModelError(nameof(model.RoleId), "Заполните поле с ФИО");
 
             if (!ModelState.IsValid)
             {
@@ -56,7 +74,8 @@ namespace EquipmentMonitoringSystem.Controllers
                 return View(model);
             }
 
-            IdentityUser user = new IdentityUser { Email = model.Email, UserName = model.Email };
+            ApplicationUser user = new ApplicationUser { Email = model.Email, UserName = model.Email, FullName = model.FullName };
+           /* IdentityUser user = new IdentityUser { Email = model.Email, UserName = model.Email, Fu = model.FullName };*/
             IdentityResult result = await _userManager.CreateAsync(user, model.Password);
 
             IdentityRole role = _roleManager.Roles.AsNoTracking().FirstOrDefault(x => x.Id == model.RoleId)!;

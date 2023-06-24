@@ -18,6 +18,7 @@ namespace EquipmentMonitoringSystem.PresentationLayer.Models
 
     public class UpMain 
     {
+        public int Id { get; set; }
         public string NameMain { get; set; } = string.Empty;
         public string NameEquip { get; set; } = string.Empty;
         public string Date { get; set; } = string.Empty;
@@ -30,6 +31,7 @@ namespace EquipmentMonitoringSystem.PresentationLayer.Models
         public string Type { get; set; } = string.Empty;
         public string FactoryNumber { get; set; } = string.Empty;
         public string MainDateName { get; set; } = string.Empty;
+        public int MainId { get; set;}
     }
 
     public class EqupsGroup

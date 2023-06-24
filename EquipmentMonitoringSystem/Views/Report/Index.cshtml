@@ -1,0 +1,37 @@
+﻿@using EquipmentMonitoringSystem.PresentationLayer.Models;
+@model IEnumerable<ReportViewModel>
+@{
+    ViewData["Title"] = "Отчеты";
+}
+
+@if (Model.Any())
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Наименование</th>
+                <th>Тех. обслуживание</th>
+                <th>Фактическая дата проведения</th>
+                <th>Сотрудник</th>
+                <th>Статус</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@Html.DisplayFor(modelItem => item.Name)</td>
+                    <td>@Html.DisplayFor(modelItem => item.Main)</td>
+                    <td>@Html.DisplayFor(modelItem => item.Date)</td>
+                    <td>@Html.DisplayFor(modelItem => item.UserName)</td>
+                    <td>@Html.DisplayFor(modelItem => item.Status)</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+}
+else
+{
+    <h5 class="mt-2 m-lg-2 text-center">Список пуст</h5>
+}

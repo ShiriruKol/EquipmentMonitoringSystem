@@ -1,0 +1,54 @@
+﻿@using EquipmentMonitoringSystem.PresentationLayer.Models;
+@model CreateReportViewModel
+@{
+    ViewData["Title"] = "Назначить сотрудника";
+}
+
+<div class="container">
+    <main role="main" class="pb-3">
+        <div class="column">
+
+            <div class="col-8 mb-4">
+
+                <form asp-controller="Report" asp-action="Appoint" onsubmit="post">
+                    <div class="form-group mb-3">
+                        <label asp-for="Name">Наименование</label>
+                        <input asp-for="Name" class="form-control" readonly>
+                        <span asp-validation-for="Name" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label asp-for="EqName">Описание</label>
+                        <input asp-for="EqName" class="form-control" readonly>
+                        <span asp-validation-for="EqName" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label asp-for="Date">Дата проведения</label>
+                        <input asp-for="Date" class="form-control" readonly>
+                        <span asp-validation-for="Date" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group mb-3" hidden>
+                        <label asp-for="mainId">Id ТО</label>
+                        <input asp-for="mainId" class="form-control" readonly>
+                        <span asp-validation-for="mainId" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group mb-2">
+                        <label asp-for="idUser" class="form-label">Сотрудник</label>
+                        <select id="SelectedTypeId" asp-for="idUser" asp-items="Model.Users" class="form-select"></select>
+                        <span asp-validation-for="idUser" class="text-danger"></span>
+                    </div>
+
+                    <div class="validation" asp-validation-summary="ModelOnly"></div>
+
+                    <button type="submit" class="btn btn-success">Назначить</button>
+                </form>
+
+            </div>
+
+            <a asp-action="Index">Вернуться назад</a>
+        </div>
+    </main>
+</div>

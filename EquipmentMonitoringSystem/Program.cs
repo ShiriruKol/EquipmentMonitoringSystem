@@ -45,9 +45,6 @@ builder.Services.AddDefaultIdentity<IdentityUser>().AddDefaultTokenProviders()
     .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<AuthDbContext>();
 
-
-
-
 builder.Services.AddScoped<IStationRepository, EFStationRepository>();
 builder.Services.AddScoped<IGroupRepository, EFGroupRepository>();
 builder.Services.AddScoped<IEquipmentRepository, EFEquipmentRepository>();
@@ -55,6 +52,7 @@ builder.Services.AddScoped<IMaintenanceRepository, EFMaintenanceRepository>();
 builder.Services.AddScoped<IUpcomingMaintenanceRepository, EFUpcomingMaintenanceRepository>();
 builder.Services.AddScoped<INortifyRepository, EFNortifyRepository>();
 builder.Services.AddScoped<IFileNamesRepository, EFFileNamesRepository>();
+builder.Services.AddScoped<IReportRepository, EFReportRepository>();
 builder.Services.AddScoped<DataManager>();
 builder.Services.AddScoped<ServicesManager>();
 

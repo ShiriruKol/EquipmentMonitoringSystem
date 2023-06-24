@@ -98,6 +98,7 @@
                             <th scope="col">Имя оборудования</th>
                             <th scope="col">Имя ТО</th>
                             <th scope="col">Дата проведения</th>
+                            <th scope="col">Действие</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -108,6 +109,11 @@
                                     <td>@item.NameEquip</td>
                                     <td>@item.NameMain</td>
                                     <td>@item.Date</td>
+                                    <td>
+                                        <a class="btn btn-success" href="/Report/Appoint/@item.Id" title="Нажмите, чтобы назначить сотрудника на выполнение ТО.">
+                                            Назначить сотрудника
+                                        </a>
+                                    </td>
                                 </tr>
                             }
                         }

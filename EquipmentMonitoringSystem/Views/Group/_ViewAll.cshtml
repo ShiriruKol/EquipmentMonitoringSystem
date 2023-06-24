@@ -3,13 +3,12 @@
 <div class="container">
     <main role="main" class="pb-3">
         
-
         @if (Model.Groups != null)
         {
             <input class="form-control" type="text" placeholder="Поиск по таблице" id="search-text" onkeyup="tableSearch()">
             <p><button class="btn btn-success mt-1" onclick="sortTable()">Отсортировать таблицу по алфавиту</button></p>
 
-            <table class="table table-bordered" id="info-table">
+            <table class="table table-bordered tablesorter" id="info-table">
                 <thead>
                     <tr style="cursor: pointer;">
                         <th scope="col" data-type="number">№</th>
@@ -54,3 +53,9 @@
 </div>
 
 
+
+<script>
+    $(document).ready(function () {
+        $("#info-table").tablesorter();
+    });
+</script>

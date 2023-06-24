@@ -12,8 +12,6 @@
         <tr>
             <th scope="col">№</th>
             <th scope="col">Наименование</th>
-            <th scope="col">Тип</th>
-            <th scope="col">Заводской номер</th>
             <th scope="col">Приближающесся ТО</th>
             <th scope="col">Действие</th>
         </tr>
@@ -25,12 +23,10 @@
             <tr>
                 <th scope="row">@i</th>
                 <td>@eq.Name</td>
-                <td>@eq.Type</td>
-                <td>@eq.FactoryNumber</td>
                 <td>@eq.MainDateName</td>
                 <td>
-                    <a class="btn btn-success action-icon" href="/UpcomingMaintenance/Fix2/@eq.Id" title="Нажмите, чтобы объявить о прохождении ТО.">
-                        <i class="fa-sharp fa-solid fa-check"></i>
+                    <a class="btn btn-success" href="/Report/Appoint/@eq.Id" title="Нажмите, чтобы назначить сотрудника на выполнение ТО.">
+                        Назначить сотрудника
                     </a>
                 </td>
             </tr>
