@@ -1,4 +1,5 @@
-﻿@model List<EquipmentMonitoringSystem.PresentationLayer.Models.UnplannedMainView>
+﻿@using EquipmentMonitoringSystem.PresentationLayer.Models;
+@model UnplannedMainViewForUser
 @{
     ViewData["Title"] = "Список ремонтов";
 }
@@ -49,7 +50,7 @@
     </div>
 </div>
 
-@if(Model.Count != 0)
+@if(Model.UnplannedMainViews.Count != 0)
 {
     <div id="yesinfo" class="row mt-2" >
         @await Html.PartialAsync("_TableView", Model)

@@ -1,4 +1,5 @@
-﻿@model List<EquipmentMonitoringSystem.PresentationLayer.Models.UnplannedMainView>
+﻿@using EquipmentMonitoringSystem.PresentationLayer.Models;
+@model UnplannedMainViewForUser
 
 <div class="col-12">
     <main role="main" class="pb-3">
@@ -18,7 +19,7 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach (var item in Model)
+                @foreach (var item in Model.UnplannedMainViews)
                 {
                     <tr>
                         <td>@item.Header</td>

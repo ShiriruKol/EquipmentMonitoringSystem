@@ -109,11 +109,19 @@
                                     <td>@item.NameEquip</td>
                                     <td>@item.NameMain</td>
                                     <td>@item.Date</td>
-                                    <td>
-                                        <a class="btn btn-success" href="/Report/Appoint/@item.Id" title="Нажмите, чтобы назначить сотрудника на выполнение ТО.">
-                                            Назначить сотрудника
-                                        </a>
-                                    </td>
+                                    @if (item.Appointed)
+                                    {
+                                        <td>Сотрудник назначен</td>
+                                    }
+                                    else
+                                    {
+                                        <td>
+                                            <a class="btn btn-success" href="/Report/Appoint/@item.Id" title="Нажмите, чтобы назначить сотрудника на выполнение ТО.">
+                                                Назначить сотрудника
+                                            </a>
+                                        </td>
+                                    }
+                                    
                                 </tr>
                             }
                         }

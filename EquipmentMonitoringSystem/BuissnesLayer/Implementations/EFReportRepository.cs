@@ -13,6 +13,11 @@ namespace EquipmentMonitoringSystem.BuissnesLayer.Implementations
             _context = context;
         }
 
+        public Report AvailabilityMain(int main)
+        {
+            return _context.Reports.FirstOrDefault(x => x.MaintenanceId == main);
+        }
+
         public void DeleteReport(Report rep)
         {
             _context.Reports.Remove(rep);

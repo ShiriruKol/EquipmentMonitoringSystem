@@ -8,5 +8,6 @@ namespace EquipmentMonitoringSystem.BuissnesLayer.Interfaces
         Report GetReportById(int repid, bool includemain = false);
         void SaveReport(Report repid);
         void DeleteReport(Report repid);
+        Report AvailabilityMain(int main);
     }
 }

@@ -22,6 +22,7 @@ namespace EquipmentMonitoringSystem.PresentationLayer.Models
         public string NameMain { get; set; } = string.Empty;
         public string NameEquip { get; set; } = string.Empty;
         public string Date { get; set; } = string.Empty;
+        public bool Appointed { get; set; }
     }
 
     public class EqPlan
@@ -32,6 +33,7 @@ namespace EquipmentMonitoringSystem.PresentationLayer.Models
         public string FactoryNumber { get; set; } = string.Empty;
         public string MainDateName { get; set; } = string.Empty;
         public int MainId { get; set;}
+        public bool Appointed { get; set; }
     }
 
     public class EqupsGroup

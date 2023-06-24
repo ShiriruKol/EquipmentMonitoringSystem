@@ -24,11 +24,21 @@
                 <th scope="row">@i</th>
                 <td>@eq.Name</td>
                 <td>@eq.MainDateName</td>
-                <td>
-                    <a class="btn btn-success" href="/Report/Appoint/@eq.Id" title="Нажмите, чтобы назначить сотрудника на выполнение ТО.">
-                        Назначить сотрудника
-                    </a>
-                </td>
+                @if(eq.Appointed)
+                {
+                    <td>
+                        Сотрудник назначен
+                    </td>
+                }
+                else
+                {
+                    <td>
+                        <a class="btn btn-success" href="/Report/Appoint/@eq.Id" title="Нажмите, чтобы назначить сотрудника на выполнение ТО.">
+                            Назначить сотрудника
+                        </a>
+                    </td>
+                }
+                
             </tr>
             i++;
         }

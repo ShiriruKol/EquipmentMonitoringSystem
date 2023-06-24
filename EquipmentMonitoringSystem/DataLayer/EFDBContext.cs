@@ -88,6 +88,7 @@ namespace EquipmentMonitoringSystem.DataLayer
                 entity.Property(x => x.Name);
                 entity.Property(x => x.Description);
                 entity.Property(x => x.Date);
+                entity.Property(x=>x.DateDefacto);
                 entity.Property(x => x.MaintenanceId);
                 entity.Property(x => x.IdUser);
             });

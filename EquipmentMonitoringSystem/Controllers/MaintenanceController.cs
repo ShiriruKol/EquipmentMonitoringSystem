@@ -2,11 +2,13 @@
 using EquipmentMonitoringSystem.DataLayer.Entityes;
 using EquipmentMonitoringSystem.PresentationLayer;
 using EquipmentMonitoringSystem.PresentationLayer.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace EquipmentMonitoringSystem.Controllers
 {
+    [Authorize]
     public class MaintenanceController : Controller
     {
         private readonly DataManager _datamanager;

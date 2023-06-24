@@ -11,6 +11,7 @@
             <tr>
                 <th>Наименование</th>
                 <th>Тех. обслуживание</th>
+                <th>Дата проведения</th>
                 <th>Фактическая дата проведения</th>
                 <th>Сотрудник</th>
                 <th>Статус</th>
@@ -23,6 +24,14 @@
                     <td>@Html.DisplayFor(modelItem => item.Name)</td>
                     <td>@Html.DisplayFor(modelItem => item.Main)</td>
                     <td>@Html.DisplayFor(modelItem => item.Date)</td>
+                    @if (item.DateDefacto == "01.01.0001")
+                    {
+                        <td>---</td>
+                    }
+                    else
+                    {
+                        <td>@Html.DisplayFor(modelItem => item.DateDefacto)</td>
+                    }
                     <td>@Html.DisplayFor(modelItem => item.UserName)</td>
                     <td>@Html.DisplayFor(modelItem => item.Status)</td>
                 </tr>

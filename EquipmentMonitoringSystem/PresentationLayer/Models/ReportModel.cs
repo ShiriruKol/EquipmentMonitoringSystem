@@ -11,6 +11,7 @@ namespace EquipmentMonitoringSystem.PresentationLayer.Models
         public string Description { get; set; }
         public string Main { get; set; }
         public string Date { get; set; }
+        public string DateDefacto { get; set; }
         public string UserName { get; set; }
         public string Status { get; set; }
     }

@@ -1,10 +1,14 @@
-﻿using EquipmentMonitoringSystem.BuissnesLayer;
+﻿using EquipmentMonitoringSystem.Areas.Identity.Data;
+using EquipmentMonitoringSystem.BuissnesLayer;
 using EquipmentMonitoringSystem.DataLayer.Entityes;
 using EquipmentMonitoringSystem.PresentationLayer.Models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore.Infrastructure.Internal;
 using Npgsql;
+using System;
 
 namespace EquipmentMonitoringSystem.Controllers
 {
@@ -12,6 +16,7 @@ namespace EquipmentMonitoringSystem.Controllers
     public class UpcomingMaintenanceController : Controller
     {
         private readonly DataManager _datamanager;
+
 
         public UpcomingMaintenanceController(DataManager datamanager)
         {
@@ -51,6 +56,7 @@ namespace EquipmentMonitoringSystem.Controllers
                                 NameMain = maitenance.Name,
                                 NameEquip = equipment.Name,
                                 Date = maitenance.DateMaintenance.ToString(),
+                                Appointed = _datamanager.Reports.AvailabilityMain(maitenance.Id) != null ? true : false,
                             };
                             upMains.Add(upMain);
                         }
@@ -96,6 +102,7 @@ namespace EquipmentMonitoringSystem.Controllers
 
         [HttpGet]
         public IActionResult IndexNortf() {
+            UnplannedMainViewForUser unplannedMainViewForUser = new UnplannedMainViewForUser();
             List<UnplannedMainView> unplannedMains = new List<UnplannedMainView>();
             List<Nortify> nortfs = _datamanager.Nortify.GetAllNortify().ToList();
 
@@ -116,8 +123,9 @@ namespace EquipmentMonitoringSystem.Controllers
 
                 unplannedMains.Add(unplanned);
             }
-
-            return View(unplannedMains);
+            string user = User.Identity.Name;//тут сохранен логин, по нему найти id и тогда сделать полноценные уведомления
+            unplannedMainViewForUser.UnplannedMainViews = unplannedMains;
+            return View(unplannedMainViewForUser);
         }
 
         [HttpGet]
@@ -259,6 +267,7 @@ namespace EquipmentMonitoringSystem.Controllers
                             Type = _datamanager.Equipments.GetEquipmentById(eq.Maintenance.EquipmentId).Type,
                             MainDateName = eq.Maintenance.Name + ' ' + eq.Maintenance.DateMaintenance.ToString(),
                             MainId = eq.Maintenance.Id,
+                            Appointed = _datamanager.Reports.AvailabilityMain(eq.Maintenance.Id) != null ? true : false,
                         };
                         eqPlans.Add(eqPlan);
                     }

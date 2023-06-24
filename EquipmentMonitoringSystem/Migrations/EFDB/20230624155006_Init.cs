@@ -31,6 +31,7 @@ namespace EquipmentMonitoringSystem.Migrations.EFDB
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     Name = table.Column<string>(type: "text", nullable: false),
                     Date = table.Column<DateOnly>(type: "date", nullable: false),
+                    DateDefacto = table.Column<DateOnly>(type: "date", nullable: false),
                     MaintenanceId = table.Column<int>(type: "integer", nullable: false),
                     Description = table.Column<string>(type: "text", nullable: false),
                     IdUser = table.Column<string>(type: "text", nullable: false)

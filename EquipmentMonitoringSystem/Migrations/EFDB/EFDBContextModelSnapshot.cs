@@ -171,6 +171,9 @@ namespace EquipmentMonitoringSystem.Migrations.EFDB
                     b.Property<DateOnly>("Date")
                         .HasColumnType("date");
 
+                    b.Property<DateOnly>("DateDefacto")
+                        .HasColumnType("date");
+
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("text");

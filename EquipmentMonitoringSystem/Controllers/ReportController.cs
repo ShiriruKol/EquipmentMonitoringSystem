@@ -3,6 +3,8 @@ using EquipmentMonitoringSystem.BuissnesLayer;
 using EquipmentMonitoringSystem.DataLayer.Entityes;
 using EquipmentMonitoringSystem.PresentationLayer;
 using EquipmentMonitoringSystem.PresentationLayer.Models;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -11,6 +13,7 @@ using System.Xml.Linq;
 
 namespace EquipmentMonitoringSystem.Controllers
 {
+    [Authorize(Roles = "Admin,Главный механик")]
     public class ReportController : Controller
     {
         private readonly DataManager _datamanager;
@@ -43,6 +46,7 @@ namespace EquipmentMonitoringSystem.Controllers
                     Main = maintenance.Name + " - " + maintenance.NumberHours + "час.",
                     UserName = user.FullName,
                     Status = status,
+                    DateDefacto = report.DateDefacto.ToString(),
                 };
                 reportList.Add(reportView);
             }
@@ -103,13 +107,35 @@ namespace EquipmentMonitoringSystem.Controllers
 
         private List<SelectListItem> UsersToSelectedList()
         {
-            var users = _authDbContext.ApplicationUser.ToList().Select(user => new SelectListItem
+            List<SelectListItem> usersAll = new List<SelectListItem>();
+            var usr = _authDbContext.ApplicationUser.ToList();
+            string nameengId = _authDbContext.Roles.FirstOrDefault(x => x.NormalizedName == "ИНЖЕНЕР").Id;
+            var idusersEng = _authDbContext.UserRoles.Where(x => x.RoleId == nameengId).ToList();
+
+            List<ApplicationUser> usrsEng = new List<ApplicationUser>();
+
+            foreach (var item in idusersEng)
+            {
+                if (_authDbContext.ApplicationUser.FirstOrDefault(x => x.Id == item.UserId) != null)
+                {
+                    ApplicationUser user = _authDbContext.ApplicationUser.FirstOrDefault(x => x.Id == item.UserId);
+                    SelectListItem ur = new SelectListItem()
+                    {
+                        Value = user.Id.ToString(),
+                        Text = user.FullName,
+                    };
+                    usersAll.Add(ur);
+                }
+                
+            }
+
+            /*var users = _authDbContext.ApplicationUser.ToList().Select(user => new SelectListItem
             {
                 Value = user.Id.ToString(),
                 Text = user.FullName,
-            }).ToList();
+            }).ToList();*/
 
-            return users;
+            return usersAll;
         }
     }
 }
