@@ -8,11 +8,19 @@
         public string? EmplName { get; set; }
         public string? StatName { get; set; }
         public string? NumHours { get; set; }
+        public bool Appointed { get; set; }
+    }
+
+    public class InfoUser
+    {
+        public string IdUser { get; set; }
+        public string Role { get; set; }
+        public string FullName { get; set; }
     }
 
     public class UnplannedMainViewForUser
     {
-        public int IdUser { get; set; }
+        public string IdUser { get; set; }
         public string Role { get; set; }
         public string FullName { get; set; }
 

@@ -49,7 +49,10 @@ namespace EquipmentMonitoringSystem.PresentationLayer.Models
         public string NumberHours { get; set; }
         [Required(ErrorMessage = "Дата является обязательным полем!")]
         public string Date { get; set; }
+        public string idUser { get; set; } = "0";
+        public List<SelectListItem> Users { get; set; } = new();
         [Required]
         public List<SelectListItem> Stations { get; set; }
+        public string Role { get; set; }
     }
 }

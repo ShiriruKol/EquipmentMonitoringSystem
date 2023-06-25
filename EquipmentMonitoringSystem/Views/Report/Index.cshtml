@@ -6,7 +6,7 @@
 
 @if (Model.Any())
 {
-    <table class="table">
+    <table class="table table-bordered">
         <thead>
             <tr>
                 <th>Наименование</th>
@@ -33,7 +33,16 @@
                         <td>@Html.DisplayFor(modelItem => item.DateDefacto)</td>
                     }
                     <td>@Html.DisplayFor(modelItem => item.UserName)</td>
-                    <td>@Html.DisplayFor(modelItem => item.Status)</td>
+                    <td>
+                        @if(item.Status == "Выполнено")
+                        {
+                            <div class="btn btn-primary">⠀Пройдено⠀</div>
+                        }
+                        else
+                        {
+                            <div class="btn btn-danger">Не пройден</div>
+                        }
+                    </td>
                 </tr>
             }
         </tbody>

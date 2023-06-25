@@ -8,6 +8,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore.Infrastructure.Internal;
 using Npgsql;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Logical;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Math;
 using System;
 
 namespace EquipmentMonitoringSystem.Controllers
@@ -16,11 +18,13 @@ namespace EquipmentMonitoringSystem.Controllers
     public class UpcomingMaintenanceController : Controller
     {
         private readonly DataManager _datamanager;
+        private readonly AuthDbContext _authDbContext;
 
 
-        public UpcomingMaintenanceController(DataManager datamanager)
+        public UpcomingMaintenanceController(DataManager datamanager, AuthDbContext authDbContext)
         {
             _datamanager = datamanager;
+            _authDbContext = authDbContext;
         }
 
         public IActionResult Index(UpcomingViewMaintenanceModel model)
@@ -89,21 +93,92 @@ namespace EquipmentMonitoringSystem.Controllers
             return groups;
         }
 
+        private InfoUser GetUserInfo()
+        {
+            InfoUser infoUser = new InfoUser();
+            //тут сохранен логин, по нему найти id и тогда сделать полноценные уведомления
+            ApplicationUser user = _authDbContext.ApplicationUser.FirstOrDefault(x => x.UserName == User.Identity.Name);
+
+            string nameengId = _authDbContext.Roles.FirstOrDefault(x => x.NormalizedName == "ИНЖЕНЕР").Id;
+            var idusersEng = _authDbContext.UserRoles.Where(x => x.RoleId == nameengId).ToList();
+
+            foreach (var iduser in idusersEng)
+            {
+                if (iduser.UserId == user.Id)
+                {
+                    infoUser.IdUser = user.Id;
+                    infoUser.FullName = user.FullName;
+                    infoUser.Role = _authDbContext.Roles.FirstOrDefault(x => x.Id == nameengId).NormalizedName;
+                }
+            }
+
+            nameengId = _authDbContext.Roles.FirstOrDefault(x => x.NormalizedName == "ГЛАВНЫЙ МЕХАНИК").Id;
+            idusersEng = _authDbContext.UserRoles.Where(x => x.RoleId == nameengId).ToList();
+
+            foreach (var iduser in idusersEng)
+            {
+                if (iduser.UserId == user.Id)
+                {
+                    infoUser.IdUser = user.Id;
+                    infoUser.FullName = user.FullName;
+                    infoUser.Role = _authDbContext.Roles.FirstOrDefault(x => x.Id == nameengId).NormalizedName;
+                }
+            }
+
+            nameengId = _authDbContext.Roles.FirstOrDefault(x => x.NormalizedName == "ADMIN").Id;
+            idusersEng = _authDbContext.UserRoles.Where(x => x.RoleId == nameengId).ToList();
+
+            foreach (var iduser in idusersEng)
+            {
+                if (iduser.UserId == user.Id)
+                {
+                    infoUser.IdUser = user.Id;
+                    infoUser.FullName = user.FullName;
+                    infoUser.Role = _authDbContext.Roles.FirstOrDefault(x => x.Id == nameengId).NormalizedName;
+                }
+            }
+
+            return infoUser;
+        }
+
         [HttpPost]
         public object CountNortify()
         {
-            int count = _datamanager.Nortify.GetAllNortify().Count(); ;
-            int countupcom = _datamanager.UpcomingMaintenance.GetAllUpcomingMaintenance().Count();
             List<object> listunpObject = new List<object>();
-            listunpObject.Add(count);
-            listunpObject.Add(countupcom);
+            InfoUser infoUser = GetUserInfo();
+            if (infoUser.Role == "ИНЖЕНЕР")
+            {
+                int count_f = _datamanager.Reports.GetAllReports().Where(x => x.IdUser == infoUser.IdUser && !_datamanager.Maintenances.GetMaintenanceById(x.MaintenanceId).Status).Count();
+                List<object> listunpObject_f = new List<object>();
+                listunpObject_f.Add(count_f);
+                listunpObject_f.Add(infoUser.IdUser);
+                listunpObject_f.Add(infoUser.Role);
+                return listunpObject_f;
+            }
+            else
+            {
+                int count = _datamanager.Reports.GetAllReports().Where(x=>x.MaintenanceId == _datamanager.Maintenances.GetMaintenanceById(x.MaintenanceId).Id && !_datamanager.Maintenances.GetMaintenanceById(x.MaintenanceId).Status).Count();
+                listunpObject.Add(count);
+                listunpObject.Add(infoUser.IdUser);
+                listunpObject.Add(infoUser.Role);
+
+            }
+            
             return listunpObject;
         }
 
         [HttpGet]
         public IActionResult IndexNortf() {
             UnplannedMainViewForUser unplannedMainViewForUser = new UnplannedMainViewForUser();
-            List<UnplannedMainView> unplannedMains = new List<UnplannedMainView>();
+
+            ApplicationUser user = _authDbContext.ApplicationUser.FirstOrDefault(x => x.UserName == User.Identity.Name);
+
+            InfoUser infoUser = GetUserInfo();
+            unplannedMainViewForUser.FullName = infoUser.FullName;
+            unplannedMainViewForUser.IdUser = infoUser.IdUser;
+            unplannedMainViewForUser.Role = infoUser.Role;
+
+            List <UnplannedMainView> unplannedMains = new List<UnplannedMainView>();
             List<Nortify> nortfs = _datamanager.Nortify.GetAllNortify().ToList();
 
             foreach (var nort in nortfs)
@@ -119,12 +194,46 @@ namespace EquipmentMonitoringSystem.Controllers
                     Description = nort.Description,
                     EmplName = eq.Name,
                     StatName = namest,
+                    NumHours = main.NumberHours.ToString(),
+                    Appointed = _datamanager.Reports.AvailabilityMain(main.Id) != null ? true : false,
                 };
 
                 unplannedMains.Add(unplanned);
             }
-            string user = User.Identity.Name;//тут сохранен логин, по нему найти id и тогда сделать полноценные уведомления
-            unplannedMainViewForUser.UnplannedMainViews = unplannedMains;
+            
+            if(unplannedMainViewForUser.Role == "ИНЖЕНЕР")
+            {
+                List<Report> repuser = _datamanager.Reports.GetAllReports().Where(x => x.IdUser == user.Id).ToList();
+                List<UnplannedMainView> planed = new List<UnplannedMainView>();
+
+                foreach(var rep in repuser)
+                {
+                    Maintenance main = _datamanager.Maintenances.GetMaintenanceById(rep.MaintenanceId);
+                    if (!main.Status)
+                    {
+                        Equipment eq = _datamanager.Equipments.GetEquipmentById(main.EquipmentId);
+                        Group gr = _datamanager.Groups.GetGroupById(eq.GroupId);
+                        string namest = _datamanager.Stations.GetStationName(gr.StationId);
+
+                        UnplannedMainView unplanned = new UnplannedMainView()
+                        {
+                            Id = main.Id,
+                            Header = main.IsUnplanned == true ? "Внеплановый" : "Плановый",
+                            Description = main.Description != "" ? main.Description : "---",
+                            EmplName = eq.Name,
+                            StatName = namest,
+                        };
+
+                        planed.Add(unplanned);
+                    }
+                }
+                unplannedMainViewForUser.UnplannedMainViews = planed;
+            }
+            else
+            {
+                unplannedMainViewForUser.UnplannedMainViews = unplannedMains;
+            }
+
             return View(unplannedMainViewForUser);
         }
 
@@ -137,6 +246,11 @@ namespace EquipmentMonitoringSystem.Controllers
             Maintenance main = _datamanager.Maintenances.GetMaintenanceById(id);
             main.Status = true;
             _datamanager.Maintenances.SaveMaintenance(main);
+
+            Report rep = _datamanager.Reports.AvailabilityMain(main.Id);
+            rep.DateDefacto = DateOnly.FromDateTime(DateTime.Now);
+
+            _datamanager.Reports.SaveReport(rep);
             string sqlExpression = "update_nortifys";
             string connectionString = @"Server=localhost;Database=PulseRigDB;Port=5432;User Id=postgres;Password=12K345i678R9;";
             using (NpgsqlConnection connection = new NpgsqlConnection(connectionString))
@@ -163,6 +277,7 @@ namespace EquipmentMonitoringSystem.Controllers
             List<int> idMain = new List<int>();
             List<string> eqnamelist = new List<string>();
             List<string> stnamelist = new List<string>();
+            List<bool> appointedlist = new List<bool>();
 
 
             foreach (var item in lstunpla)
@@ -175,9 +290,10 @@ namespace EquipmentMonitoringSystem.Controllers
                 Equipment eq = _datamanager.Equipments.GetEquipmentById(main.EquipmentId);
                 Group gr = _datamanager.Groups.GetGroupById(eq.GroupId);
                 string namest = _datamanager.Stations.GetStationName(gr.StationId);
-
+                bool appinted = _datamanager.Reports.AvailabilityMain(main.Id) != null ? true : false;
                 eqnamelist.Add(eq.Name);
                 stnamelist.Add(namest);
+                appointedlist.Add(appinted);
             }
 
             listunpObject.Add(head);
@@ -185,6 +301,7 @@ namespace EquipmentMonitoringSystem.Controllers
             listunpObject.Add(idMain);
             listunpObject.Add(eqnamelist);
             listunpObject.Add(stnamelist);
+            listunpObject.Add(appointedlist);
             return listunpObject;
         }
 
@@ -197,6 +314,7 @@ namespace EquipmentMonitoringSystem.Controllers
             List<string> head = new List<string>();
             List<int> idMain = new List<int>();
             List<string> eqnamelist = new List<string>();
+            List<bool> appointedlist = new List<bool>();
             string stname = _datamanager.Stations.GetStationName(_datamanager.Groups.GetGroupById(grid).StationId);
 
 
@@ -212,12 +330,14 @@ namespace EquipmentMonitoringSystem.Controllers
                     head.Add("Плановый ремонт");
                     idMain.Add(item2.MaintenancesID);
                     eqnamelist.Add(item.Name);
+                    appointedlist.Add(_datamanager.Reports.AvailabilityMain(item2.MaintenancesID) != null ? true : false);
 
                     listunpObject.Add(head);
                     listunpObject.Add(desc);
                     listunpObject.Add(idMain);
                     listunpObject.Add(eqnamelist);
                     listunpObject.Add(stname);
+                    listunpObject.Add(appointedlist);
 
                 }
 
@@ -297,6 +417,12 @@ namespace EquipmentMonitoringSystem.Controllers
             Maintenance main = _datamanager.Maintenances.GetMaintenanceById(id);
             main.Status = true;
             _datamanager.Maintenances.SaveMaintenance(main);
+
+            Report rep = _datamanager.Reports.AvailabilityMain(main.Id);
+            rep.DateDefacto = rep.DateDefacto = DateOnly.FromDateTime(DateTime.Now);
+
+            _datamanager.Reports.SaveReport(rep);
+
             string sqlExpression = "update_nortifys";
             string connectionString = @"Server=localhost;Database=PulseRigDB;Port=5432;User Id=postgres;Password=12K345i678R9;";
             using (NpgsqlConnection connection = new NpgsqlConnection(connectionString))

@@ -129,12 +129,6 @@ namespace EquipmentMonitoringSystem.Controllers
                 
             }
 
-            /*var users = _authDbContext.ApplicationUser.ToList().Select(user => new SelectListItem
-            {
-                Value = user.Id.ToString(),
-                Text = user.FullName,
-            }).ToList();*/
-
             return usersAll;
         }
     }

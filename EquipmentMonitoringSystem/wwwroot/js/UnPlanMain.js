@@ -19,6 +19,7 @@
                 var mainidlist = _data[2];
                 var eqlist = _data[3];
                 var stlist = _data[4];
+                var appoinlist = _data[5];
 
                 if (Object.keys(heads).length !== 0) {
                     document.getElementById('noinfo').hidden = true;
@@ -27,12 +28,21 @@
                     $("#info-table").find("tr:gt(0)").remove();//удаление старых данных*/
 
                     for (i = 0; i < Object.keys(heads).length; i++) {
-                        $(`#info-table tbody`).prepend('<tr><td>'
-                            + heads[i] + '</td><td>'
-                            + descs[i] + '</td><td>'
-                            + eqlist[i] + '</td><td>'
-                            + stlist[i]
-                            + '</td><td><a class="btn btn-success" href="/UpcomingMaintenance/Fix/' + mainidlist[i] + '" title="Нажмите, чтобы объявить о прохождении ТО."><i class="fa - sharp fa - solid fa - check"></i>Выполнить</a></td></tr>');
+                        if (appoinlist[i] == true) {
+                            $(`#info-table tbody`).prepend('<tr><td>'
+                                + heads[i] + '</td><td>'
+                                + descs[i] + '</td><td>'
+                                + eqlist[i] + '</td><td>'
+                                + stlist[i]
+                                + '</td><td>Сотрудник назначен</td></tr>');
+                        } else {
+                            $(`#info-table tbody`).prepend('<tr><td>'
+                                + heads[i] + '</td><td>'
+                                + descs[i] + '</td><td>'
+                                + eqlist[i] + '</td><td>'
+                                + stlist[i]
+                                + '</td><td><a class="btn btn-success" href="/Report/Appoint/' + mainidlist[i] + '" title="Нажмите, чтобы объявить о прохождении ТО."><i class="fa - sharp fa - solid fa - check"></i>Назначить сотрудника</a></td></tr>');
+                        }
                     }
                 } else {
                     document.getElementById('noinfo').hidden = false;
@@ -75,7 +85,7 @@
                     var mainidlist = _data[2];
                     var eqlist = _data[3];
                     var stlist = _data[4];
-
+                    var appoinlist = _data[5];
                     $("#info-table").find("tr:gt(0)").remove(); //удаление старых данных
 
                     
@@ -84,12 +94,21 @@
                         document.getElementById('yesinfo').hidden = false;
 
                         for (i = 0; i < Object.keys(heads).length; i++) {
-                            $(`#info-table tbody`).prepend('<tr><td>'
-                                + heads[i] + '</td><td>'
-                                + descs[i] + '</td><td>'
-                                + eqlist[i] + '</td><td>'
-                                + stlist
-                                + '</td><td><a class="btn btn-success" href="/UpcomingMaintenance/Fix/' + mainidlist[i] + '" title="Нажмите, чтобы объявить о прохождении ТО."><i class="fa - sharp fa - solid fa - check"></i>Выполнить</a></td></tr>');
+                            if (appoinlist[i] == true) {
+                                $(`#info-table tbody`).prepend('<tr><td>'
+                                    + heads[i] + '</td><td>'
+                                    + descs[i] + '</td><td>'
+                                    + eqlist[i] + '</td><td>'
+                                    + stlist
+                                    + '</td><td>Сотрудник назначен</td></tr>');
+                            } else {
+                                $(`#info-table tbody`).prepend('<tr><td>'
+                                    + heads[i] + '</td><td>'
+                                    + descs[i] + '</td><td>'
+                                    + eqlist[i] + '</td><td>'
+                                    + stlist
+                                    + '</td><td><a class="btn btn-success" href="/Report/Appoint/' + mainidlist[i] + '" title="Нажмите, чтобы объявить о прохождении ТО."><i class="fa - sharp fa - solid fa - check"></i>Назначить сотрудника</a></td></tr>');
+                            }
                         }
                     } else {
                         document.getElementById('noinfo').hidden = false;

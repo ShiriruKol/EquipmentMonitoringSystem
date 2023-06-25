@@ -15,30 +15,39 @@
         function OnSuccessResult(data) {
             
             var _data = data;
-            
-            if (localStorage.getItem('CountNortf') == null) {
-                localStorage.setItem('CountNortf', _data[0].toString());
+
+            if (localStorage.getItem('CountNortf' + _data[1]) == null) {
+                localStorage.setItem('CountNortf' + _data[1], _data[0].toString());
                 /*alert(Number(localStorage.getItem('CountNortf')));*/
 
             } else {
-                if (_data[0] != 0 && _data[0] > Number(localStorage.getItem('CountNortf'))) {
+                if (_data[0] != 0 && _data[0] > Number(localStorage.getItem('CountNortf' + _data[1]))) {
 
-                    localStorage.setItem('CountNortf', _data[0].toString());
+                    localStorage.setItem('CountNortf' + _data[1], _data[0].toString());
 
-                    // создаем новое уведомление
-                    const notification = new Notification('Технические обслуживания', {
-                        body: 'У вас ' + _data[0] + ' непроизведенных внеплавновых ремонтов и ' + _data[1] + ' плановых',
-                        icon: './Icon.png'
-                    });
+                    if (_data[2] == "ИНЖЕНЕР") {
+                        // создаем новое уведомление
+                        const notification = new Notification('Технические обслуживания', {
+                            body: 'У вас ' + _data[0] + ' назначенных ремонтов',
+                            icon: './Icon.png'
+                        });
+                    }else {
+                        // создаем новое уведомление
+                        const notification = new Notification('Технические обслуживания', {
+                            body: 'У вас ' + _data[0] + ' назначенных ремонтов не выполненных ремонтов',
+                            icon: './Icon.png'
+                        });
+                    }
+                    
 
                     // закрываем уведомление через 10 секунд
                     setTimeout(() => {
                         notification.close();
                     }, 10 * 1000);
 
-                } else if (_data < Number(localStorage.getItem('CountNortf'))) {
+                } else if (_data < Number(localStorage.getItem('CountNortf' + _data[1]))) {
 
-                    localStorage.setItem('CountNortf', _data[0].toString());
+                    localStorage.setItem('CountNortf' + _data[1], _data[0].toString());
                 }
             }
 

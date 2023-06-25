@@ -1,4 +1,5 @@
-﻿using EquipmentMonitoringSystem.BuissnesLayer;
+﻿using EquipmentMonitoringSystem.Areas.Identity.Data;
+using EquipmentMonitoringSystem.BuissnesLayer;
 using EquipmentMonitoringSystem.DataLayer.Entityes;
 using EquipmentMonitoringSystem.PresentationLayer;
 using EquipmentMonitoringSystem.PresentationLayer.Models;
@@ -13,19 +14,25 @@ namespace EquipmentMonitoringSystem.Controllers
     {
         private readonly DataManager _datamanager;
         private readonly ServicesManager _servicesmanager;
+        private readonly AuthDbContext _authdb;
 
-        public MaintenanceController(DataManager datamanager, ServicesManager servicesmanager)
+        public MaintenanceController(DataManager datamanager, ServicesManager servicesmanager, AuthDbContext authdb)
         {
             _datamanager = datamanager;
             _servicesmanager = servicesmanager;
+            _authdb = authdb;
         }
 
         [HttpGet]
         public IActionResult AddUnscheduled()
         {
+            ApplicationUser user = _authdb.ApplicationUser.FirstOrDefault(x => x.UserName == User.Identity.Name);
             MaintenanceUnscheduledModel model = new MaintenanceUnscheduledModel();  
             var stlist = StationsToSelectedList();
+            var users = UsersToSelectedList();
             model.Stations = stlist;
+            model.Users = users;
+            model.Role = _authdb.Roles.FirstOrDefault(x=>x.Id == _authdb.UserRoles.FirstOrDefault(x => x.UserId == user.Id).RoleId).NormalizedName;
             return View(model);
         }
 
@@ -33,14 +40,7 @@ namespace EquipmentMonitoringSystem.Controllers
         public IActionResult AddUnscheduled(MaintenanceUnscheduledModel model)
         {
             model.Stations = StationsToSelectedList();
-            /*if (!ModelState.IsValid)
-            {
-                // Список не передается, поэтому следует получить его
-                model.Stations = StationsToSelectedList();
-                return View(model);
-            }
-            */
-
+            
             Maintenance maintenance = new Maintenance()
             {
                 Name = "Внеплановый",
@@ -52,6 +52,28 @@ namespace EquipmentMonitoringSystem.Controllers
             };
             
             _datamanager.Maintenances.SaveMaintenance(maintenance);
+
+            Report report = new Report()
+            {
+                MaintenanceId = maintenance.Id,
+                Name = maintenance.Name,
+                Date = maintenance.DateMaintenance,
+                Description = maintenance.Description,
+            };
+
+            ApplicationUser user = _authdb.ApplicationUser.FirstOrDefault(x => x.UserName == User.Identity.Name);
+            var Role = _authdb.Roles.FirstOrDefault(x => x.Id == _authdb.UserRoles.FirstOrDefault(x => x.UserId == user.Id).RoleId).NormalizedName;
+            if (Role == "ИНЖЕНЕР")            
+            {
+                report.IdUser = user.Id;
+            }
+            else
+            {
+                report.IdUser = model.idUser;
+            }
+
+            
+            _datamanager.Reports.SaveReport(report);
             return RedirectToAction("AddUnscheduled");
         }
 
@@ -112,6 +134,33 @@ namespace EquipmentMonitoringSystem.Controllers
             }).ToList();
 
             return groups;
+        }
+
+        private List<SelectListItem> UsersToSelectedList()
+        {
+            List<SelectListItem> usersAll = new List<SelectListItem>();
+            var usr = _authdb.ApplicationUser.ToList();
+            string nameengId = _authdb.Roles.FirstOrDefault(x => x.NormalizedName == "ИНЖЕНЕР").Id;
+            var idusersEng = _authdb.UserRoles.Where(x => x.RoleId == nameengId).ToList();
+
+            List<ApplicationUser> usrsEng = new List<ApplicationUser>();
+
+            foreach (var item in idusersEng)
+            {
+                if (_authdb.ApplicationUser.FirstOrDefault(x => x.Id == item.UserId) != null)
+                {
+                    ApplicationUser user = _authdb.ApplicationUser.FirstOrDefault(x => x.Id == item.UserId);
+                    SelectListItem ur = new SelectListItem()
+                    {
+                        Value = user.Id.ToString(),
+                        Text = user.FullName,
+                    };
+                    usersAll.Add(ur);
+                }
+
+            }
+
+            return usersAll;
         }
     }
 }

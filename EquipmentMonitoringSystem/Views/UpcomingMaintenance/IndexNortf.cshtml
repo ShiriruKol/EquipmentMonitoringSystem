@@ -9,118 +9,164 @@
 <script src="~/js/UnPlanMain.js"></script>
 
 
-<div class="row">
-    <div class="col-md-8 mx-auto  btn-group" role="group" aria-label="Basic radio toggle button group">
-        <input type="radio" class="btn-check" name="btnradio" id="btnradio1" autocomplete="on" checked >
-        <label class="btn btn-outline-primary" for="btnradio1">Внеплановые ремонты</label>
-
-        <input type="radio" class="btn-check" name="btnradio" id="btnradio2" autocomplete="off" >
-        <label class="btn btn-outline-primary" for="btnradio2">Плановые ремонты</label>
-
-    </div>
-</div>
-<div class="row mt-2" hidden id="divselect">
-    <div class="col text-center">
-        <div class="row">
-            <div class="col-6">Выберите станцию</div>
-            <div class="col-6">Выберите группу</div>
-        </div>
-        <div class="row">
-            <div class="col-6">
-                <select id="SelectedStationId" class="form-select">
-                    <option selected disabled>Выберите станцию</option>
-                </select>
-            </div>
-            <div class="col-6">
-                <select id="SelectedGroupId" class="form-select"></select>
-            </div>
-        </div>
-    </div>
-</div>
-<div class="row mt-2" hidden id="alert">
-    <div class="col-12">
-        <div class="alert alert-danger" role="alert">
-            Вы не выбрали <b>станцию</b> или <b>группу</b>!!!
-        </div>
-    </div>
-</div>
-<div class="row mt-2">
-    <div class="col text-center">
-        <button type="button" class="btn btn-outline-primary" id="btndown">Загрузить</button>
-    </div>
-</div>
-
-@if(Model.UnplannedMainViews.Count != 0)
+@if(Model.Role == "ИНЖЕНЕР")
 {
-    <div id="yesinfo" class="row mt-2" >
-        @await Html.PartialAsync("_TableView", Model)
-    </div>
-    
-    <h3 id="noinfo" class="text-center mt-2" hidden>Данных ремонтов пока нет</h3>
+    if (Model.UnplannedMainViews.Count != 0)
+    {
+        <input class="form-control" type="text" placeholder="Поиск по таблице" id="search-text" onkeyup="tableSearch()">
+        <p><button class="btn btn-success mt-1" onclick="sortTable()">Отсортировать таблицу по алфавиту</button></p>
+
+
+        <table class="table table-bordered mt-1" id="info-table">
+            <thead>
+                <tr>
+                    <th scope="col">Сообщение</th>
+                    <th scope="col">Описание</th>
+                    <th scope="col">Оборудование</th>
+                    <th scope="col">Станция</th>
+                    <th scope="col">Действия</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.UnplannedMainViews)
+                {
+                    <tr>
+                        <td>@item.Header</td>
+                        <td>@item.Description</td>
+                        <td>@item.EmplName</td>
+                        <td>@item.StatName</td>
+                        <td>
+                            <a class="btn btn-success" href="/UpcomingMaintenance/Fix/@item.Id" title="Нажмите, чтобы объявить о прохождении ТО.">
+                                Объявить о прохождении
+                            </a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <h5 class="text-center">Список пуст</h5>
+    }
+
+
 }
 else
 {
-    <div id="yesinfo" class="row mt-2" hidden>
-        @await Html.PartialAsync("_TableView", Model)
+    <div class="row">
+        <div class="col-md-8 mx-auto  btn-group" role="group" aria-label="Basic radio toggle button group">
+            <input type="radio" class="btn-check" name="btnradio" id="btnradio1" autocomplete="on" checked>
+            <label class="btn btn-outline-primary" for="btnradio1">Внеплановые ремонты</label>
+
+            <input type="radio" class="btn-check" name="btnradio" id="btnradio2" autocomplete="off">
+            <label class="btn btn-outline-primary" for="btnradio2">Плановые ремонты</label>
+
+        </div>
     </div>
-    <h3 id="noinfo" class="text-center mt-2">Данных ремонтов пока нет</h3>
-}
+    <div class="row mt-2" hidden id="divselect">
+        <div class="col text-center">
+            <div class="row">
+                <div class="col-6">Выберите станцию</div>
+                <div class="col-6">Выберите группу</div>
+            </div>
+            <div class="row">
+                <div class="col-6">
+                    <select id="SelectedStationId" class="form-select">
+                        <option selected disabled>Выберите станцию</option>
+                    </select>
+                </div>
+                <div class="col-6">
+                    <select id="SelectedGroupId" class="form-select"></select>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row mt-2" hidden id="alert">
+        <div class="col-12">
+            <div class="alert alert-danger" role="alert">
+                Вы не выбрали <b>станцию</b> или <b>группу</b>!!!
+            </div>
+        </div>
+    </div>
+    <div class="row mt-2">
+        <div class="col text-center">
+            <button type="button" class="btn btn-outline-primary" id="btndown">Загрузить</button>
+        </div>
+    </div>
 
-<script>
-    function tableSearch() {
-        var phrase = document.getElementById('search-text');
-        var table = document.getElementById('info-table');
-        var regPhrase = new RegExp(phrase.value, 'i');
-        var flag = false;
-        for (var i = 1; i < table.rows.length; i++) {
-            flag = false;
-            for (var j = table.rows[i].cells.length - 1; j >= 0; j--) {
-                flag = regPhrase.test(table.rows[i].cells[j].innerHTML);
-                if (flag) break;
-            }
-            if (flag) {
-                table.rows[i].style.display = "";
-            } else {
-                table.rows[i].style.display = "none";
-            }
+    @if (Model.UnplannedMainViews.Count != 0)
+    {
+        <div id="yesinfo" class="row mt-2">
+            @await Html.PartialAsync("_TableView", Model)
+        </div>
 
-        }
+        <h3 id="noinfo" class="text-center mt-2" hidden>Данных ремонтов пока нет</h3>
     }
-</script>
+    else
+    {
+        <div id="yesinfo" class="row mt-2" hidden>
+            @await Html.PartialAsync("_TableView", Model)
+        </div>
+        <h3 id="noinfo" class="text-center mt-2">Данных ремонтов пока нет</h3>
+    }
 
-<script>
-    function sortTable() {
-        var table, rows, switching, i, x, y, shouldSwitch;
-        table = document.getElementById("info-table");
-        switching = true;
-        /*Создаем цикл, который будет продолжаться до тех пор, пока
-        переключение не производилось:*/
-        while (switching) {
-            //начинаем с того, что скажите: переключение не производится:
-            switching = false;
-            rows = table.getElementsByTagName("TR");
-            /*Выполяем цикл по всем строкам таблицы (кроме
-            первой, которая содержит заголовки таблиц):*/
-            for (i = 1; i < (rows.length - 1); i++) {
-                //Начинаем с того, что не должно быть никаких переключений:
-                shouldSwitch = false;
-                /*Получаем два элемента, которые вы хотите сравнить,
-                один из текущей строки и один из следующей:*/
-                x = rows[i].getElementsByTagName("TD")[0];
-                y = rows[i + 1].getElementsByTagName("TD")[0];
-                //Проверяем, должны ли две строки поменяться местами:
-                if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
-                    //Если это так, отмечаем как переключатель и разрываем цикл:
-                    shouldSwitch = true;
-                    break;
+    <script>
+        function tableSearch() {
+            var phrase = document.getElementById('search-text');
+            var table = document.getElementById('info-table');
+            var regPhrase = new RegExp(phrase.value, 'i');
+            var flag = false;
+            for (var i = 1; i < table.rows.length; i++) {
+                flag = false;
+                for (var j = table.rows[i].cells.length - 1; j >= 0; j--) {
+                    flag = regPhrase.test(table.rows[i].cells[j].innerHTML);
+                    if (flag) break;
+                }
+                if (flag) {
+                    table.rows[i].style.display = "";
+                } else {
+                    table.rows[i].style.display = "none";
+                }
+
+            }
+        }
+    </script>
+
+    <script>
+        function sortTable() {
+            var table, rows, switching, i, x, y, shouldSwitch;
+            table = document.getElementById("info-table");
+            switching = true;
+            /*Создаем цикл, который будет продолжаться до тех пор, пока
+            переключение не производилось:*/
+            while (switching) {
+                //начинаем с того, что скажите: переключение не производится:
+                switching = false;
+                rows = table.getElementsByTagName("TR");
+                /*Выполяем цикл по всем строкам таблицы (кроме
+                первой, которая содержит заголовки таблиц):*/
+                for (i = 1; i < (rows.length - 1); i++) {
+                    //Начинаем с того, что не должно быть никаких переключений:
+                    shouldSwitch = false;
+                    /*Получаем два элемента, которые вы хотите сравнить,
+                    один из текущей строки и один из следующей:*/
+                    x = rows[i].getElementsByTagName("TD")[0];
+                    y = rows[i + 1].getElementsByTagName("TD")[0];
+                    //Проверяем, должны ли две строки поменяться местами:
+                    if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+                        //Если это так, отмечаем как переключатель и разрываем цикл:
+                        shouldSwitch = true;
+                        break;
+                    }
+                }
+                if (shouldSwitch) {
+                    /*Если переключатель был отмечен, выполним переключение
+                    и отметим, что переключение было произведено:*/
+                    rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+                    switching = true;
                 }
             }
-            if (shouldSwitch) {
-                /*Если переключатель был отмечен, выполним переключение
-                и отметим, что переключение было произведено:*/
-                rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
-                switching = true;
-            }
         }
-    }
-</script>
+    </script>
+}

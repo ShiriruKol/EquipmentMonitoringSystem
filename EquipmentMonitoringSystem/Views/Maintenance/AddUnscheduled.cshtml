@@ -39,6 +39,16 @@
             <input asp-for="NumberHours" placeholder="Кол-во часов" class="form-control">
             <span asp-validation-for="NumberHours" class="text-danger"></span>
             <br/>
+            @if(Model.Role != "ИНЖЕНЕР")
+            {
+                <div class="form-group mb-2">
+                    <label asp-for="idUser" class="form-label">Сотрудник</label>
+                    <select id="SelectedTypeId" asp-for="idUser" asp-items="Model.Users" class="form-select"></select>
+                    <span asp-validation-for="idUser" class="text-danger"></span>
+                </div>
+                <br />
+            }
+            
             <label>Дата проведения</label>
             <input asp-for="Date" placeholder="Дата проведения" class="form-control" type="date" />
             <span asp-validation-for="Date" class="text-danger"></span>
@@ -48,7 +58,9 @@
             <span asp-validation-for="Description" class="text-danger"></span>
             <br />
             <button type="submit" class="btn btn-success mt-1">Создать</button>
+
         </div>
+        
     </div>
     
  </form>

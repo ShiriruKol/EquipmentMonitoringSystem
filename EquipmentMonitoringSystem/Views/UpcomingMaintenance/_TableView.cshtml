@@ -26,11 +26,20 @@
                         <td>@item.Description</td>
                         <td>@item.EmplName</td>
                         <td>@item.StatName</td>
-                        <td>
-                            <a class="btn btn-success action-icon" href="/UpcomingMaintenance/Fix/@item.Id" title="Нажмите, чтобы объявить о прохождении ТО.">
-                                <i class="fa-sharp fa-solid fa-check"></i>
-                            </a>
-                        </td>
+                        @if (item.Appointed)
+                        {
+                            <td>
+                                Сотрудник назначен
+                            </td>
+                        }else
+                        {
+                            <td>
+                                <a class="btn btn-success" href="/Report/Appoint/@item.Id" title="Нажмите, чтобы объявить о прохождении ТО.">
+                                    Назначить сотрудника
+                                </a>
+                            </td>
+                        }
+
                     </tr>
                 }
             </tbody>
