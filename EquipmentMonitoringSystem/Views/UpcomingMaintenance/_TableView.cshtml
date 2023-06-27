@@ -14,6 +14,8 @@
                     <th scope="col">Сообщение</th>
                     <th scope="col">Описание</th>
                     <th scope="col">Оборудование</th>
+                    <th scope="col">ТО</th>
+                    <th scope="col">Дата</th>
                     <th scope="col">Станция</th>
                     <th scope="col">Действия</th>
                 </tr>
@@ -25,6 +27,8 @@
                         <td>@item.Header</td>
                         <td>@item.Description</td>
                         <td>@item.EmplName</td>
+                        <td>@item.NameMain</td>
+                        <td>@item.Date</td>
                         <td>@item.StatName</td>
                         @if (item.Appointed)
                         {

@@ -9,8 +9,8 @@ using OfficeOpenXml;
 
 namespace EquipmentMonitoringSystem.Controllers
 {
-	[Authorize]
-	public class ExcelController : Controller
+    [Authorize(Roles = "Admin,Главный механик")]
+    public class ExcelController : Controller
 	{
 		private readonly DataManager _datamanager;
 		private readonly ServicesManager _servicesmanager;
@@ -44,7 +44,7 @@ namespace EquipmentMonitoringSystem.Controllers
                         using (var package = new ExcelPackage(stream))
                         {
                             // Проходим все листы
-                            for (int i = 0; i < package.Workbook.Worksheets.Count - 1; i++)
+                            for (int i = 0; i < package.Workbook.Worksheets.Count; i++)
                             {
                                 StationExcelModel station = new StationExcelModel();
                                 var worksheet = package.Workbook.Worksheets[i];//Берем текущий лист
@@ -186,7 +186,7 @@ namespace EquipmentMonitoringSystem.Controllers
 		public IActionResult DeleteNewSts()
 		{
             _datamanager.Stations.DeleteStationCheck();
-            return RedirectToAction("SuccessfullyView");
+            return RedirectToAction("ImportExcel");
         }
 
         [HttpPost]

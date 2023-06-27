@@ -191,11 +191,13 @@ namespace EquipmentMonitoringSystem.Controllers
                 UnplannedMainView unplanned = new UnplannedMainView() {
                     Id = main.Id,
                     Header = nort.Heding,
-                    Description = nort.Description,
+                    Description = main.Description != "" || main.Description != "none" ? "---" : main.Description,
                     EmplName = eq.Name,
                     StatName = namest,
                     NumHours = main.NumberHours.ToString(),
                     Appointed = _datamanager.Reports.AvailabilityMain(main.Id) != null ? true : false,
+                    Date = main.DateMaintenance.ToString(),
+                    NameMain = main.Name,
                 };
 
                 unplannedMains.Add(unplanned);
@@ -219,9 +221,12 @@ namespace EquipmentMonitoringSystem.Controllers
                         {
                             Id = main.Id,
                             Header = main.IsUnplanned == true ? "Внеплановый" : "Плановый",
-                            Description = main.Description != "" ? main.Description : "---",
+                            Description = main.Description != "" || main.Description != "none" ? "---" : main.Description,
                             EmplName = eq.Name,
                             StatName = namest,
+                            NumHours = main.NumberHours.ToString(),
+                            Date = main.DateMaintenance.ToString(),
+                            NameMain = main.Name,
                         };
 
                         planed.Add(unplanned);
@@ -276,6 +281,8 @@ namespace EquipmentMonitoringSystem.Controllers
             List<string> head = new List<string>();
             List<int> idMain = new List<int>();
             List<string> eqnamelist = new List<string>();
+            List<string> mainnamelist = new List<string>();
+            List<string> datelist = new List<string>();
             List<string> stnamelist = new List<string>();
             List<bool> appointedlist = new List<bool>();
 
@@ -291,7 +298,11 @@ namespace EquipmentMonitoringSystem.Controllers
                 Group gr = _datamanager.Groups.GetGroupById(eq.GroupId);
                 string namest = _datamanager.Stations.GetStationName(gr.StationId);
                 bool appinted = _datamanager.Reports.AvailabilityMain(main.Id) != null ? true : false;
+
+
                 eqnamelist.Add(eq.Name);
+                mainnamelist.Add(_datamanager.Maintenances.GetMaintenanceById(item.MaintenancesID).Name);
+                datelist.Add(_datamanager.Maintenances.GetMaintenanceById(item.MaintenancesID).DateMaintenance.ToString());
                 stnamelist.Add(namest);
                 appointedlist.Add(appinted);
             }
@@ -300,6 +311,8 @@ namespace EquipmentMonitoringSystem.Controllers
             listunpObject.Add(desc);
             listunpObject.Add(idMain);
             listunpObject.Add(eqnamelist);
+            listunpObject.Add(mainnamelist);
+            listunpObject.Add(datelist);
             listunpObject.Add(stnamelist);
             listunpObject.Add(appointedlist);
             return listunpObject;
@@ -314,6 +327,8 @@ namespace EquipmentMonitoringSystem.Controllers
             List<string> head = new List<string>();
             List<int> idMain = new List<int>();
             List<string> eqnamelist = new List<string>();
+            List<string> mainnamelist = new List<string>();
+            List<string> datelist = new List<string>();
             List<bool> appointedlist = new List<bool>();
             string stname = _datamanager.Stations.GetStationName(_datamanager.Groups.GetGroupById(grid).StationId);
 
@@ -330,12 +345,17 @@ namespace EquipmentMonitoringSystem.Controllers
                     head.Add("Плановый ремонт");
                     idMain.Add(item2.MaintenancesID);
                     eqnamelist.Add(item.Name);
+                    mainnamelist.Add(_datamanager.Maintenances.GetMaintenanceById(item2.MaintenancesID).Name);
+                    datelist.Add(_datamanager.Maintenances.GetMaintenanceById(item2.MaintenancesID).DateMaintenance.ToString());
                     appointedlist.Add(_datamanager.Reports.AvailabilityMain(item2.MaintenancesID) != null ? true : false);
+
 
                     listunpObject.Add(head);
                     listunpObject.Add(desc);
                     listunpObject.Add(idMain);
                     listunpObject.Add(eqnamelist);
+                    listunpObject.Add(mainnamelist);
+                    listunpObject.Add(datelist);
                     listunpObject.Add(stname);
                     listunpObject.Add(appointedlist);
 

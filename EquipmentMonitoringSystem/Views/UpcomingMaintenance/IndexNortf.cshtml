@@ -13,9 +13,11 @@
 {
     if (Model.UnplannedMainViews.Count != 0)
     {
-        <input class="form-control" type="text" placeholder="Поиск по таблице" id="search-text" onkeyup="tableSearch()">
-        <p><button class="btn btn-success mt-1" onclick="sortTable()">Отсортировать таблицу по алфавиту</button></p>
-
+        <h2 class="text-center">Назначенные ремонты</h2>
+        <div class="mt-2">
+            <input class="form-control" type="text" placeholder="Поиск по таблице" id="search-text" onkeyup="tableSearch()">
+            <p><button class="btn btn-success mt-1" onclick="sortTable()">Отсортировать таблицу по алфавиту</button></p>
+        </div>
 
         <table class="table table-bordered mt-1" id="info-table">
             <thead>
@@ -23,6 +25,8 @@
                     <th scope="col">Сообщение</th>
                     <th scope="col">Описание</th>
                     <th scope="col">Оборудование</th>
+                    <th scope="col">ТО</th>
+                    <th scope="col">Дата</th>
                     <th scope="col">Станция</th>
                     <th scope="col">Действия</th>
                 </tr>
@@ -34,6 +38,8 @@
                         <td>@item.Header</td>
                         <td>@item.Description</td>
                         <td>@item.EmplName</td>
+                        <td>@item.NameMain</td>
+                        <td>@item.Date</td>
                         <td>@item.StatName</td>
                         <td>
                             <a class="btn btn-success" href="/UpcomingMaintenance/Fix/@item.Id" title="Нажмите, чтобы объявить о прохождении ТО.">

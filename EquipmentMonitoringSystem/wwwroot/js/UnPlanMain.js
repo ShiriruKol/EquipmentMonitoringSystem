@@ -18,8 +18,10 @@
                 var descs = _data[1];
                 var mainidlist = _data[2];
                 var eqlist = _data[3];
-                var stlist = _data[4];
-                var appoinlist = _data[5];
+                var mainlist = _data[4];
+                var datelist = _data[5];
+                var stlist = _data[6];
+                var appoinlist = _data[7];
 
                 if (Object.keys(heads).length !== 0) {
                     document.getElementById('noinfo').hidden = true;
@@ -33,6 +35,8 @@
                                 + heads[i] + '</td><td>'
                                 + descs[i] + '</td><td>'
                                 + eqlist[i] + '</td><td>'
+                                + mainlist[i] + '</td><td>'
+                                + datelist[i] + '</td><td>'
                                 + stlist[i]
                                 + '</td><td>Сотрудник назначен</td></tr>');
                         } else {
@@ -40,6 +44,8 @@
                                 + heads[i] + '</td><td>'
                                 + descs[i] + '</td><td>'
                                 + eqlist[i] + '</td><td>'
+                                + mainlist[i] + '</td><td>'
+                                + datelist[i] + '</td><td>'
                                 + stlist[i]
                                 + '</td><td><a class="btn btn-success" href="/Report/Appoint/' + mainidlist[i] + '" title="Нажмите, чтобы объявить о прохождении ТО."><i class="fa - sharp fa - solid fa - check"></i>Назначить сотрудника</a></td></tr>');
                         }
@@ -84,8 +90,10 @@
                     var descs = _data[1];
                     var mainidlist = _data[2];
                     var eqlist = _data[3];
-                    var stlist = _data[4];
-                    var appoinlist = _data[5];
+                    var mainlist = _data[4];
+                    var datelist = _data[5];
+                    var stlist = _data[6];
+                    var appoinlist = _data[7];
                     $("#info-table").find("tr:gt(0)").remove(); //удаление старых данных
 
                     
@@ -106,6 +114,8 @@
                                     + heads[i] + '</td><td>'
                                     + descs[i] + '</td><td>'
                                     + eqlist[i] + '</td><td>'
+                                    + mainlist[i] + '</td><td>'
+                                    + datelist[i] + '</td><td>'
                                     + stlist
                                     + '</td><td><a class="btn btn-success" href="/Report/Appoint/' + mainidlist[i] + '" title="Нажмите, чтобы объявить о прохождении ТО."><i class="fa - sharp fa - solid fa - check"></i>Назначить сотрудника</a></td></tr>');
                             }

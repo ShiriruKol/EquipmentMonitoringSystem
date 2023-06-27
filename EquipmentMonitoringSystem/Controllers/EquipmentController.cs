@@ -8,7 +8,7 @@ using EquipmentMonitoringSystem.DataLayer.Entityes;
 
 namespace EquipmentMonitoringSystem.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "Admin,Главный механик")]
     public class EquipmentController : Controller
     {
         private readonly DataManager _datamanager;

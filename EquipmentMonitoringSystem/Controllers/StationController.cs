@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace EquipmentMonitoringSystem.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "Admin,Главный механик")]
     public class StationController : Controller
     {
         private readonly DataManager _datamanager;
