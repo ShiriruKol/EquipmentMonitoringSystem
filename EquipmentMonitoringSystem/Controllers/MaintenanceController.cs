@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace EquipmentMonitoringSystem.Controllers
 {
-    [Authorize(Roles = "Admin,Главный механик")]
+    [Authorize(Roles = "Admin,Главный механик,Инженер")]
     public class MaintenanceController : Controller
     {
         private readonly DataManager _datamanager;
