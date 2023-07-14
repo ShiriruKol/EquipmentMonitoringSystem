@@ -142,17 +142,20 @@ $(function () {
             const ctx3 = document.getElementById('myChart1');
 
             var chartOptions = {
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true
+                        }
+                    }]
+                },
                 legend: {
-                    display: false
+                    display: false,
                 },
                 responsive: true,
                 aspectRatio: 2,
                 maintainAspectRatio: true,
-                scales: {
-                    y: {
-                        beginAtZero: true
-                    }
-                }
+               
             };
 
             new Chart(ctx3,

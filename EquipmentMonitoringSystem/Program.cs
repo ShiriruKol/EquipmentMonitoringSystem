@@ -8,8 +8,6 @@ using Microsoft.AspNetCore.Identity;
 using EquipmentMonitoringSystem.Areas.Identity.Data;
 using EquipmentMonitoringSystem.TimerTask;
 using System;
-using Microsoft.Extensions.Options;
-using Microsoft.Extensions.DependencyInjection;
 
 var builder = WebApplication.CreateBuilder(args);
 
